@@ -1,0 +1,47 @@
+.FilteredItems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 1% 5%;
+  margin-top: 20px;
+}
+.ItemCard {
+  border: 0.1px #1c1b2977 solid;
+  border-radius: 20px;
+  height: 250px;
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: rgba(233, 241, 255, 0.068);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.616);
+  transition: box-shadow 0.3s;
+}
+.ItemCard:hover {
+  box-shadow: 0px 0px 5px 1px  rgba(210, 235, 255, 0.45);
+}
+.ItemCard img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+}
+.ItemCard abbr {
+  all: unset;
+  height: 30%;
+  width: 100%;
+}
+.ItemCard h4 {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+}
+.App {
+  background-color: #020202;
+  min-height: 100vh;
+  color: white;
+}
+.Home {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+.Music .contents {
+  padding-top: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: padding-left 0.5s ease;
+}
+.Music .contents p {
+  border: 1px white solid;
+}
+.FilteringBtns button{
+  all: unset;
+  padding: 10px 15px;
+  margin: 0 20px;
+  border: 1px white solid;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.FilteringBtns button:hover{
+  background-color: white;
+  color: black;
+}
