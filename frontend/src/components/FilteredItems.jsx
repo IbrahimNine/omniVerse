@@ -1,36 +1,13 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import "./FilteredItems.css";
+import { useFiltersContext } from "../contexts/FiltersContext";
 
-function FilteredItems({ filterBy }) {
-  const [filteredData, setFilteredData] = useState();
-  useEffect(() => {
-    const fetchingdata = () => {
-      axios
-        .get(
-          `https://api.discogs.com/database/search?sort=score%2Cdesc&type=${filterBy}`,
-          {
-            headers: {
-              Authorization:
-                "Discogs key=xBEiSwfcQkjcycUzXMUF, secret=HHKoetIzHBaFyPnOauCjSBZcHhxtKrYH",
-            },
-          }
-        )
-        .then((res) => setFilteredData(res.data.results))
-        .catch((err) => console.log(err));
-    };
-    fetchingdata();
-  }, [filterBy]);
+function FilteredItems() {
+  const { filteredData, loading } = useFiltersContext();
+
   return (
     <div className="FilteredItems">
-      {!filteredData && (
-        <img
-          src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
-          alt="loading"
-          width={"30%"}
-        />
-      )}
-      {filteredData &&
+      {filteredData && !loading ? (
         filteredData.map((item) => {
           return (
             <div key={item.id} className="ItemCard">
@@ -43,7 +20,14 @@ function FilteredItems({ filterBy }) {
               </abbr>
             </div>
           );
-        })}
+        })
+      ) : (
+        <img
+          src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
+          alt="loading"
+          width={"30%"}
+        />
+      )}
     </div>
   );
 }

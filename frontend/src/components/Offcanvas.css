@@ -6,6 +6,7 @@
   align-items: center;
   position: fixed;
   top: 12vh;
+  transition: width 0.5s;
 }
 #offcanvasButton {
   all: unset;

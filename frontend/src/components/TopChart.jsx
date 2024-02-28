@@ -1,31 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TopChart.css";
 import SliderCard from "./SliderCard";
-import axios from "axios";
+import { useTopChartsContext } from "../contexts/TopChartsContext";
 
 function TopChart({ filterBy }) {
-  const [result, setResult] = useState(null);
   const [sliderPosition, setSliderPosition] = useState(0);
+  const { result, setFilteredBy } = useTopChartsContext();
 
   useEffect(() => {
-    const fetchingdata = () => {
-      axios
-        .get(
-          `https://api.discogs.com/database/search?sort=score%2Cdesc&type=${filterBy}`,
-          {
-            headers: {
-              Authorization:
-                "Discogs key=xBEiSwfcQkjcycUzXMUF, secret=HHKoetIzHBaFyPnOauCjSBZcHhxtKrYH",
-            },
-          }
-        )
-        .then((res) => setResult(res.data.results))
-        .catch((err) => console.log(err));
-    };
-    fetchingdata();
-  }, [filterBy]);
-
-
+    setFilteredBy(filterBy);
+  }, [filterBy, setFilteredBy]);
 
   const handleNext = () => {
     const elementWidth =
@@ -41,7 +25,7 @@ function TopChart({ filterBy }) {
 
   return (
     <div className="TopChart Slider">
-      <h2>Top {filterBy==="artist"? "artists": "Albums"}:</h2>
+      <h2>Top {filterBy === "artist" ? "artists" : "Albums"}:</h2>
       <button type="Button" onClick={handlePrevious}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

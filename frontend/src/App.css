@@ -31,7 +31,4 @@ body {
   cursor: pointer;
   transition: all 0.5s;
 }
-.FilteringBtns button:hover{
-  background-color: white;
-  color: black;
-}
+

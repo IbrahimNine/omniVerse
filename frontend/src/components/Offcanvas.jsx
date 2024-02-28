@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Offcanvas.css";
-import FilterSelect from "./FilterSelect";
+import { useFiltersContext } from "../contexts/FiltersContext";
 
 const Offcanvas = () => {
   const [visible, setVisible] = useState(true);
+  const [userInput, setUserInput] = useState();
+  const { setFilterSet, setGlobalSearch, setFilterBy } = useFiltersContext();
 
   const handlerFiltersBar = () => {
     if (visible) {
@@ -37,16 +39,23 @@ const Offcanvas = () => {
     };
   }, [visible]);
 
+  const handleFilters = (e) => {
+    e.preventDefault();
+    setFilterSet(userInput);
+    setGlobalSearch(userInput.title);
+    setFilterBy('master');
+  };
+
   const start = 1900;
   const end = new Date().getFullYear();
   const years = Array.from(
     { length: end - start + 1 },
     (_, index) => start + index
   );
+  const decades = Array.from(
+    new Set(years.map((year) => Math.floor(year / 10) * 10))
+  );
 
-  const handleFilters = (e) => {
-    e.preventDefault();
-  };
   const genres = [
     "Pop Rock",
     "House",
@@ -265,7 +274,6 @@ const Offcanvas = () => {
     "Mandopop",
     "G-Funk",
   ];
-
   return (
     <div className="Offcanvas">
       {!visible && (
@@ -286,19 +294,70 @@ const Offcanvas = () => {
       {visible && (
         <form className="filtersInput" onSubmit={handleFilters}>
           <h2>Set your filters:</h2>
-          <input placeholder="Artist's name..." />
-          <input placeholder="Album's title..." />
-          <FilterSelect name={"Select genre"} values={genres} />
+          <input
+            placeholder="Album's title..."
+            name="master"
+            onChange={(e) => {
+              setUserInput({
+                ...userInput,
+                title: e.target.value,
+                master: true,
+              });
+            }}
+          />
+          <select
+            onChange={(e) => {
+              setUserInput({
+                ...userInput,
+                style: e.target.value,
+              });
+            }}
+          >
+            <option value="">Select genre..</option>
+            {genres.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
 
           <div className="filterByYears">
-            <label>Select by Year</label>
+            <h4>Select by release date</h4>
             <div>
-              <FilterSelect name={"From"} values={years} />
-              <FilterSelect name={"To"} values={years} />
+              <select
+                onChange={(e) => {
+                  setUserInput({
+                    ...userInput,
+                    decade: e.target.value,
+                  });
+                }}
+              >
+                <option value="">Decade..</option>
+                {decades.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <select
+                onChange={(e) => {
+                  setUserInput({
+                    ...userInput,
+                    year: e.target.value,
+                  });
+                }}
+              >
+                <option value="">Year..</option>
+                {years.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
-          <button type="submit">
+          <button type="Submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1.94em"

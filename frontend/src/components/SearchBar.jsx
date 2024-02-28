@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
+import { useFiltersContext } from "../contexts/FiltersContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchBar() {
   const [showSearch, setShowSearch] = useState(false);
+  const [globalSearchInput, setGlobalSearchinput] = useState("");
+  const { setGlobalSearch } = useFiltersContext();
+  const navigate = useNavigate();
+  const params = useLocation();
 
   const showSearchHandler = (e) => {
     e.preventDefault();
@@ -28,6 +34,14 @@ function SearchBar() {
     };
   }, [showSearch]);
 
+  const handleGlobalSearch = (e) => {
+    e.preventDefault();
+    setGlobalSearch(globalSearchInput);
+    if (params.pathname !== "/music") {
+      navigate("/music");
+    }
+  };
+
   return (
     <div className="SearchBar">
       {!showSearch && (
@@ -46,8 +60,13 @@ function SearchBar() {
         </button>
       )}
       {showSearch && (
-        <form className="searchInput">
-          <input type="text" placeholder="Search..." />
+        <form className="searchInput" onSubmit={handleGlobalSearch}>
+          <input
+            type="text"
+            placeholder="Search..."
+            autoFocus
+            onChange={(e) => setGlobalSearchinput(e.target.value)}
+          />
           <button type="Submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
