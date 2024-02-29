@@ -10,6 +10,8 @@ export const FiltersProvider = ({ children }) => {
   const [globalSearch, setGlobalSearch] = useState("");
   const [filterBy, setFilterBy] = useState("artist");
   const [loading, setLoading] = useState(true);
+  const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
+  const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
 
   useEffect(() => {
     const fetchingdata = () => {
@@ -25,17 +27,19 @@ export const FiltersProvider = ({ children }) => {
           }`,
           {
             headers: {
-              Authorization:
-                "Discogs key=xBEiSwfcQkjcycUzXMUF, secret=HHKoetIzHBaFyPnOauCjSBZcHhxtKrYH",
+              Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
             },
           }
         )
-        .then((res) => setFilteredData(res.data.results))
+        .then((res) => {
+          setFilteredData(res.data.results);
+          // console.log(res.data.pagination);
+        })
         .then(() => setLoading(false))
         .catch((err) => console.log(err));
     };
     fetchingdata();
-  }, [filterSet, filterBy, globalSearch]);
+  }, [filterSet, filterBy, globalSearch, discogsKey, discogsSecretKey]);
 
   return (
     <FiltersContext.Provider

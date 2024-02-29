@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 function SearchBar() {
   const [showSearch, setShowSearch] = useState(false);
   const [globalSearchInput, setGlobalSearchinput] = useState("");
-  const { setGlobalSearch } = useFiltersContext();
+  const { setGlobalSearch, setFilterSet } = useFiltersContext();
   const navigate = useNavigate();
   const params = useLocation();
 
@@ -37,6 +37,7 @@ function SearchBar() {
   const handleGlobalSearch = (e) => {
     e.preventDefault();
     setGlobalSearch(globalSearchInput);
+    setFilterSet({});
     if (params.pathname !== "/music") {
       navigate("/music");
     }

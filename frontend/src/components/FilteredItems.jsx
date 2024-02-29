@@ -1,6 +1,7 @@
 import React from "react";
 import "./FilteredItems.css";
 import { useFiltersContext } from "../contexts/FiltersContext";
+import { Link } from "react-router-dom";
 
 function FilteredItems() {
   const { filteredData, loading } = useFiltersContext();
@@ -10,15 +11,17 @@ function FilteredItems() {
       {filteredData && !loading ? (
         filteredData.map((item) => {
           return (
-            <div key={item.id} className="ItemCard">
-              <img src={item.cover_image} alt="pic" />
-              <abbr title={item.title}>
-                <h4>
-                  {item.title.slice(0, 45)}
-                  {item.title.length > 45 && "..."}
-                </h4>
-              </abbr>
-            </div>
+            <Link key={item.id} to={`/artist/${item.id}`}>
+              <div className="ItemCard">
+                <img src={item.cover_image} alt="pic" />
+                <abbr title={item.title}>
+                  <h4>
+                    {item.title.slice(0, 45)}
+                    {item.title.length > 45 && "..."}
+                  </h4>
+                </abbr>
+              </div>
+            </Link>
           );
         })
       ) : (

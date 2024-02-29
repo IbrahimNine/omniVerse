@@ -8,6 +8,7 @@ import User from "./pages/User";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import Artist from "./pages/Artist";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
+        <Route path="/artist/:id" element={<Artist/>} />
         <Route path="/collections/:id" element={<Collections />} />
         <Route path="/user/:id" element={<User />} />
         <Route path="/login" element={<Login />} />

@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./TopChart.css";
 import SliderCard from "./SliderCard";
-import { useTopChartsContext } from "../contexts/TopChartsContext";
+import axios from "axios";
 
 function TopChart({ filterBy }) {
   const [sliderPosition, setSliderPosition] = useState(0);
-  const { result, setFilteredBy } = useTopChartsContext();
+  const [result, setResult] = useState(null);
+  const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
+  const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
 
   useEffect(() => {
-    setFilteredBy(filterBy);
-  }, [filterBy, setFilteredBy]);
+    const fetchingdata = () => {
+      axios
+        .get(
+          `https://api.discogs.com/database/search?sort=score%2Cdesc&type=${filterBy}`,
+          {
+            headers: {
+              Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
+            },
+          }
+        )
+        .then((res) => setResult(res.data.results))
+        .catch((err) => console.log(err));
+    };
+    fetchingdata();
+  }, [filterBy, discogsKey, discogsSecretKey]);
 
   const handleNext = () => {
     const elementWidth =
