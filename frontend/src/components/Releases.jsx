@@ -1,33 +1,14 @@
-import { useState } from "react";
 import "./Releases.css";
-import axios from "axios";
+import { useReleaseContext } from "../contexts/ReleaseContext";
 
 function Releases({ release }) {
-  const [releaseData, setReleaseData] = useState();
-  const [showDetails, setShowDetails] = useState(false);
-  const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
-  const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
-
-  const showTracks = () => {
-    if (!showDetails) {
-      axios
-        .get(`https://api.discogs.com/releases/${release.main_release}`, {
-          headers: {
-            Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
-          },
-        })
-        .then((res) => {
-          setReleaseData(res.data.tracklist);
-        })
-        .catch((err) => console.log(err));
-    }
-    setShowDetails(!showDetails);
-  };
+  const { showTracks } = useReleaseContext();
 
   return (
     <div className="Releases">
-      <div className="release" onClick={showTracks}>
-        <h5>Title: {release.title}</h5>
+      <div className="release" onClick={() => showTracks(release)}>
+        <img src={release.thumb} alt="Album cover" />
+        <h5>{release.title}</h5>
         <h5>Release year: {release.year}</h5>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,41 +16,12 @@ function Releases({ release }) {
           height="2em"
           viewBox="0 0 24 24"
         >
-          <g transform="rotate(-90 12 12)">
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeDasharray={10}
-              strokeDashoffset={10}
-              strokeLinecap="round"
-              strokeWidth={2}
-              d="M8 12L15 5M8 12L15 19"
-            >
-              <animate
-                fill="freeze"
-                attributeName="stroke-dashoffset"
-                dur="0.3s"
-                values="10;0"
-              ></animate>
-            </path>
-          </g>
+          <path
+            fill="currentColor"
+            d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h7v2H5v14h14v-7h2v7q0 .825-.587 1.413T19 21zm4.7-5.3l-1.4-1.4L17.6 5H14V3h7v7h-2V6.4z"
+          ></path>
         </svg>
       </div>
-      {showDetails && (
-        <div className="releaseDetails">
-          {releaseData ? (
-            releaseData.map((item, index) => (
-              <div key={index}>
-                <p>{item.position}</p>
-                <p>{item.title}</p>
-                <p>{item.duration}</p>
-              </div>
-            ))
-          ) : (
-            <p>...</p>
-          )}
-        </div>
-      )}
     </div>
   );
 }

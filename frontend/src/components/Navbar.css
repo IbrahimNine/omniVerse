@@ -25,7 +25,7 @@
   transition: text-shadow 0.5s;
 }
 #brand:hover {
-  text-shadow: 0 0 15px white;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.178);
 }
 #brand h1 {
   margin: 0;

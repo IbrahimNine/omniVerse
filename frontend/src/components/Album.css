@@ -1,0 +1,90 @@
+.contentsWrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.411);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.releaseDetails,
+.releaseTrackList {
+  box-shadow: rgba(100, 100, 111, 0.295) 0px 7px 29px 0px;
+}
+.releaseTrackList {
+  width: 50%;
+  height: 80%;
+  background-color: black;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+#tracksLoading {
+  margin-top: 30%;
+}
+.releaseTrackList div {
+  border-top: 0.5px white solid;
+  border-bottom: 0.5px white solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.releaseDetails {
+  position: relative;
+  width: 30%;
+  height: 80%;
+  background-color: black;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
+#albumCover {
+  width: 70%;
+  max-height: 60%;
+  object-fit: cover;
+}
+.releaseDetails div {
+  width: 100%;
+  text-align: center;
+}
+.AlbumDetails{
+  text-align: center;
+  margin-top: 10%;
+}
+.releaseDetails h2 {
+  margin: 5px auto;
+}
+.releaseDetails h5 {
+  margin: 3px;
+  display: inline-block;
+}
+.genres {
+  margin: 10px auto 0 auto;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+flex-wrap: wrap;
+}
+.genres h5{
+  text-wrap: nowrap;
+}
+.releaseDetails a{
+  all:unset;
+  cursor: pointer;
+}

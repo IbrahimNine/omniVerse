@@ -13,7 +13,7 @@ function TopChart({ filterBy }) {
     const fetchingdata = () => {
       axios
         .get(
-          `https://api.discogs.com/database/search?sort=score%2Cdesc&type=${filterBy}`,
+          `https://api.discogs.com/database/search?sort=hot%2Cdesc&type=${filterBy}`,
           {
             headers: {
               Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,

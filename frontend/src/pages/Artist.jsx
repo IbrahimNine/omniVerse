@@ -1,41 +1,31 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Releases from "../components/Releases";
+import { useArtistContext } from "../contexts/ArtistContext";
+import FullSizePhoto from "../components/FullSizePhoto";
+import { useReleaseContext } from "../contexts/ReleaseContext";
+import Album from "../components/Album";
 
 function Artist() {
   const artistId = useParams().id;
-  const [artistData, setArtistData] = useState({});
-  const [artistReleases, setArtistReleases] = useState([]);
-  const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
-  const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
-
+  const { setId, artistData, artistReleases, showFullSize, setShowFullSize } =
+    useArtistContext();
   useEffect(() => {
-    axios
-      .get(`https://api.discogs.com/artists/${artistId}`, {
-        headers: {
-          Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
-        },
-      })
-      .then((res) => setArtistData(res.data))
-      .catch((err) => console.log(err));
-    axios
-      .get(`https://api.discogs.com/artists/${artistId}/releases?sort=year`)
-      .then((res) => setArtistReleases(res.data.releases.filter((item)=>item.role==="Main")))
-      .catch((err) => console.log(err));
-  }, [
-    artistId,
-    setArtistData,
-    setArtistReleases,
-    discogsKey,
-    discogsSecretKey,
-  ]);
-  console.log(artistReleases);
+    setId(artistId);
+  }, [setId, artistId]);
+  const { showDetails } = useReleaseContext();
+
 
   return (
     <div className="Artist">
       <aside className="ArtistData">
-        {artistData.images && <img src={artistData.images[0].uri} alt="" />}
+        {artistData.images && (
+          <img
+            src={artistData.images[0].uri}
+            alt="Artist"
+            onClick={() => setShowFullSize(!showFullSize)}
+          />
+        )}
         <h3>{artistData.name}</h3>
         <p>
           {artistData.profile &&
@@ -49,6 +39,8 @@ function Artist() {
           <Releases key={index} release={release} />
         ))}
       </section>
+      {showDetails && <Album />}
+      {showFullSize && <FullSizePhoto />}
     </div>
   );
 }

@@ -4,7 +4,12 @@ import { useFiltersContext } from "../contexts/FiltersContext";
 
 const Offcanvas = () => {
   const [visible, setVisible] = useState(true);
-  const [userInput, setUserInput] = useState();
+  const [userInput, setUserInput] = useState({
+    title: "",
+    style: "",
+    decade: "",
+    year: "",
+  });
   const { setFilterSet, setGlobalSearch, setFilterBy } = useFiltersContext();
 
   const handlerFiltersBar = () => {
@@ -43,10 +48,8 @@ const Offcanvas = () => {
     e.preventDefault();
     setFilterSet(userInput);
     setGlobalSearch(userInput.title);
-    setFilterBy('master');
+    setFilterBy("master");
   };
-
-
 
   const start = 1900;
   const end = new Date().getFullYear();
