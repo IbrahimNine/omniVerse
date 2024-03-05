@@ -9,6 +9,8 @@ export function ArtistContextProvider({ children }) {
   const [artistData, setArtistData] = useState({});
   const [artistReleases, setArtistReleases] = useState([]);
   const [showFullSize, setShowFullSize] = useState(false);
+  const [isPagedReleases, setIsPagedReleases] = useState(false);
+  const [pageNumberRelease, setPageNumberRelease] = useState(2);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
 
@@ -28,14 +30,36 @@ export function ArtistContextProvider({ children }) {
             Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
           },
         })
-        .then((res) =>
+        .then((res) => {
           setArtistReleases(
             res.data.releases.filter((item) => item.role === "Main")
-          )
-        )
+          );
+          setIsPagedReleases(res.data.pagination.pages > 1);
+        })
         .catch((err) => console.log(err));
     }
   }, [id, discogsKey, discogsSecretKey]);
+
+  const fetchMoreReleases = () => {
+    axios
+      .get(
+        `https://api.discogs.com/artists/${id}/releases?sort=year&page=${pageNumberRelease}`,
+        {
+          headers: {
+            Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
+          },
+        }
+      )
+      .then((res) => {
+        setArtistReleases([
+          ...artistReleases,
+          ...res.data.releases.filter((item) => item.role === "Main"),
+        ]);
+        setIsPagedReleases(res.data.pagination.pages > pageNumberRelease);
+        setPageNumberRelease(pageNumberRelease + 1);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <ArtistContext.Provider
@@ -45,6 +69,8 @@ export function ArtistContextProvider({ children }) {
         setId,
         showFullSize,
         setShowFullSize,
+        fetchMoreReleases,
+        isPagedReleases,
       }}
     >
       {children}

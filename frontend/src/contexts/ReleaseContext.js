@@ -65,6 +65,7 @@ export function ReleaseProvider({ children }) {
     }
   };
 
+
   const handlePlaying = () => {
     setPlay(!play);
   };

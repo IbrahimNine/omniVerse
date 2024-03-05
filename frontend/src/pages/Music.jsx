@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Offcanvas from "../components/Offcanvas";
-import FilteredItems from "../components/FilteredItems";
+import Offcanvas from "../components/Music/Offcanvas";
+import FilteredItems from "../components/Music/FilteredItems";
 import { useFiltersContext } from "../contexts/FiltersContext";
 
 function Music() {

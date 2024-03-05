@@ -1,5 +1,5 @@
-import Hero from "../components/Hero";
-import TopChart from "../components/TopChart";
+import Hero from "../components/Home/Hero"
+import TopChart from "../components/Home/TopChart";
 
 
 function Home() {

@@ -1,5 +1,5 @@
 import "./FullSizePhoto.css";
-import { useArtistContext } from "../contexts/ArtistContext";
+import { useArtistContext } from "../../contexts/ArtistContext";
 
 function FullSizePhoto() {
   const { artistData, showFullSize, setShowFullSize } = useArtistContext();

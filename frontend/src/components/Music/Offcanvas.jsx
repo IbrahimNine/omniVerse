@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Offcanvas.css";
-import { useFiltersContext } from "../contexts/FiltersContext";
+import { useFiltersContext } from "../../contexts/FiltersContext";
 
 const Offcanvas = () => {
   const [visible, setVisible] = useState(true);
@@ -57,9 +57,11 @@ const Offcanvas = () => {
     { length: end - start + 1 },
     (_, index) => start + index
   );
+  
   const decades = Array.from(
     new Set(years.map((year) => Math.floor(year / 10) * 10))
   );
+
   const genres = [
     "Abstract",
     "Acid",
@@ -105,6 +107,8 @@ const Offcanvas = () => {
     "Cumbia",
     "Dancehall",
     "Dance-pop",
+    "Darkwave",
+    "Deathrock",
     "Deep House",
     "Disco",
     "Dixieland",

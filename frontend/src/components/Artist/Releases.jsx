@@ -1,5 +1,5 @@
 import "./Releases.css";
-import { useReleaseContext } from "../contexts/ReleaseContext";
+import { useReleaseContext } from "../../contexts/ReleaseContext";
 
 function Releases({ release }) {
   const { showTracks } = useReleaseContext();

@@ -18,7 +18,7 @@
 }
 .releaseTrackList {
   width: 50%;
-  height: 80%;
+  height: 79%;
   background-color: black;
   border-radius: 30px;
   display: flex;
@@ -31,7 +31,7 @@
 #tracksLoading {
   margin-top: 30%;
 }
-.releaseTrackList div {
+.track {
   border-top: 0.5px white solid;
   border-bottom: 0.5px white solid;
   display: flex;
@@ -39,10 +39,16 @@
   align-items: center;
   width: 100%;
 }
+.track-details{
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .releaseDetails {
   position: relative;
   width: 30%;
-  height: 80%;
+  height: 79%;
   background-color: black;
   border-radius: 30px;
   display: flex;
@@ -86,5 +92,18 @@ flex-wrap: wrap;
 }
 .releaseDetails a{
   all:unset;
+  cursor: pointer;
+}
+.controlsWrapper{
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  margin: 0 10px;
+  box-sizing: border-box;
+}
+.controls{
+  all: unset;
   cursor: pointer;
 }

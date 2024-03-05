@@ -1,20 +1,36 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Releases from "../components/Releases";
+import Album from "../components/Artist/Album";
+import Releases from "../components/Artist/Releases";
+import FullSizePhoto from "../components/Artist/FullSizePhoto";
 import { useArtistContext } from "../contexts/ArtistContext";
-import FullSizePhoto from "../components/FullSizePhoto";
 import { useReleaseContext } from "../contexts/ReleaseContext";
-import Album from "../components/Album";
 
 function Artist() {
   const artistId = useParams().id;
-  const { setId, artistData, artistReleases, showFullSize, setShowFullSize } =
-    useArtistContext();
+  const { showDetails } = useReleaseContext();
+  const {
+    fetchMoreReleases,
+    isPagedReleases,
+    setId,
+    artistData,
+    artistReleases,
+    showFullSize,
+    setShowFullSize,
+  } = useArtistContext();
+
   useEffect(() => {
     setId(artistId);
   }, [setId, artistId]);
-  const { showDetails } = useReleaseContext();
 
+  const handleScroll =() => {
+    const { scrollTop, scrollHeight, clientHeight } =
+      document.querySelector(".ArtistReleases");
+    const hasScrolledToBottom = scrollTop + clientHeight === scrollHeight;
+    if (hasScrolledToBottom && isPagedReleases) {
+      fetchMoreReleases();
+    }
+  }
 
   return (
     <div className="Artist">
@@ -34,7 +50,7 @@ function Artist() {
               : artistData.profile)}
         </p>
       </aside>
-      <section className="ArtistReleases">
+      <section className="ArtistReleases" onScroll={handleScroll}>
         {artistReleases?.map((release, index) => (
           <Releases key={index} release={release} />
         ))}

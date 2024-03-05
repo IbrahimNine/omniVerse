@@ -10,6 +10,8 @@ export const FiltersProvider = ({ children }) => {
   const [globalSearch, setGlobalSearch] = useState("");
   const [filterBy, setFilterBy] = useState("artist");
   const [loading, setLoading] = useState(true);
+  const [isPagedArtists, setIsPagedArtists] = useState(false);
+  const [pageNumber, setPageNumber] = useState(2);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
 
@@ -32,6 +34,7 @@ export const FiltersProvider = ({ children }) => {
           }
         )
         .then((res) => {
+          setIsPagedArtists(res.data.pagination.pages > 1);
           setFilteredData(res.data.results);
           // console.log(res.data.pagination);
         })
@@ -40,6 +43,31 @@ export const FiltersProvider = ({ children }) => {
     };
     fetchingdata();
   }, [filterSet, filterBy, globalSearch, discogsKey, discogsSecretKey]);
+
+  const fetchMoreData = () => {
+    axios
+      .get(
+        `https://api.discogs.com/database/search?q=${
+          globalSearch ? globalSearch : ""
+        }&type=${filterBy}&style=${
+          filterSet.style ? filterSet.style : ""
+        }&decade=${filterSet.decade ? filterSet.decade : ""}&year=${
+          filterSet.year ? filterSet.year : ""
+        }&page=${pageNumber}`,
+        {
+          headers: {
+            Authorization: `Discogs key=${discogsKey}, secret=${discogsSecretKey}`,
+          },
+        }
+      )
+      .then((res) => {
+        setFilteredData([...filteredData ,...res.data.results]);
+        setIsPagedArtists(res.data.pagination.pages > pageNumber);
+        setPageNumber(pageNumber + 1)
+      })
+      .then(() => setLoading(false))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <FiltersContext.Provider
@@ -52,6 +80,8 @@ export const FiltersProvider = ({ children }) => {
         setFilterBy,
         filteredData,
         loading,
+        isPagedArtists,
+        fetchMoreData,
       }}
     >
       {children}

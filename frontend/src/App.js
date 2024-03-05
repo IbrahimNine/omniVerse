@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Home/Navbar";
 import Home from "./pages/Home";
 import Music from "./pages/Music";
 import Collections from "./pages/Collections";
@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import Artist from "./pages/Artist";
-import Player from "./components/Player";
+import Player from "./components/Home/Player"
 
 function App() {
   return (

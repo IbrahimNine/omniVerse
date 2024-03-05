@@ -1,6 +1,6 @@
 import "./Player.css";
 import ReactPlayer from "react-player";
-import { useReleaseContext } from "../contexts/ReleaseContext";
+import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { useRef, useState } from "react";
 
 function Player() {
@@ -20,11 +20,13 @@ function Player() {
     setPlayed(seekTo);
     playerRef.current.seekTo(seekTo, "fraction");
   };
+
   const handleProgress = (progress) => {
     if (!isNaN(progress.played)) {
       setPlayed(progress.played);
     }
   };
+
   const handleDuration = (duration) => {
     setDuration(duration);
   };
@@ -38,44 +40,38 @@ function Player() {
     return "Loading...";
   };
 
-  const formatTimeUpadating = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes}:${remainingSeconds.toFixed(2)}`;
-  };
-
   return (
     <div className="omniVersePlayer">
-      <button onClick={handlePlaying}>
+      <button className="play-pause" onClick={handlePlaying}>
         {play ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="3em"
-            height="3em"
-            viewBox="0 0 20 20"
+            width="2em"
+            height="2em"
+            viewBox="0 0 256 256"
           >
             <path
               fill="currentColor"
-              d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M7 6v8h2V6zm4 0v8h2V6z"
+              d="M216 48v160a16 16 0 0 1-16 16h-40a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h40a16 16 0 0 1 16 16M96 32H56a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h40a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16"
             ></path>
           </svg>
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="3em"
-            height="3em"
-            viewBox="0 0 1200 1200"
+            width="2em"
+            height="2em"
+            viewBox="0 0 256 256"
           >
             <path
               fill="currentColor"
-              d="M600 1200C268.65 1200 0 931.35 0 600S268.65 0 600 0s600 268.65 600 600s-268.65 600-600 600M450 300.45v599.1L900 600z"
+              d="M240 128a15.74 15.74 0 0 1-7.6 13.51L88.32 229.65a16 16 0 0 1-16.2.3A15.86 15.86 0 0 1 64 216.13V39.87a15.86 15.86 0 0 1 8.12-13.82a16 16 0 0 1 16.2.3l144.08 88.14A15.74 15.74 0 0 1 240 128"
             ></path>
           </svg>
         )}
       </button>
       <ReactPlayer
         className="omniVersePlayer"
-        url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+        url="https://soundcloud.com/gabrielsaban/omniverse"
         width={0}
         height={0}
         playing={play}
@@ -95,7 +91,7 @@ function Player() {
           onChange={handleSeekChange}
         />
         <span>
-          <span>{`${formatTimeUpadating(played)}/${formatTime(
+          <span>{`${formatTime(Math.floor(played * duration))}/${formatTime(
             duration
           )}`}</span>
         </span>

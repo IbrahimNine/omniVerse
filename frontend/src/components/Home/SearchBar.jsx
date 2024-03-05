@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useFiltersContext } from "../contexts/FiltersContext";
+import { useFiltersContext } from "../../contexts/FiltersContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchBar() {
