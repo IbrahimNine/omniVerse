@@ -4,17 +4,25 @@
   left: 0;
   width: 100vw;
   height: 10vh;
-  background-color: #1c1b29f8;
+  background-image: linear-gradient(
+    to top,
+    #1c1b29,
+    #1a1926,
+    #181824,
+    #171621,
+    #15141f
+  );
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 5%;
   z-index: 105;
+  box-shadow: rgba(17, 17, 26, 0.596) 0px -10px 16px;
   box-sizing: border-box;
 }
 .play-pause {
   all: unset;
-  margin: 0 4vw;
+  margin: 0 1vw;
   cursor: pointer;
 }
 .volumeSet {
@@ -44,4 +52,10 @@
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
+}
+.TrackCover {
+  width: 60px;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 10px;
 }

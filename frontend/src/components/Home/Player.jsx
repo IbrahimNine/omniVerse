@@ -4,7 +4,7 @@ import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { useRef, useState } from "react";
 
 function Player() {
-  const { play, handlePlaying } = useReleaseContext();
+  const { trackData, play, handlePlaying } = useReleaseContext();
   const [volume, setVolume] = useState(90);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(null);
@@ -40,8 +40,15 @@ function Player() {
     return "Loading...";
   };
 
+
   return (
     <div className="omniVersePlayer">
+      <img
+        className="TrackCover"
+        src={`https://img.youtube.com/vi/${trackData.id}/default.jpg`}
+        alt="Track cover thumbnail"
+        // height={"80%"}
+      />
       <button className="play-pause" onClick={handlePlaying}>
         {play ? (
           <svg
@@ -71,7 +78,7 @@ function Player() {
       </button>
       <ReactPlayer
         className="omniVersePlayer"
-        url="https://soundcloud.com/gabrielsaban/omniverse"
+        url={`https://www.youtube.com/watch?v=${trackData.id}`}
         width={0}
         height={0}
         playing={play}
@@ -79,9 +86,11 @@ function Player() {
         muted={volume === 0}
         onProgress={handleProgress}
         onDuration={handleDuration}
+        onEnded={handlePlaying}
         ref={playerRef}
       />
       <div className="progressBar">
+        <span>{trackData.title}</span>
         <input
           type="range"
           min={0}
@@ -97,6 +106,7 @@ function Player() {
         </span>
       </div>
       <div className="volumeSet">
+        <span>Volume</span>
         <input
           type="range"
           min={0}

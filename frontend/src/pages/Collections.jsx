@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
 function Collections() {
   return (
-    <div>Collections</div>
-  )
+    <div className="Collections">
+      <h2>Your Collections</h2>
+      <div className="collections-container">Collections</div>
+    </div>
+  );
 }
 
-export default Collections
+export default Collections;

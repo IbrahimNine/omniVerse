@@ -1,4 +1,5 @@
 .FilteredItems {
+  min-height: 60vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,9 +8,9 @@
   padding: 1% 5%;
   margin-top: 20px;
 }
-.FilteredItems a{
-all: unset;
-cursor: pointer;
+.FilteredItems a {
+  all: unset;
+  cursor: pointer;
 }
 .ItemCard {
   border: 0.1px #1c1b2977 solid;
@@ -26,7 +27,7 @@ cursor: pointer;
   transition: box-shadow 0.3s;
 }
 .ItemCard:hover {
-  box-shadow: 0px 0px 5px 1px  rgba(210, 235, 255, 0.45);
+  box-shadow: 0px 0px 5px 1px rgba(210, 235, 255, 0.45);
 }
 .ItemCard img {
   width: 100%;
@@ -48,4 +49,7 @@ cursor: pointer;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+.loadingGif {
+  margin: 0 35%;
 }

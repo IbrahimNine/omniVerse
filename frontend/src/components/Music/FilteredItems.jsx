@@ -12,7 +12,8 @@ function FilteredItems() {
 
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    const hasScrolledToBottom = scrollTop + clientHeight === scrollHeight;
+    const offset = 10;
+    const hasScrolledToBottom = scrollTop + clientHeight + offset >= scrollHeight;
     if (hasScrolledToBottom && isPagedArtists) {
       fetchMoreData();
     }
@@ -25,10 +26,9 @@ function FilteredItems() {
     };
   }, [handleScroll]);
 
-  console.log(filteredData);
   return (
     <div className="FilteredItems" onScroll={handleScroll}>
-      {filteredData && !loading ? (
+      {filteredData &&
         filteredData.map((item) => {
           return (
             <Link
@@ -47,12 +47,13 @@ function FilteredItems() {
               </div>
             </Link>
           );
-        })
-      ) : (
+        })}
+      {loading && (
         <img
           src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
           alt="loading"
           width={"30%"}
+          className="loadingGif"
         />
       )}
       {showDetails && <Album />}

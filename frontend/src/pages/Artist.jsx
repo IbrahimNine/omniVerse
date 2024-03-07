@@ -23,14 +23,16 @@ function Artist() {
     setId(artistId);
   }, [setId, artistId]);
 
-  const handleScroll =() => {
+  const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } =
       document.querySelector(".ArtistReleases");
-    const hasScrolledToBottom = scrollTop + clientHeight === scrollHeight;
+    const offset = 20;
+    const hasScrolledToBottom =
+      scrollTop + clientHeight + offset >= scrollHeight;
     if (hasScrolledToBottom && isPagedReleases) {
       fetchMoreReleases();
     }
-  }
+  };
 
   return (
     <div className="Artist">
@@ -50,11 +52,13 @@ function Artist() {
               : artistData.profile)}
         </p>
       </aside>
-      <section className="ArtistReleases" onScroll={handleScroll}>
-        {artistReleases?.map((release, index) => (
-          <Releases key={index} release={release} />
-        ))}
-      </section>
+      <div className="ArtistReleasesWrapper">
+        <section className="ArtistReleases" onScroll={handleScroll}>
+          {artistReleases?.map((release, index) => (
+            <Releases key={index} release={release} />
+          ))}
+        </section>
+      </div>
       {showDetails && <Album />}
       {showFullSize && <FullSizePhoto />}
     </div>

@@ -45,6 +45,7 @@ export const FiltersProvider = ({ children }) => {
   }, [filterSet, filterBy, globalSearch, discogsKey, discogsSecretKey]);
 
   const fetchMoreData = () => {
+    setLoading(true);
     axios
       .get(
         `https://api.discogs.com/database/search?q=${
@@ -63,7 +64,8 @@ export const FiltersProvider = ({ children }) => {
       .then((res) => {
         setFilteredData([...filteredData ,...res.data.results]);
         setIsPagedArtists(res.data.pagination.pages > pageNumber);
-        setPageNumber(pageNumber + 1)
+        setPageNumber(pageNumber + 1);
+        setLoading(false);
       })
       .then(() => setLoading(false))
       .catch((err) => console.log(err));

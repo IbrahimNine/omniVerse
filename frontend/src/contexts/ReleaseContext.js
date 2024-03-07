@@ -7,6 +7,11 @@ export function ReleaseProvider({ children }) {
   const [releaseData, setReleaseData] = useState();
   const [showDetails, setShowDetails] = useState(false);
   const [releaseCord, setReleaseCord] = useState();
+  const [trackData, setTrackData] = useState({
+    id: "LS31VZCeD7c",
+    title:
+      "Cézame Trailers - Omniverse [Epic Music - Powerful Orchestral Hybrid]",
+  });
   const [play, setPlay] = useState(false);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
@@ -65,11 +70,9 @@ export function ReleaseProvider({ children }) {
     }
   };
 
-
   const handlePlaying = () => {
     setPlay(!play);
   };
-
 
   return (
     <ReleaseContext.Provider
@@ -84,6 +87,9 @@ export function ReleaseProvider({ children }) {
         showTracksAlone,
         handlePlaying,
         play,
+        setPlay,
+        trackData,
+        setTrackData,
       }}
     >
       {children}
