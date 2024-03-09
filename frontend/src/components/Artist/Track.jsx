@@ -12,7 +12,7 @@ function Track({ item, artists_sort, index, isPlaying, setIsPlaying }) {
       console.log("search youtube");
       setIsPlaying(index);
       axios
-        .post("http://localhost:5050/stream", {
+        .post("http://localhost:5050/api/stream", {
           query: `${artists_sort.split(/[()]/)[0].trim()} ${item.title}`,
         })
         .then((res) => {
