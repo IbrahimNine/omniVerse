@@ -1,8 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 function Navbar() {
+  const { authLogout } = useAuthContext();
   return (
     <div className="Navbar">
       <Link to="/" id="brand">
@@ -31,7 +33,7 @@ function Navbar() {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/">Logout</Link>
+            <Link onClick={authLogout}>Logout</Link>
           </li>
         </ul>
       </div>

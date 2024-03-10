@@ -2,12 +2,10 @@ const collectionModel = require("../models/collectionModel");
 
 //____________________________________________________________________
 const addingNewCollection = async (req, res) => {
-  const { id } = req.params;
 
   try {
     const data = await collectionModel.create({
       ...req.body,
-      owner: id,
     });
     res.json({ status: "success", data });
   } catch (error) {

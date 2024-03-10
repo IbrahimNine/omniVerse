@@ -5,11 +5,15 @@ const mongoose = require("mongoose");
 const streamingRouter = require("./routers/streamingRouter");
 const authRouter = require("./routers/authRouter");
 const collectionsRouter = require("./routers/collectionsRouter");
+const tokenVerification = require("./middlewares/tokenVerification");
+const cookieParser = require("cookie-parser");
+const userRouter = require("./routers/userRouter");
 require("dotenv").config();
 
 //________________________________________________________________
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 //________________________________________________________________
 mongoose
@@ -24,7 +28,10 @@ app.use("/api/stream", streamingRouter);
 app.use("/api/auth", authRouter);
 
 //________________________________________________________________
-app.use("/api/collections",collectionsRouter)
+app.use("/api/user", tokenVerification ,userRouter);
+
+//________________________________________________________________
+app.use("/api/collections", tokenVerification, collectionsRouter);
 
 //________________________________________________________________
 app.all("*", (req, res) => {

@@ -4,13 +4,14 @@ const {
   deleteCollection,
   getUserCollections,
 } = require("../controllers/collectionsControllers");
+const collectionValidator = require("../middlewares/collectionValidator");
 const collectionsRouter = require("express").Router();
 
 collectionsRouter.get("/", getUserCollections);
 
-collectionsRouter.post("/:id", addingNewCollection);
+collectionsRouter.post("/", collectionValidator, addingNewCollection);
 
-collectionsRouter.put("/:id", updateCollection);
+collectionsRouter.put("/:id", collectionValidator, updateCollection);
 
 collectionsRouter.delete("/:id", deleteCollection);
 

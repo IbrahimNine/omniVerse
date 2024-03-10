@@ -14,7 +14,7 @@ function Album() {
       setShowDetails(!showDetails);
     }
   };
-
+console.log(releaseData)
   return (
     <div className="contentsWrapper Album" onClick={handleShowDetails}>
       <div className="releaseDetails">
@@ -22,7 +22,7 @@ function Album() {
           <>
             <img
               id="albumCover"
-              src={releaseData.images[0]?.uri}
+              src={releaseData.images && releaseData.images[0]?.uri}
               alt="Album cover"
             />
             <div>
