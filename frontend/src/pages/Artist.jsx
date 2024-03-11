@@ -17,6 +17,7 @@ function Artist() {
     artistReleases,
     showFullSize,
     setShowFullSize,
+    releasesLoading,
   } = useArtistContext();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function Artist() {
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } =
       document.querySelector(".ArtistReleases");
-    const offset = 20;
+    const offset = 0;
     const hasScrolledToBottom =
       scrollTop + clientHeight + offset >= scrollHeight;
     if (hasScrolledToBottom && isPagedReleases) {
@@ -57,6 +58,14 @@ function Artist() {
           {artistReleases?.map((release, index) => (
             <Releases key={index} release={release} />
           ))}
+          {releasesLoading && (
+            <img
+              src="https://cdn.pixabay.com/animation/2023/03/20/02/45/02-45-27-186_512.gif"
+              alt="loading"
+              width={50}
+              className="releasesLoading"
+            />
+          )}
         </section>
       </div>
       {showDetails && <Album />}

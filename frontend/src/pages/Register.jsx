@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [userCord, setUserCord] = useState({});
@@ -8,7 +9,7 @@ function Register() {
   const handleUserCord = (e) => {
     setUserCord({ ...userCord, [e.target.name]: e.target.value });
   };
-  console.log(userCord);
+ 
   return (
     <div className="Register">
       <form
@@ -96,6 +97,7 @@ function Register() {
             "Create an account"
           )}
         </button>
+        <p>You already have an account? <Link to={"/login"}>Sign-in here</Link></p>
       </form>
     </div>
   );

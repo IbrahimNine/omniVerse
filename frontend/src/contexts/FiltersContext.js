@@ -15,9 +15,11 @@ export const FiltersProvider = ({ children }) => {
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
 
+  //_______________________________________________________________________________
   useEffect(() => {
     const fetchingdata = () => {
       setLoading(true);
+      setFilteredData(null);
       axios
         .get(
           `https://api.discogs.com/database/search?q=${
@@ -44,6 +46,7 @@ export const FiltersProvider = ({ children }) => {
     fetchingdata();
   }, [filterSet, filterBy, globalSearch, discogsKey, discogsSecretKey]);
 
+  //_______________________________________________________________________________
   const fetchMoreData = () => {
     setLoading(true);
     axios
@@ -62,7 +65,7 @@ export const FiltersProvider = ({ children }) => {
         }
       )
       .then((res) => {
-        setFilteredData([...filteredData ,...res.data.results]);
+        setFilteredData([...filteredData, ...res.data.results]);
         setIsPagedArtists(res.data.pagination.pages > pageNumber);
         setPageNumber(pageNumber + 1);
         setLoading(false);

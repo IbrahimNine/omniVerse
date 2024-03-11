@@ -30,6 +30,7 @@ const loginController = async (req, res) => {
               userID: searchedUser._id,
               userPic: searchedUser.photo,
               userName: searchedUser.name,
+              userEmail: searchedUser.email,
             },
           });
       } else {

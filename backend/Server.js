@@ -11,7 +11,12 @@ const userRouter = require("./routers/userRouter");
 require("dotenv").config();
 
 //________________________________________________________________
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -28,7 +33,7 @@ app.use("/api/stream", streamingRouter);
 app.use("/api/auth", authRouter);
 
 //________________________________________________________________
-app.use("/api/user", tokenVerification ,userRouter);
+app.use("/api/user", tokenVerification, userRouter);
 
 //________________________________________________________________
 app.use("/api/collections", tokenVerification, collectionsRouter);

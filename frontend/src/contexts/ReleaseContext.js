@@ -10,7 +10,7 @@ export function ReleaseProvider({ children }) {
   const [trackData, setTrackData] = useState({
     id: "LS31VZCeD7c",
     title:
-      "Cézame Trailers - Omniverse [Epic Music - Powerful Orchestral Hybrid]",
+      "Gabriel Saban - Omniverse",
   });
   const [play, setPlay] = useState(false);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;

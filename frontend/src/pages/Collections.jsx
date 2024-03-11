@@ -4,7 +4,9 @@ function Collections() {
   return (
     <div className="Collections">
       <h2>Your Collections</h2>
-      <div className="collections-container">Collections</div>
+      <div className="collectionsWrapper">
+        <div className="collections-container">Collections</div>
+      </div>
     </div>
   );
 }

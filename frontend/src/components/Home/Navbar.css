@@ -2,9 +2,9 @@
 .Navbar {
   position: sticky;
   top: 0;
-  max-width: 1349px;
+  width: 1349px;
   height: 90px;
-  margin: auto;
+  margin:0 auto;
   margin-bottom: -90px;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.562) 2%,transparent 100%);
   display: flex;

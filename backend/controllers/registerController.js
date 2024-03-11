@@ -26,6 +26,7 @@ const registerController = async (req, res) => {
         userID: createdUser._id,
         userPic: createdUser.photo,
         userName: createdUser.name,
+        userEmail: createdUser.email,
       },
     });
   } catch (err) {

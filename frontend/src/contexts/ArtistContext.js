@@ -11,11 +11,14 @@ export function ArtistContextProvider({ children }) {
   const [showFullSize, setShowFullSize] = useState(false);
   const [isPagedReleases, setIsPagedReleases] = useState(false);
   const [pageNumberRelease, setPageNumberRelease] = useState(2);
+  const [releasesLoading, setReleasesLoading] = useState(false);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
 
   useEffect(() => {
     if (id) {
+      setReleasesLoading(true);
+      setArtistReleases(null);
       axios
         .get(`https://api.discogs.com/artists/${id}`, {
           headers: {
@@ -36,11 +39,15 @@ export function ArtistContextProvider({ children }) {
           );
           setIsPagedReleases(res.data.pagination.pages > 1);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => setReleasesLoading(false));
     }
   }, [id, discogsKey, discogsSecretKey]);
 
   const fetchMoreReleases = () => {
+    setReleasesLoading(true);
     axios
       .get(
         `https://api.discogs.com/artists/${id}/releases?sort=year&page=${pageNumberRelease}`,
@@ -58,7 +65,10 @@ export function ArtistContextProvider({ children }) {
         setIsPagedReleases(res.data.pagination.pages > pageNumberRelease);
         setPageNumberRelease(pageNumberRelease + 1);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setReleasesLoading(false));
   };
 
   return (
@@ -71,6 +81,7 @@ export function ArtistContextProvider({ children }) {
         setShowFullSize,
         fetchMoreReleases,
         isPagedReleases,
+        releasesLoading,
       }}
     >
       {children}

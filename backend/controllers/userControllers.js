@@ -14,6 +14,7 @@ const getUser = async (req, res) => {
         userID: searchedUser._id,
         userPic: searchedUser.photo,
         userName: searchedUser.name,
+        userEmail: searchedUser.email,
       },
     });
   } catch (error) {
@@ -24,7 +25,37 @@ const getUser = async (req, res) => {
 
 //______________________________________________________________
 const updateUser = async (req, res) => {
-  const { newName, newEmail, oldPassword, newPassword } = req.body;
+  const { newName, newEmail } = req.body;
+  try {
+    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      user._id,
+      {
+        name: newName,
+        email: newEmail,
+      },
+      { new: true }
+    );
+    res.json({
+      status: "success",
+      data: {
+        userID: updatedUser._id,
+        userPic: updatedUser.photo,
+        userName: updatedUser.name,
+        userEmail: updatedUser.email,
+      },
+      message: "Changes have been saved"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+//______________________________________________________________
+const updatePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
   try {
     const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
     const searchedUser = await userModel.findById(user._id);
@@ -36,24 +67,18 @@ const updateUser = async (req, res) => {
       const updatedUser = await userModel.findByIdAndUpdate(
         user._id,
         {
-          name: newName,
-          email: newEmail,
           password: await bcrypt.hash(newPassword, 15),
         },
         { new: true }
       );
       res.json({
         status: "success",
-        data: {
-          userID: updatedUser._id,
-          userPic: updatedUser.photo,
-          userName: updatedUser.name,
-        },
+        data: `${updatedUser.name} Password has been changed`,
       });
     } else {
-      res.status(400).json({
+      res.json({
         status: "fail",
-        message: "The old password entered was wrong!",
+        data: "The old password is wrong!",
       });
     }
   } catch (error) {
@@ -71,11 +96,15 @@ const deleteUser = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, searchedUser.password);
     if (passwordMatch) {
       const data = await userModel.findByIdAndDelete(user._id);
-      res.json({ status: "success", data });
+      res.clearCookie("token");
+      res.json({
+        status: "success",
+        data: `${data.name} account has been deleted`,
+      });
     } else {
-      res.status(400).json({
+      res.json({
         status: "fail",
-        message: "Incorrect password!",
+        data: "Incorrect password!",
       });
     }
   } catch (error) {
@@ -84,4 +113,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, updateUser, deleteUser };
+module.exports = { getUser, updateUser, deleteUser, updatePassword };

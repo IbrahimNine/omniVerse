@@ -4,7 +4,8 @@ import SearchBar from "./SearchBar";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 function Navbar() {
-  const { authLogout } = useAuthContext();
+  const { authLogout, setShowSettings, user } = useAuthContext();
+  console.log(user);
   return (
     <div className="Navbar">
       <Link to="/" id="brand">
@@ -18,23 +19,30 @@ function Navbar() {
         </div>
         <NavLink to="/user" id="Profile">
           <img
-            src="https://img.freepik.com/premium-vector/dj-wireless-music-headphones-silhouette-earphones-flat-icon-headset-silhouette-musician-equipment-vector-isolated-white-icon-emblem-clothing-print-design-element_981050-186.jpg"
+            src={
+              user?.userPic ||
+              "https://img.freepik.com/premium-vector/dj-wireless-music-headphones-silhouette-earphones-flat-icon-headset-silhouette-musician-equipment-vector-isolated-white-icon-emblem-clothing-print-design-element_981050-186.jpg"
+            }
             alt="user"
           />
         </NavLink>
         <ul className="userOptions">
-          <li className="arrow">
-            <Link to="/user">Profile</Link>
-          </li>
-          <li>
-            <Link to="/">Settings</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link onClick={authLogout}>Logout</Link>
-          </li>
+          <li className="arrow">{/* <Link to="/user">Profile</Link> */}</li>
+          {user && (
+            <li>
+              <Link onClick={() => setShowSettings(true)}>Settings</Link>
+            </li>
+          )}
+          {!user && (
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          )}
+          {user && (
+            <li>
+              <Link onClick={authLogout}>Logout</Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
