@@ -5,7 +5,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 
 function Navbar() {
   const { authLogout, setShowSettings, user } = useAuthContext();
-  console.log(user);
+
   return (
     <div className="Navbar">
       <Link to="/" id="brand">

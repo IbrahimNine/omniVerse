@@ -7,14 +7,14 @@ import { useState } from "react";
 function Album() {
   const { releaseCord, releaseData, showDetails, setShowDetails } =
     useReleaseContext();
-    const [isPlaying, setIsPlaying] = useState()
+  const [isPlaying, setIsPlaying] = useState();
 
   const handleShowDetails = (e) => {
     if (e.target.className === "contentsWrapper Album") {
       setShowDetails(!showDetails);
     }
   };
-console.log(releaseData)
+
   return (
     <div className="contentsWrapper Album" onClick={handleShowDetails}>
       <div className="releaseDetails">

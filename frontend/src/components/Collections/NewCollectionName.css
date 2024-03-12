@@ -1,4 +1,4 @@
-.SettingsWrapper {
+.NewCollectionNameWrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,27 +8,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
-  z-index: 99;
 }
-.Settings {
-  width: 45vw;
-  height: 75vh;
+.NewCollectionName {
+  width: 40vw;
+  height: 40vh;
   border-radius: 30px;
-  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5%;
-  background-color: #11111afa;
+  background-color: #11111a;
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
     0px 20px 50px -20px rgba(0, 0, 0, 0.3),
     inset 0px -2px 10px 0px rgba(10, 37, 64, 0.35);
 }
-.Settings input {
+
+.NewCollectionName input {
   width: 80%;
-  height: 10%;
+  height: 20%;
   border-radius: 30px;
   border: none;
   outline: none;
@@ -37,16 +35,16 @@
   color: white;
   box-sizing: border-box;
 }
-.SettingsBtns {
+.NewCollectionNameBtns {
   width: 80%;
-  height: 12%;
+  height: 20%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 5%;
   margin-top: 5%;
 }
-.Settings button {
+.NewCollectionNameBtns button {
   all: unset;
   width: 40%;
   height: 90%;

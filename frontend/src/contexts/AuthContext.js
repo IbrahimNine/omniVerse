@@ -6,7 +6,6 @@ const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthContextProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -16,19 +15,21 @@ export function AuthContextProvider({ children }) {
   const [showSettings, setShowSettings] = useState(false);
   const navigate = useNavigate();
 
+  const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
+
   //________________________________________________________________________________________
   const authLogin = (signInCord) => {
     setLoginLoading(true);
     axios
       .post(
-        "http://localhost:5050/api/auth/login",
+        `${baseURL}/api/auth/login`,
         { ...signInCord },
         { withCredentials: true }
       )
       .then((res) => {
         if (res.data.status === "success") {
           setUser(res.data.data);
-          setIsAuthenticated(true);
+
           navigate("/music");
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
@@ -36,7 +37,6 @@ export function AuthContextProvider({ children }) {
       })
       .catch((err) => {
         console.log(err);
-        setIsAuthenticated(false);
       })
       .finally(() => setLoginLoading(false));
   };
@@ -46,7 +46,7 @@ export function AuthContextProvider({ children }) {
     setRegisterLoading(true);
     axios
       .post(
-        "http://localhost:5050/api/auth/register",
+        `${baseURL}/api/auth/register`,
         { ...signInCord },
         { withCredentials: true }
       )
@@ -54,7 +54,7 @@ export function AuthContextProvider({ children }) {
         console.log(res);
         if (res.data.status === "success") {
           setUser(res);
-          setIsAuthenticated(true);
+
           navigate("/music");
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
@@ -62,7 +62,6 @@ export function AuthContextProvider({ children }) {
       })
       .catch((err) => {
         console.log(err);
-        setIsAuthenticated(false);
       })
       .finally(() => setRegisterLoading(false));
   };
@@ -70,7 +69,7 @@ export function AuthContextProvider({ children }) {
   //________________________________________________________________________________________
   const authLogout = () => {
     axios
-      .delete("http://localhost:5050/api/auth/logout", {
+      .delete(`${baseURL}/api/auth/logout`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -87,30 +86,27 @@ export function AuthContextProvider({ children }) {
   //________________________________________________________________________________________
   const getUserData = useCallback(() => {
     axios
-      .get("http://localhost:5050/api/user", {
+      .get(`${baseURL}/api/user`, {
         withCredentials: true,
       })
       .then((res) => {
         if (res.data.status === "success") {
           setUser(res.data.data);
-          setIsAuthenticated(true);
         } else if (res.data.status === "fail") {
           setUser(null);
-          setIsAuthenticated(false);
         }
       })
       .catch((err) => {
         console.log(err);
-        setIsAuthenticated(false);
       });
-  }, []);
+  }, [baseURL]);
 
   //________________________________________________________________________________________
   const deleteUser = (password) => {
     setDeleteLoading(true);
     axios
       .post(
-        "http://localhost:5050/api/user/delete",
+        `${baseURL}/api/user/delete`,
         { ...password },
         {
           withCredentials: true,
@@ -120,7 +116,7 @@ export function AuthContextProvider({ children }) {
         if (res.data.status === "success") {
           setNoticMsg(res.data.data);
           showSettings(false);
-          setIsAuthenticated(false);
+
           setUser(null);
           navigate("/");
         } else if (res.data.status === "fail") {
@@ -129,7 +125,6 @@ export function AuthContextProvider({ children }) {
       })
       .catch((err) => {
         console.log(err);
-        setIsAuthenticated(false);
       })
       .finally(() => {
         setDeleteLoading(false);
@@ -140,7 +135,7 @@ export function AuthContextProvider({ children }) {
     setUpdateLoading(true);
     axios
       .put(
-        "http://localhost:5050/api/user",
+        `${baseURL}/api/user`,
         { ...userCord },
         {
           withCredentials: true,
@@ -156,7 +151,6 @@ export function AuthContextProvider({ children }) {
       })
       .catch((err) => {
         console.log(err);
-        setIsAuthenticated(false);
       })
       .finally(() => {
         setUpdateLoading(false);
@@ -168,7 +162,7 @@ export function AuthContextProvider({ children }) {
     setUpdateLoading(true);
     axios
       .put(
-        "http://localhost:5050/api/user/password",
+        `${baseURL}/api/user/password`,
         { ...password },
         {
           withCredentials: true,
@@ -184,7 +178,6 @@ export function AuthContextProvider({ children }) {
       })
       .catch((err) => {
         console.log(err);
-        setIsAuthenticated(false);
       })
       .finally(() => {
         setUpdateLoading(false);
@@ -194,7 +187,6 @@ export function AuthContextProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
         user,
         authLogin,
         authRegister,

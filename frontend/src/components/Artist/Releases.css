@@ -1,7 +1,7 @@
 .Releases {
   width: 95%;
   height: 60px;
-  margin: 10px auto ;
+  margin: 10px auto;
   padding: 0 15px;
   border-radius: 10px;
   background-color: rgba(233, 241, 255, 0.068);
@@ -26,9 +26,18 @@
   width: 30%;
   overflow: hidden;
 }
-.release img{
+.release img {
   height: 80%;
   width: 48px;
   object-fit: cover;
   border-radius: 30px;
+}
+.release .btns {
+  width: 12%;
+  display: flex;
+  justify-content: space-between;
+}
+.bookmarkingBtn {
+  all: unset;
+  cursor: pointer;
 }

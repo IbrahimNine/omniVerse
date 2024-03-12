@@ -7,20 +7,22 @@ import { FiltersProvider } from "./contexts/FiltersContext";
 import { ArtistContextProvider } from "./contexts/ArtistContext";
 import { ReleaseProvider } from "./contexts/ReleaseContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import { CollectionsContextProvider } from "./contexts/CollectionsContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {" "}
     <BrowserRouter>
       <AuthContextProvider>
-        <FiltersProvider>
-          <ArtistContextProvider>
-            <ReleaseProvider>
-              <App />
-            </ReleaseProvider>
-          </ArtistContextProvider>
-        </FiltersProvider>
+        <CollectionsContextProvider>
+          <FiltersProvider>
+            <ArtistContextProvider>
+              <ReleaseProvider>
+                <App />
+              </ReleaseProvider>
+            </ArtistContextProvider>
+          </FiltersProvider>
+        </CollectionsContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>

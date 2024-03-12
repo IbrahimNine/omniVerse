@@ -4,7 +4,7 @@ import Navbar from "./components/Home/Navbar";
 import Home from "./pages/Home";
 import Music from "./pages/Music";
 import Collections from "./pages/Collections";
-// import User from "./pages/User";
+import User from "./pages/User";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -15,10 +15,11 @@ import Settings from "./components/Home/Settings";
 import { useAuthContext } from "./contexts/AuthContext";
 import Notifications from "./components/Home/Notifications";
 import { useEffect } from "react";
+import PrrivateRoute from "./utils/PrrivateRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
-  const { showSettings, noticMsg, getUserData } = useAuthContext();
+  const { showSettings, noticMsg, getUserData, user } = useAuthContext();
 
   useEffect(() => {
     getUserData();
@@ -31,16 +32,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/artist/:id" element={<Artist />} />
-        <Route element={<ProtectedRoute />}>
+        <Route element={<PrrivateRoute />}>
           <Route path="/collections" element={<Collections />} />
+          <Route path="/user/:id" element={<User />} />
         </Route>
-        {/* <Route path="/user/:id" element={<User />} /> */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-      {showSettings && <Settings />}
+      {showSettings && user && <Settings />}
       {noticMsg && <Notifications />}
       <Player />
     </div>

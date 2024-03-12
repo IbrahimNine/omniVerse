@@ -145,11 +145,12 @@ function Settings() {
             }}
           >
             <h2>Delete account</h2>
+            <p>Are you sure you want to delete your account?</p>
             <input
               type="password"
               name="password"
               id="password"
-              defaultValue={null}
+              defaultValue={""}
               placeholder="Validate with password here.."
               autoComplete="on"
               required
@@ -229,7 +230,7 @@ function Settings() {
             type="password"
             name="oldPassword"
             id="password"
-            defaultValue={null}
+            defaultValue={""}
             placeholder="Old password.."
             required
             onChange={handleUpdatePw}
@@ -238,7 +239,7 @@ function Settings() {
             type="password"
             name="newPassword"
             id="newPassword"
-            defaultValue={null}
+            defaultValue={""}
             placeholder="New password.."
             required
             onChange={handleUpdatePw}

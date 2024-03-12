@@ -11,6 +11,7 @@
   overflow: hidden;
   padding: 5px;
   box-sizing: border-box;
+  border: 1px #28283d8f solid;
   transition: width 1s;
   z-index: 999;
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
-function ProtectedRoute() {
+function PrrivateRoute() {
   const { user } = useAuthContext();
 
   return user === undefined || user === null ? (
@@ -12,4 +12,4 @@ function ProtectedRoute() {
   );
 }
 
-export default ProtectedRoute;
+export default PrrivateRoute;

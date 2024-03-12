@@ -5,6 +5,9 @@ import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
 import { useArtistContext } from "../contexts/ArtistContext";
 import { useReleaseContext } from "../contexts/ReleaseContext";
+import NewCollectionName from "../components/Collections/NewCollectionName";
+import { useCollectionsContext } from "../contexts/CollectionsContext";
+import UserCollectionsList from "../components/Collections/UserCollectionsList";
 
 function Artist() {
   const artistId = useParams().id;
@@ -19,6 +22,8 @@ function Artist() {
     setShowFullSize,
     releasesLoading,
   } = useArtistContext();
+  const { showNewCollectionName, showUserCollectionsList } =
+    useCollectionsContext();
 
   useEffect(() => {
     setId(artistId);
@@ -68,8 +73,10 @@ function Artist() {
           )}
         </section>
       </div>
+      {showUserCollectionsList && <UserCollectionsList />}
       {showDetails && <Album />}
       {showFullSize && <FullSizePhoto />}
+      {showNewCollectionName && <NewCollectionName />}
     </div>
   );
 }

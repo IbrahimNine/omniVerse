@@ -9,7 +9,6 @@ function Track({ item, artists_sort, index, isPlaying, setIsPlaying }) {
   const handlePlay = () => {
     setPlayTrack(!playTrack);
     if (playTrack === false) {
-      console.log("search youtube");
       setIsPlaying(index);
       axios
         .post("http://localhost:5050/api/stream", {
@@ -64,9 +63,9 @@ function Track({ item, artists_sort, index, isPlaying, setIsPlaying }) {
         </button>
         <button className="controls">
           <a
-            href={`https://hayqbhgr.slider.kz/#${
-              artists_sort.split(/[()]/)[0].trim()
-            } ${item.title}`}
+            href={`https://hayqbhgr.slider.kz/#${artists_sort
+              .split(/[()]/)[0]
+              .trim()} ${item.title}`}
             target="_blank"
             rel="noreferrer"
           >
