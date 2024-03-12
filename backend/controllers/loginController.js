@@ -23,6 +23,7 @@ const loginController = async (req, res) => {
             maxAge: 86400000,
             httpOnly: true,
             secure: true,
+            sameSite: "none",
           })
           .json({
             status: "success",

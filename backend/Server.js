@@ -44,6 +44,7 @@ app.all("*", (req, res) => {
 });
 
 //________________________________________________________________
+const Port = process.env.PORT || 5090;
 mongoose.connection.once("open", () => {
-  app.listen(5050, () => console.log("Server listening on port 5050!"));
+  app.listen(Port, () => console.log(`Server listening on port ${Port}!`));
 });

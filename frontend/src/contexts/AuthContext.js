@@ -51,7 +51,7 @@ export function AuthContextProvider({ children }) {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res);
+        
         if (res.data.status === "success") {
           setUser(res);
 
