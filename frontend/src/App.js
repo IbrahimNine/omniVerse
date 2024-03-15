@@ -17,9 +17,12 @@ import Notifications from "./components/Home/Notifications";
 import { useEffect } from "react";
 import PrrivateRoute from "./utils/PrrivateRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import { useReleaseContext } from "./contexts/ReleaseContext";
+import Album from "./components/Artist/Album";
 
 function App() {
   const { showSettings, noticMsg, getUserData, user } = useAuthContext();
+  const { showDetails } = useReleaseContext();
 
   useEffect(() => {
     getUserData();
@@ -43,6 +46,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
+      {showDetails && <Album />}
       {showSettings && user && <Settings />}
       {noticMsg && <Notifications />}
       <Player />

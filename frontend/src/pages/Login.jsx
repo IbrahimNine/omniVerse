@@ -91,7 +91,7 @@ function Login() {
           )}
         </button>
         <p>
-          You don't have account? <Link to="/register">Sign-up now</Link>
+          You don't have an account? <Link to="/register">Sign-up now</Link>
         </p>
       </form>
     </div>

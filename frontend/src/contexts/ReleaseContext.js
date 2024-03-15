@@ -71,10 +71,10 @@ export function ReleaseProvider({ children }) {
               setReleaseCord(release);
               setShowDetails(!showDetails);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setReleaseLoading(false));
         })
-        .catch((err) => console.log(err))
-        .finally(() => setReleaseLoading(false));
+        .catch((err) => console.log(err));
     }
   };
 
@@ -92,9 +92,16 @@ export function ReleaseProvider({ children }) {
         query: `${artists_sort.split(/[()]/)[0].trim()} ${item.title}`,
       })
       .then((res) => {
-        setTrackData({ id: res.data[0].id, title: res.data[0].title });
+        setTrackData({
+          id: res.data[0].id,
+          title: res.data[0].title,
+          releaseData: releaseData,
+        });
         // setPlay(true);
-        setOnQueue({ trackIndex: index, releaseData: releaseData });
+        setOnQueue({
+          trackIndex: index,
+          releaseData: releaseData,
+        });
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -122,7 +129,11 @@ export function ReleaseProvider({ children }) {
           }`,
         })
         .then((res) => {
-          setTrackData({ id: res.data[0].id, title: res.data[0].title });
+          setTrackData({
+            ...trackData,
+            id: res.data[0].id,
+            title: res.data[0].title,
+          });
           // setPlay(true);
         })
         .catch((err) => console.log(err))
@@ -148,7 +159,11 @@ export function ReleaseProvider({ children }) {
           }`,
         })
         .then((res) => {
-          setTrackData({ id: res.data[0].id, title: res.data[0].title });
+          setTrackData({
+            ...trackData,
+            id: res.data[0].id,
+            title: res.data[0].title,
+          });
           // setPlay(true);
         })
         .catch((err) => console.log(err))
@@ -172,6 +187,7 @@ export function ReleaseProvider({ children }) {
         })
         .then((res) => {
           setTrackData({
+            ...trackData,
             id: res.data[nextResults].id,
             title: res.data[nextResults].title,
           });

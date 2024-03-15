@@ -33,7 +33,6 @@ function Releases({ release }) {
         <div className="btns">
           {user && (
             <>
-              {" "}
               <abbr title="Add to a new Collection">
                 <button
                   className="bookmarkingBtn"

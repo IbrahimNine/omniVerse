@@ -11,6 +11,7 @@ function Player() {
     nextOnQueue,
     previousOnQueue,
     nextYoutubeResult,
+    showTracks,
   } = useReleaseContext();
   const [volume, setVolume] = useState(90);
   const [played, setPlayed] = useState(0);
@@ -162,7 +163,14 @@ function Player() {
         ref={playerRef}
       />
       <div className="progressBar">
-        <span>{trackData.title}</span>
+        <span
+          onClick={() => {
+            trackData.releaseData && showTracks(trackData.releaseData);
+          }}
+          className="toShowAlbum"
+        >
+          {trackData.title}
+        </span>
         <input
           type="range"
           min={0}
