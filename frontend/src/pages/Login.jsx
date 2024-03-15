@@ -4,7 +4,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 function Login() {
   const [userCord, setUserCord] = useState({});
-  const { authLogin, loginLoading } = useAuthContext();
+  const { authLogin, loading } = useAuthContext();
 
   const handleUserCord = (e) => {
     setUserCord({ ...userCord, [e.target.name]: e.target.value });
@@ -15,7 +15,7 @@ function Login() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!loginLoading) {
+          if (!loading) {
             authLogin(userCord);
           }
         }}
@@ -39,7 +39,7 @@ function Login() {
           onChange={handleUserCord}
         />
         <button type="submit">
-          {loginLoading ? (
+          {loading ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="2em"

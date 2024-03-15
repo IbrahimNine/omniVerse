@@ -35,7 +35,8 @@
 .release .btns {
   width: 12%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 5%;
 }
 .bookmarkingBtn {
   all: unset;

@@ -1,30 +1,31 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
 
-function Track({ item, artists_sort, index, isPlaying, setIsPlaying }) {
-  const [playTrack, setPlayTrack] = useState(false);
-  const { setTrackData, setPlay } = useReleaseContext();
+function Track({ item, artists_sort, index }) {
+  const {
+    retrieveData,
+    setPlay,
+    isPlaying,
+    setIsPlaying,
+    playTrack,
+    setPlayTrack,
+  } = useReleaseContext();
   const [isLoading, setIsLoading] = useState(false);
-  const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 
   const handlePlay = () => {
-    setPlayTrack(!playTrack);
-    if (playTrack === false) {
-      setIsPlaying(index);
-      setIsLoading(true);
-      axios
-        .post(`${baseURL}/api/stream`, {
-          query: `${artists_sort.split(/[()]/)[0].trim()} ${item.title}`,
-        })
-        .then((res) => {
-          setTrackData({ id: res.data[0].id, title: res.data[0].title });
-          setPlay(true);
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
-    } else {
+    if (
+      isPlaying?.index === index &&
+      isPlaying?.artists_sort === artists_sort &&
+      isPlaying?.title === item.title
+    ) {
+      setPlayTrack((prevPlayTrack) => !prevPlayTrack);
       setPlay(false);
+      return;
+    } else {
+      setIsPlaying({ index, artists_sort, title: item.title });
+      setIsLoading(true);
+      retrieveData(artists_sort, item, setIsLoading, index);
+      setPlayTrack((prevPlayTrack) => !prevPlayTrack);
     }
   };
 
@@ -85,7 +86,10 @@ function Track({ item, artists_sort, index, isPlaying, setIsPlaying }) {
                   </path>
                 </g>
               </svg>
-            ) : playTrack && index === isPlaying ? (
+            ) : playTrack &&
+              isPlaying.index === index &&
+              isPlaying.artists_sort === artists_sort &&
+              isPlaying.title === item.title ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="2em"

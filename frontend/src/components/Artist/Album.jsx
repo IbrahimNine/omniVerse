@@ -2,12 +2,10 @@ import "./Album.css";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { Link } from "react-router-dom";
 import Track from "./Track";
-import { useState } from "react";
 
 function Album() {
   const { releaseCord, releaseData, showDetails, setShowDetails } =
     useReleaseContext();
-  const [isPlaying, setIsPlaying] = useState();
 
   const handleShowDetails = (e) => {
     if (e.target.className === "contentsWrapper Album") {
@@ -65,8 +63,6 @@ function Album() {
                 index={index}
                 item={item}
                 artists_sort={releaseData.artists_sort}
-                isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying}
               />
             ))
           ) : (

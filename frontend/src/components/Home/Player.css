@@ -22,7 +22,12 @@
 }
 .play-pause {
   all: unset;
-  margin: 0 1vw;
+
+  cursor: pointer;
+}
+.nextOnQueue,
+.previousOnQueue {
+  all: unset;
   cursor: pointer;
 }
 .volumeSet {
@@ -33,7 +38,7 @@
   text-align: center;
 }
 .progressBar {
-  width: 70%;
+  width: 60%;
 }
 .volumeSet input,
 .progressBar input {
@@ -58,4 +63,7 @@
   height: 80%;
   object-fit: cover;
   border-radius: 10px;
+}
+.refreshYoutube {
+  cursor: pointer;
 }

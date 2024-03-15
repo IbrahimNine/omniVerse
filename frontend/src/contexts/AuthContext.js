@@ -7,19 +7,19 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthContextProvider({ children }) {
   const [user, setUser] = useState();
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [registerLoading, setRegisterLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [noticMsg, setNoticMsg] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+
   const navigate = useNavigate();
 
   const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 
   //________________________________________________________________________________________
   const authLogin = (signInCord) => {
-    setLoginLoading(true);
+    setLoading(true);
     axios
       .post(
         `${baseURL}/api/auth/login`,
@@ -38,12 +38,12 @@ export function AuthContextProvider({ children }) {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => setLoginLoading(false));
+      .finally(() => setLoading(false));
   };
 
   //________________________________________________________________________________________
   const authRegister = (signInCord) => {
-    setRegisterLoading(true);
+    setLoading(true);
     axios
       .post(
         `${baseURL}/api/auth/register`,
@@ -51,7 +51,6 @@ export function AuthContextProvider({ children }) {
         { withCredentials: true }
       )
       .then((res) => {
-        
         if (res.data.status === "success") {
           setUser(res);
 
@@ -63,7 +62,7 @@ export function AuthContextProvider({ children }) {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => setRegisterLoading(false));
+      .finally(() => setLoading(false));
   };
 
   //________________________________________________________________________________________
@@ -115,10 +114,9 @@ export function AuthContextProvider({ children }) {
       .then((res) => {
         if (res.data.status === "success") {
           setNoticMsg(res.data.data);
-          showSettings(false);
-
-          setUser(null);
+          setShowSettings(false);
           navigate("/");
+          setUser(null);
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
         }
@@ -190,8 +188,7 @@ export function AuthContextProvider({ children }) {
         user,
         authLogin,
         authRegister,
-        loginLoading,
-        registerLoading,
+        loading,
         authLogout,
         showSettings,
         setShowSettings,

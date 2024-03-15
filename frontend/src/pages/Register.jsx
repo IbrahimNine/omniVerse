@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Register() {
   const [userCord, setUserCord] = useState({});
-  const { authRegister, registerLoading } = useAuthContext();
+  const { authRegister, loading } = useAuthContext();
 
   const handleUserCord = (e) => {
     setUserCord({ ...userCord, [e.target.name]: e.target.value });
@@ -15,7 +15,7 @@ function Register() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!registerLoading) {
+          if (!loading) {
             authRegister(userCord);
           }
         }}
@@ -46,7 +46,7 @@ function Register() {
           onChange={handleUserCord}
         />
         <button type="submit">
-          {registerLoading ? (
+          {loading ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="2em"
@@ -97,7 +97,9 @@ function Register() {
             "Create an account"
           )}
         </button>
-        <p>You already have an account? <Link to={"/login"}>Sign-in here</Link></p>
+        <p>
+          You already have an account? <Link to={"/login"}>Sign-in here</Link>
+        </p>
       </form>
     </div>
   );

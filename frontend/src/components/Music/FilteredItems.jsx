@@ -1,25 +1,26 @@
 import React, { useCallback, useEffect } from "react";
 import "./FilteredItems.css";
 import { useFiltersContext } from "../../contexts/FiltersContext";
-import { Link } from "react-router-dom";
 import Album from "../Artist/Album";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
+import FilteredItem from "./FilteredItem";
 
 function FilteredItems() {
-  const { fetchMoreData, isPagedArtists, filteredData, loading, filterBy } =
+  const { fetchMoreData, isPagedArtists, filteredData, loading } =
     useFiltersContext();
   const { showDetails, showTracksAlone } = useReleaseContext();
 
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     const offset = 10;
-    const hasScrolledToBottom = scrollTop + clientHeight + offset >= scrollHeight;
+    const hasScrolledToBottom =
+      scrollTop + clientHeight + offset >= scrollHeight;
     if (hasScrolledToBottom && isPagedArtists) {
       fetchMoreData();
     }
   }, [isPagedArtists, fetchMoreData]);
 
-  useEffect(() => {
+  useEffect(() => { 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -31,21 +32,11 @@ function FilteredItems() {
       {filteredData &&
         filteredData.map((item) => {
           return (
-            <Link
+            <FilteredItem
               key={item.id}
-              to={filterBy === "artist" ? `/artist/${item.id}` : ""}
-              onClick={filterBy === "master" && (() => showTracksAlone(item))}
-            >
-              <div className="ItemCard">
-                <img src={item.cover_image} alt="pic" />
-                <abbr title={item.title}>
-                  <h4>
-                    {item.title.slice(0, 45)}
-                    {item.title.length > 45 && "..."}
-                  </h4>
-                </abbr>
-              </div>
-            </Link>
+              item={item}
+              showTracksAlone={showTracksAlone}
+            />
           );
         })}
       {loading && (

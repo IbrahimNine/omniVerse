@@ -4,7 +4,14 @@ import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { useRef, useState } from "react";
 
 function Player() {
-  const { trackData, play, handlePlaying } = useReleaseContext();
+  const {
+    trackData,
+    play,
+    handlePlaying,
+    nextOnQueue,
+    previousOnQueue,
+    nextYoutubeResult,
+  } = useReleaseContext();
   const [volume, setVolume] = useState(90);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(null);
@@ -14,19 +21,16 @@ function Player() {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
   };
-
   const handleSeekChange = (e) => {
     const seekTo = parseFloat(e.target.value);
     setPlayed(seekTo);
     playerRef.current.seekTo(seekTo, "fraction");
   };
-
   const handleProgress = (progress) => {
     if (!isNaN(progress.played)) {
       setPlayed(progress.played);
     }
   };
-
   const handleDuration = (duration) => {
     setDuration(duration);
   };
@@ -40,16 +44,70 @@ function Player() {
     return "Loading...";
   };
 
+  const trackEnding = () => {
+    handlePlaying();
+    nextOnQueue();
+  };
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 32) {
+      event.preventDefault();
+      handlePlaying();
+    }
+  };
 
   return (
     <div className="omniVersePlayer">
-      <img
-        className="TrackCover"
-        src={`https://img.youtube.com/vi/${trackData.id}/default.jpg`}
-        alt="Track cover thumbnail"
-        // height={"80%"}
-      />
-      <button className="play-pause" onClick={handlePlaying}>
+      <a
+        href={`https://www.youtube.com/watch?v=${trackData.id}`}
+        target="_blank"
+        rel="noreferrer"
+        onClick={handlePlaying}
+      >
+        <img
+          className="TrackCover"
+          src={`https://img.youtube.com/vi/${trackData.id}/default.jpg`}
+          alt="Track cover thumbnail"
+        />
+      </a>
+      <abbr title="Next Youtube results">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1.5em"
+          height="1.5em"
+          viewBox="0 0 14 14"
+          className="refreshYoutube"
+          onClick={nextYoutubeResult}
+        >
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            d="M7.883.046a4.368 4.368 0 0 0-4.582 2.717a3.693 3.693 0 0 0-.732 7.184a4.501 4.501 0 0 1 6.726-3.083a2 2 0 0 1 2.583 2.56l-.207.563a3.23 3.23 0 0 0 .015-6.192A4.368 4.368 0 0 0 7.883.046M7 8.986a1.75 1.75 0 1 0 1.132 3.084a.75.75 0 0 1 .971 1.143a3.25 3.25 0 1 1 .102-4.865l.397-.248a.75.75 0 0 1 1.102.894l-.545 1.487a.742.742 0 0 1-.173.279a.744.744 0 0 1-.68.212l-1.433-.247a.75.75 0 0 1-.27-1.375l.238-.15A1.743 1.743 0 0 0 7 8.987Z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      </abbr>
+      <button
+        type="button"
+        className="previousOnQueue"
+        onClick={previousOnQueue}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1.5em"
+          height="1.5em"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M3.885 21.06a.76.76 0 0 1-.75-.75V3.69a.75.75 0 0 1 1.5 0v16.6a.75.75 0 0 1-.75.77m16.98-15.713v13.25a2.35 2.35 0 0 1-.32 1.13a2.2 2.2 0 0 1-1.89 1.07h-.1a2.089 2.089 0 0 1-1.11-.36l-9.13-6.12a2.25 2.25 0 0 1-.71-.76a2.29 2.29 0 0 1-.27-1a2.18 2.18 0 0 1 .2-1a2.22 2.22 0 0 1 .64-.81l9.14-7.09a2.22 2.22 0 0 1 1.13-.44a2.2 2.2 0 0 1 2.09 1.02c.204.335.318.718.33 1.11"
+          ></path>
+        </svg>
+      </button>
+      <button
+        className="play-pause"
+        onClick={handlePlaying}
+        onKeyDown={handleKeyDown}
+      >
         {play ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -76,6 +134,20 @@ function Player() {
           </svg>
         )}
       </button>
+      <button type="button" className="nextOnQueue" onClick={nextOnQueue}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1.5em"
+          height="1.5em"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M20.095 21a.75.75 0 0 1-.75-.75V3.75a.75.75 0 0 1 1.5 0v16.5a.74.74 0 0 1-.75.75m-3.4-9.589a2.25 2.25 0 0 1-.85 1.82l-9.11 7.09c-.326.247-.713.4-1.12.44h-.23a2.142 2.142 0 0 1-1-.22a2.201 2.201 0 0 1-.9-.81a2.17 2.17 0 0 1-.33-1.16V5.421a2.22 2.22 0 0 1 .31-1.12a2.25 2.25 0 0 1 .85-.8a2.18 2.18 0 0 1 2.24.1l9.12 6.08c.29.191.53.448.7.75a2.3 2.3 0 0 1 .32.98"
+          ></path>
+        </svg>
+      </button>
+
       <ReactPlayer
         className="omniVersePlayer"
         url={`https://www.youtube.com/watch?v=${trackData.id}`}
@@ -86,7 +158,7 @@ function Player() {
         muted={volume === 0}
         onProgress={handleProgress}
         onDuration={handleDuration}
-        onEnded={handlePlaying}
+        onEnded={trackEnding}
         ref={playerRef}
       />
       <div className="progressBar">
