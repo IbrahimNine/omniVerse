@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <div className="Navbar">
       <Link to="/" id="brand">
-        <h1>omniVerse</h1>
+        <img src="/omniVerseLogo_6.png" alt="BrandLogo" />
       </Link>
       <SearchBar />
       <div className="navLinks">

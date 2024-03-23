@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./TopChart.css";
 import SliderCard from "./SliderCard";
 import axios from "axios";
+import { handleNext, handlePrevious } from "../../utils/sliderHandlers";
 
 function TopChart({ filterBy }) {
   const [sliderPosition, setSliderPosition] = useState(0);
@@ -26,22 +27,13 @@ function TopChart({ filterBy }) {
     fetchingdata();
   }, [filterBy, discogsKey, discogsSecretKey]);
 
-  const handleNext = () => {
-    const elementWidth =
-      document.querySelector(".slider-container").offsetWidth;
-    const element2Width =
-      document.querySelector(".slider-contents").offsetWidth;
-    if (elementWidth < element2Width + sliderPosition)
-      setSliderPosition(sliderPosition - 200);
-  };
-  const handlePrevious = () => {
-    if (sliderPosition !== 0) setSliderPosition(sliderPosition + 200);
-  };
-
   return (
     <div className="TopChart Slider">
       <h2>Top {filterBy === "artist" ? "artists" : "Albums"}:</h2>
-      <button type="Button" onClick={handlePrevious}>
+      <button
+        type="Button"
+        onClick={() => handlePrevious(setSliderPosition, sliderPosition)}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="4em"
@@ -103,7 +95,10 @@ function TopChart({ filterBy }) {
             result.map((item) => <SliderCard key={item.id} item={item} />)}
         </div>
       </div>
-      <button type="Button" onClick={handleNext}>
+      <button
+        type="Button"
+        onClick={() => handleNext(setSliderPosition, sliderPosition)}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="4em"

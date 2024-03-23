@@ -3,9 +3,6 @@ import { useParams } from "react-router-dom";
 import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
 import { useArtistContext } from "../contexts/ArtistContext";
-import NewCollectionName from "../components/Collections/NewCollectionName";
-import { useCollectionsContext } from "../contexts/CollectionsContext";
-import UserCollectionsList from "../components/Collections/UserCollectionsList";
 
 function Artist() {
   const artistId = useParams().id;
@@ -19,12 +16,20 @@ function Artist() {
     setShowFullSize,
     releasesLoading,
   } = useArtistContext();
-  const { showNewCollectionName, showUserCollectionsList } =
-    useCollectionsContext();
 
   useEffect(() => {
     setId(artistId);
   }, [setId, artistId]);
+  
+  useEffect(() => {
+    const originalTitle = document.title;
+    if (artistData.name !== undefined) {
+      document.title = `${document.title} | ${artistData.name}`;
+    }
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [artistData]);
 
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } =
@@ -51,14 +56,14 @@ function Artist() {
         <p>
           {artistData.profile &&
             (artistData.profile.length > 100
-              ? artistData.profile.slice(0, 100) + "..."
+              ? artistData.profile.slice(0, 200) + "..."
               : artistData.profile)}
         </p>
       </aside>
       <div className="ArtistReleasesWrapper">
         <section className="ArtistReleases" onScroll={handleScroll}>
           {artistReleases?.map((release, index) => (
-            <Releases key={index} release={release} />
+            <Releases key={index} release={release} index={index} />
           ))}
           {releasesLoading && (
             <img
@@ -70,9 +75,7 @@ function Artist() {
           )}
         </section>
       </div>
-      {showUserCollectionsList && <UserCollectionsList />}
       {showFullSize && <FullSizePhoto />}
-      {showNewCollectionName && <NewCollectionName />}
     </div>
   );
 }

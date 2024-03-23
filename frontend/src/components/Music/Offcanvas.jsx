@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./Offcanvas.css";
 import { useFiltersContext } from "../../contexts/FiltersContext";
+import { genres, countries } from "../../utils/filterData";
 
 const Offcanvas = () => {
   const [visible, setVisible] = useState(true);
   const [userInput, setUserInput] = useState({
     title: "",
     style: "",
-    decade: "",
+    country: "",
     year: "",
   });
   const { setFilterSet, setGlobalSearch, setFilterBy } = useFiltersContext();
@@ -57,228 +58,10 @@ const Offcanvas = () => {
     { length: end - start + 1 },
     (_, index) => start + index
   );
-  
-  const decades = Array.from(
-    new Set(years.map((year) => Math.floor(year / 10) * 10))
-  );
 
-  const genres = [
-    "Abstract",
-    "Acid",
-    "Acoustic",
-    "African",
-    "Afrobeat",
-    "Afro-Cuban",
-    "AOR",
-    "Ambient",
-    "Art Rock",
-    "Arena Rock",
-    "Avantgarde",
-    "Audiobook",
-    "Alternative Rock",
-    "Ballad",
-    "Beat",
-    "Big Band",
-    "Black Metal",
-    "Blues Rock",
-    "Bolero",
-    "Bop",
-    "Bossa Nova",
-    "Breakbeat",
-    "Breaks",
-    "Britpop",
-    "Broken Beat",
-    "Boom Bap",
-    "Celtic",
-    "Chanson",
-    "Choral",
-    "Cha-Cha",
-    "Chicago Blues",
-    "Classical",
-    "Classic Rock",
-    "Contemporary",
-    "Contemporary Jazz",
-    "Contemporary R&B",
-    "Conscious",
-    "Country",
-    "Country Rock",
-    "Cool Jazz",
-    "Crust",
-    "Cumbia",
-    "Dancehall",
-    "Dance-pop",
-    "Darkwave",
-    "Deathrock",
-    "Deep House",
-    "Disco",
-    "Dixieland",
-    "Doom Metal",
-    "Doo Wop",
-    "Downtempo",
-    "Drone",
-    "Drum n Bass",
-    "Dub",
-    "Dubstep",
-    "Dub Techno",
-    "EBM",
-    "Easy Listening",
-    "Education",
-    "Electro",
-    "Electro House",
-    "Emo",
-    "Ethereal",
-    "Eurodance",
-    "Euro House",
-    "Europop",
-    "Experimental",
-    "Field Recording",
-    "Flamenco",
-    "Folk",
-    "Folk Rock",
-    "Free Improvisation",
-    "Free Jazz",
-    "Funk",
-    "Future Jazz",
-    "Fusion",
-    "Gabber",
-    "Gangsta",
-    "Garage House",
-    "Garage Rock",
-    "Glam",
-    "Glitch",
-    "Goa Trance",
-    "Gospel",
-    "Goth Rock",
-    "Grime",
-    "Grindcore",
-    "Grunge",
-    "G-Funk",
-    "Guaracha",
-    "Happy Hardcore",
-    "Hard Bop",
-    "Hardcore",
-    "Hardcore Hip-Hop",
-    "Hard House",
-    "Hard Rock",
-    "Hardstyle",
-    "Harsh Noise Wall",
-    "Heavy Metal",
-    "Hi-NRG",
-    "Hindustani",
-    "Hip Hop",
-    "Hip-House",
-    "Holiday",
-    "House",
-    "IDM",
-    "Impressionist",
-    "Indian Classical",
-    "Indie Pop",
-    "Indie Rock",
-    "Industrial",
-    "Instrumental",
-    "Italodance",
-    "Italo-Disco",
-    "Jazz-Funk",
-    "Jazz-Rock",
-    "J-pop",
-    "Jungle",
-    "Krautrock",
-    "Laïkó",
-    "Latin",
-    "Latin Jazz",
-    "Leftfield",
-    "Light Music",
-    "Lounge",
-    "Lo-Fi",
-    "Mainstream",
-    "Mandopop",
-    "Meditation",
-    "Melodic Death Metal",
-    "Merengue",
-    "Metalcore",
-    "Minimal",
-    "Modern",
-    "Modern Classical",
-    "MPB",
-    "Musical",
-    "Neo Soul",
-    "Neofolk",
-    "New Age",
-    "New Wave",
-    "Noise",
-    "Novelty",
-    "Nu-Disco",
-    "Nu Metal",
-    "Oi",
-    "Opera",
-    "Operetta",
-    "Pop",
-    "Pop Rap",
-    "Pop Rock",
-    "Post Bop",
-    "Post-Punk",
-    "Post Rock",
-    "Power Metal",
-    "Power Pop",
-    "Progressive",
-    "Progressive House",
-    "Progressive Metal",
-    "Progressive Trance",
-    "Psychedelic",
-    "Psychedelic Rock",
-    "Psy-Trance",
-    "Punk",
-    "Ragtime",
-    "Radioplay",
-    "R&B",
-    "Rap",
-    "Rave",
-    "Reggae",
-    "Religious",
-    "Rhythm & Blues",
-    "Rock",
-    "Rockabilly",
-    "Rock & Roll",
-    "Rocksteady",
-    "Romantic",
-    "Roots Reggae",
-    "Rumba",
-    "Salsa",
-    "Samba",
-    "Schlager",
-    "Score",
-    "Shoegaze",
-    "Ska",
-    "Smooth Jazz",
-    "Soft Rock",
-    "Soul",
-    "Soul-Jazz",
-    "Soundtrack",
-    "Space Rock",
-    "Spoken Word",
-    "Story",
-    "Stoner Rock",
-    "Surf",
-    "Swing",
-    "Symphonic Rock",
-    "Synth-pop",
-    "Synthwave",
-    "Tango",
-    "Tech House",
-    "Techno",
-    "Theme",
-    "Thrash",
-    "Tribal",
-    "Trance",
-    "Trap",
-    "Trip Hop",
-    "UK Garage",
-    "Vaporwave",
-    "Vocal",
-    "Volksmusik",
-    "West Coast",
-    "World",
-  ];
+  // const decades = Array.from(
+  //   new Set(years.map((year) => Math.floor(year / 10) * 10))
+  // );
 
   return (
     <div className="Offcanvas">
@@ -301,7 +84,7 @@ const Offcanvas = () => {
         <form className="filtersInput" onSubmit={handleFilters}>
           <h2>Set your filters:</h2>
           <input
-            placeholder="Album's title..."
+            placeholder="Album title..."
             name="master"
             onChange={(e) => {
               setUserInput({
@@ -320,47 +103,44 @@ const Offcanvas = () => {
             }}
           >
             <option value="">Select genre..</option>
-            {genres.map((item, index) => (
+            {genres.sort().map((item, index) => (
               <option key={index} value={item}>
                 {item}
               </option>
             ))}
           </select>
-          <div className="filterByYears">
-            <h4>Select by release date</h4>
-            <div>
-              <select
-                onChange={(e) => {
-                  setUserInput({
-                    ...userInput,
-                    decade: e.target.value,
-                  });
-                }}
-              >
-                <option value="">Decade..</option>
-                {decades.map((item, index) => (
-                  <option key={index} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-              <select
-                onChange={(e) => {
-                  setUserInput({
-                    ...userInput,
-                    year: e.target.value,
-                  });
-                }}
-              >
-                <option value="">Year..</option>
-                {years.map((item, index) => (
-                  <option key={index} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+          <select
+            onChange={(e) => {
+              setUserInput({
+                ...userInput,
+                country: e.target.value,
+              });
+            }}
+          >
+            <option value="">Country..</option>
+            {countries.sort().map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+
+          <select
+            onChange={(e) => {
+              setUserInput({
+                ...userInput,
+                year: e.target.value,
+              });
+            }}
+          >
+            <option value="">Year..</option>
+            {years.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+
           <button type="Submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"

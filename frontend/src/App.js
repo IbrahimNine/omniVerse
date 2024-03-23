@@ -10,20 +10,23 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import Artist from "./pages/Artist";
 import Player from "./components/Home/Player";
-import Footer from "./components/Home/Footer";
 import Settings from "./components/Home/Settings";
 import { useAuthContext } from "./contexts/AuthContext";
 import Notifications from "./components/Home/Notifications";
 import { useEffect } from "react";
-import PrrivateRoute from "./utils/PrrivateRoute";
+import PrivateRoute from "./utils/PrivateRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { useReleaseContext } from "./contexts/ReleaseContext";
 import Album from "./components/Artist/Album";
+import NewCollectionName from "./components/Collections/NewCollectionName";
+import { useCollectionsContext } from "./contexts/CollectionsContext";
+import UserCollectionsList from "./components/Collections/UserCollectionsList";
 
 function App() {
   const { showSettings, noticMsg, getUserData, user } = useAuthContext();
   const { showDetails } = useReleaseContext();
-
+  const { showNewCollectionName, showUserCollectionsList } =
+    useCollectionsContext();
   useEffect(() => {
     getUserData();
   }, [getUserData]);
@@ -35,7 +38,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/artist/:id" element={<Artist />} />
-        <Route element={<PrrivateRoute />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/collections" element={<Collections />} />
           <Route path="/user/:id" element={<User />} />
         </Route>
@@ -45,7 +48,8 @@ function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      {showUserCollectionsList && <UserCollectionsList />}
+      {showNewCollectionName && <NewCollectionName />}
       {showDetails && <Album />}
       {showSettings && user && <Settings />}
       {noticMsg && <Notifications />}

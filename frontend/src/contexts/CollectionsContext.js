@@ -87,26 +87,57 @@ export function CollectionsContextProvider({ children }) {
 
   //_______________________________________________________________________________
   const addToExistingCollection = (id, title, newElement, prevElements) => {
-    axios
-      .put(
-        `${baseURL}/api/collections/${id}`,
-        {
-          elements: [...newElement, ...prevElements],
-          title,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        if (res.data.status === "success") {
-          setNoticMsg(res.data.data);
-          setShowUserCollectionsList(false);
-        } else if (res.data.status === "fail") {
-          setNoticMsg(res.data.data);
-        }
-      })
-      .catch((err) => console.log(err));
+    const match = prevElements.some(
+      (prevEl) => prevEl.elementID === newElement[0].elementID
+    );
+    if (match) {
+      setNoticMsg(`${newElement[0].elementTitle} already exists in ${title}`);
+    } else {
+      axios
+        .put(
+          `${baseURL}/api/collections/${id}`,
+          {
+            elements: [...newElement, ...prevElements],
+            title,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          if (res.data.status === "success") {
+            setNoticMsg(res.data.data);
+            setShowUserCollectionsList(false);
+          } else if (res.data.status === "fail") {
+            setNoticMsg(res.data.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  //_______________________________________________________________________________
+  const updateCollectionTitle = (collection, newTitle) => {
+    if (collection.title !== newTitle) {
+      const updatedCollection = { ...collection, title: newTitle };
+      axios
+        .put(
+          `${baseURL}/api/collections/${updatedCollection._id}`,
+          updatedCollection,
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          if (res.data.status === "success") {
+            setNoticMsg(res.data.data);
+            getUserCollections();
+          } else if (res.data.status === "fail") {
+            setNoticMsg(res.data.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -126,6 +157,7 @@ export function CollectionsContextProvider({ children }) {
         addToExistingCollection,
         itemToCollect,
         setItemToCollect,
+        updateCollectionTitle,
       }}
     >
       {children}

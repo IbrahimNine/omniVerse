@@ -35,12 +35,10 @@ function Settings() {
             onSubmit={(e) => {
               e.preventDefault();
               const nameInput = document.querySelector("#newName");
-              console.log(nameInput);
               if (nameInput.value === "") {
                 nameInput.value = nameInput.defaultValue;
               }
               const emailInput = document.querySelector("#newEmail");
-              console.log(emailInput);
               if (emailInput.name === "") {
                 emailInput.value = emailInput.defaultValue;
               }
@@ -50,11 +48,12 @@ function Settings() {
               });
             }}
           >
-            <h2>Settings : generals</h2>
+            <h2>Settings - Generals</h2>
             <input
               type="text"
               name="newName"
               id="newName"
+              placeholder="new username.."
               defaultValue={user?.userName}
               required
             />
@@ -62,6 +61,7 @@ function Settings() {
               type="email"
               name="newEmail"
               id="newEmail"
+              placeholder="new e-mail.."
               defaultValue={user?.userEmail}
               required
             />
@@ -225,7 +225,7 @@ function Settings() {
             updatePassword(updatePw);
           }}
         >
-          <h2>Settings : changing password </h2>
+          <h2>Settings - Password </h2>
           <input
             type="password"
             name="oldPassword"

@@ -27,6 +27,26 @@ function FilteredItems() {
     };
   }, [handleScroll]);
 
+const backToTopButton = document.querySelector("#backToTop");
+window.addEventListener("scroll", () => {
+  if (backToTopButton !== null) {
+    if (window.scrollY > 200) {
+      backToTopButton.style.display = "block";
+    } else {
+      backToTopButton.style.display = "none";
+    }
+  }
+});
+
+const HandleScrollUp = () =>{
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+    
+  });
+}
+
+
   return (
     <div className="FilteredItems" onScroll={handleScroll}>
       {filteredData &&
@@ -47,6 +67,23 @@ function FilteredItems() {
           className="loadingGif"
         />
       )}
+      <button type="button" id="backToTop" onClick={HandleScrollUp}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="2em"
+          height="2em"
+          viewBox="0 0 32 32"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M30 20L16 8L2 20"
+          ></path>
+        </svg>
+      </button>
       {showDetails && <Album />}
     </div>
   );

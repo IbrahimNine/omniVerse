@@ -10,12 +10,14 @@ function UserCollectionsList() {
     addToExistingCollection,
     itemToCollect,
   } = useCollectionsContext();
+
   useEffect(() => {
     getUserCollections();
   }, [getUserCollections]);
   return (
     <div className="UserCollectionsListWrapper">
       <div className="UserCollectionsList">
+        <h3>Collections</h3>
         <div className="CollectionsListFirstLayerWrapper">
           <div className="CollectionsListSecondLayerWrapper">
             {collections.length > 0

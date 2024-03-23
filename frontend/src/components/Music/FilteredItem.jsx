@@ -64,7 +64,7 @@ function FilteredItem({ item, showTracksAlone }) {
           </svg>
         )}
         <img src={item.cover_image} alt="pic" className="FilteredItemPic" />
-        <abbr title={item.title}>
+        <abbr title={item.title} className="itemTitle">
           <h4>
             {item.title.slice(0, 45)}
             {item.title.length > 45 && "..."}

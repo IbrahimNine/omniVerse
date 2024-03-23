@@ -26,7 +26,7 @@ export const FiltersProvider = ({ children }) => {
             globalSearch ? globalSearch : ""
           }&type=${filterBy}&style=${
             filterSet.style ? filterSet.style : ""
-          }&decade=${filterSet.decade ? filterSet.decade : ""}&year=${
+          }&country=${filterSet.country ? filterSet.country : ""}&year=${
             filterSet.year ? filterSet.year : ""
           }`,
           {
@@ -38,7 +38,6 @@ export const FiltersProvider = ({ children }) => {
         .then((res) => {
           setIsPagedArtists(res.data.pagination.pages > 1);
           setFilteredData(res.data.results);
-          // console.log(res.data.pagination);
         })
         .then(() => setLoading(false))
         .catch((err) => console.log(err));
@@ -55,7 +54,7 @@ export const FiltersProvider = ({ children }) => {
           globalSearch ? globalSearch : ""
         }&type=${filterBy}&style=${
           filterSet.style ? filterSet.style : ""
-        }&decade=${filterSet.decade ? filterSet.decade : ""}&year=${
+        }&country=${filterSet.country ? filterSet.country : ""}&year=${
           filterSet.year ? filterSet.year : ""
         }&page=${pageNumber}`,
         {

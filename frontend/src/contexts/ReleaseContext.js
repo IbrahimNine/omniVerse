@@ -15,6 +15,7 @@ export function ReleaseProvider({ children }) {
     title: "Gabriel Saban - Omniverse",
   });
   const [play, setPlay] = useState(false);
+  const [playerLoading, setPlayerLoading] = useState(false);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
   const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
@@ -86,6 +87,7 @@ export function ReleaseProvider({ children }) {
 
   //___________________________________________________________________________________
   const retrieveData = (artists_sort, item, setIsLoading, index) => {
+    setPlayerLoading(true);
     setPlay(false);
     axios
       .post(`${baseURL}/api/stream`, {
@@ -97,11 +99,12 @@ export function ReleaseProvider({ children }) {
           title: res.data[0].title,
           releaseData: releaseData,
         });
-        // setPlay(true);
+        setPlay(true);
         setOnQueue({
           trackIndex: index,
           releaseData: releaseData,
         });
+        setPlayerLoading(false);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -116,6 +119,7 @@ export function ReleaseProvider({ children }) {
       onQueue &&
       onQueue.trackIndex < onQueue.releaseData.tracklist.length - 1
     ) {
+      setPlayerLoading(true);
       setPlay(false);
       setIsPlaying({
         index: onQueue.trackIndex + 1,
@@ -134,7 +138,8 @@ export function ReleaseProvider({ children }) {
             id: res.data[0].id,
             title: res.data[0].title,
           });
-          // setPlay(true);
+          setPlay(true);
+          setPlayerLoading(false);
         })
         .catch((err) => console.log(err))
         .finally(() => {
@@ -146,6 +151,7 @@ export function ReleaseProvider({ children }) {
   //___________________________________________________________________________________
   const previousOnQueue = () => {
     if (onQueue && onQueue.trackIndex > 0) {
+      setPlayerLoading(true);
       setPlay(false);
       setIsPlaying({
         index: onQueue.trackIndex - 1,
@@ -164,7 +170,8 @@ export function ReleaseProvider({ children }) {
             id: res.data[0].id,
             title: res.data[0].title,
           });
-          // setPlay(true);
+          setPlay(true);
+          setPlayerLoading(false);
         })
         .catch((err) => console.log(err))
         .finally(() => {
@@ -179,6 +186,7 @@ export function ReleaseProvider({ children }) {
     setPlay(false);
     nextResults += 1;
     if (releaseData && nextResults < 10) {
+      setPlayerLoading(true);
       axios
         .post(`${baseURL}/api/stream`, {
           query: `${onQueue.releaseData.artists_sort.split(/[()]/)[0].trim()} ${
@@ -191,7 +199,8 @@ export function ReleaseProvider({ children }) {
             id: res.data[nextResults].id,
             title: res.data[nextResults].title,
           });
-          // setPlay(true);
+          setPlay(true);
+          setPlayerLoading(false);
         })
         .catch((err) => console.log(err));
     }
@@ -205,7 +214,7 @@ export function ReleaseProvider({ children }) {
       trackData.title &&
       trackData.title !== "Gabriel Saban - Omniverse"
     ) {
-      setPlay(true);
+      // setPlay(true);
       setPlayTrack(true);
     }
   }, [trackData]);
@@ -233,6 +242,7 @@ export function ReleaseProvider({ children }) {
         setIsPlaying,
         playTrack,
         setPlayTrack,
+        playerLoading,
       }}
     >
       {children}

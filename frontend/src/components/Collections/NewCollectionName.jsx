@@ -17,7 +17,7 @@ function NewCollectionName() {
   return (
     <div className="NewCollectionNameWrapper">
       <form onSubmit={handleNewCollection} className="NewCollectionName">
-        <h3>New Collection Title:</h3>
+        <h3>New Collection title</h3>
         <input
           type="text"
           name="CollectionTitle"

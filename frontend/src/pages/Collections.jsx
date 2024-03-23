@@ -10,12 +10,12 @@ function Collections() {
 
   return (
     <div className="Collections">
-      <h2>Your Collections</h2>
+      <h2>Collections</h2>
       <div className="collectionsWrapper">
         <div className="collections-container">
           {collections.length > 0 ? (
             collections.map((collection, index) => (
-              <Collection key={index} collection={collection} />
+              <Collection key={index} collection={collection} index={index} />
             ))
           ) : (
             <p style={{ textAlign: "center" }}>

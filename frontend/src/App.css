@@ -16,9 +16,6 @@ body {
 }
 .App {
   background-color: #020202;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   min-height: 100vh;
   color: white;
 }
@@ -46,7 +43,7 @@ body {
   transition: all 0.5s;
 }
 .Artist {
-  width: 1330px;
+  max-width: 1330px;
   min-height: 70vh;
   margin: 90px auto 10vh auto;
   display: flex;
@@ -62,37 +59,39 @@ body {
 }
 .Artist Section,
 .Artist aside {
-  border-radius: 30px;
+  border-radius: 5px;
   overflow: hidden;
-  background-color: #00163025;
-  box-shadow: 0 0 20px 25px rgb(0, 0, 0) inset;
+  /* background-color: #000b18bb; */
+  /* box-shadow: 0 0 20px 25px rgb(0, 0, 0) inset; */
 }
 .Artist aside {
   width: 24%;
-  height: 70vh;
+  height: 65vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 0.5%;
-  padding: 30px 35px;
+  padding: 0px 25px;
 }
 .ArtistReleasesWrapper {
   width: 74%;
-  height: 70vh;
-  border-radius: 30px;
+  height: 65vh;
+  /* border-radius: 5px; */
   overflow: hidden;
 }
 .Artist section {
   width: 100%;
   height: 100%;
-  padding: 25px 30px;
+  padding: 0px 20px;
   box-sizing: border-box;
   overflow-y: scroll;
+  box-shadow: 0 20px 10px -20px rgba(0, 0, 0, 0.75) inset,
+    0 -20px 10px -20px rgba(0, 0, 0, 0.75) inset;
 }
 .ArtistData img {
-  border-radius: 30px;
+  border-radius: 5px;
   width: 100%;
   height: 45%;
   object-fit: cover;
@@ -166,12 +165,12 @@ body {
 }
 
 .Collections {
-  width: 90vw;
+  max-width: 1330px;
   height: 70vh;
   border-radius: 30px;
   box-sizing: border-box;
-  padding: 30px;
-  margin: 20vh 5vw 10vh 5vw;
+  padding: 25px;
+  margin: 20vh 1vw 10vh 1vw;
   background-color: rgba(184, 211, 255, 0.041);
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
     0px 20px 50px -20px rgba(0, 0, 0, 0.3),
@@ -181,7 +180,7 @@ body {
 .collectionsWrapper {
   width: 100%;
   height: 100%;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   overflow: hidden;
 }
 .collections-container {
@@ -192,10 +191,12 @@ body {
   justify-content: space-between;
   flex-direction: column;
   gap: 10px;
-  padding: 30px;
-  border-radius: 30px;
-  background-color: #00163025;
-  box-shadow: 0 0 20px 25px rgb(0, 0, 0) inset;
+  padding: 1% 0;
+  /* border-radius: 30px; */
+  background-color: #00060e4f;
+  /*box-shadow: 0 0 20px 25px rgb(0, 0, 0) inset; */
+  box-shadow: 0 20px 20px -20px rgba(0, 0, 0, 0.75) inset,
+    0 -20px 20px -20px rgba(0, 0, 0, 0.75) inset;
   overflow-y: scroll;
   box-sizing: border-box;
 }

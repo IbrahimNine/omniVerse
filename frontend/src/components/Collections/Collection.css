@@ -1,55 +1,58 @@
 .CollectionWrapper {
   width: 99%;
-  height: 400px;
-  border-radius: 30px;
+  min-height: 345px;
+  border-radius: 20px;
   padding: 0.3% 1.5%;
   border: 1px rgba(255, 255, 255, 0) solid;
   box-sizing: border-box;
-  background-color: rgba(86, 143, 233, 0.041);
-  transition: border 0.5s;
+  transition: box-shadow 0.5s, transform 0.3s;
 }
 .CollectionWrapper:hover {
-  border: 1px white solid;
+  transform: scale(1.001);
+  box-shadow: 0 0 25px -20px rgb(255, 255, 255);
 }
 
 .CollectionHeader {
   width: 100%;
+  height: 15%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 7%;
   box-sizing: border-box;
+  transition: all 0.5s;
 }
 .CollectionHeader button {
   all: unset;
   cursor: pointer;
 }
 
+.collectionBody {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .FirstLayerWrapper {
-  height: 220px;
-  width: 100%;
+  height: 250px;
+  width: 90%;
   overflow: hidden;
-  border-radius: 30px;
   margin-bottom: 10px;
+  border-radius: 20px;
+  box-shadow: 20px 0px 15px -20px rgba(0, 0, 0, 0.75) inset,
+    -20px 0px 15px -20px rgba(0, 0, 0, 0.75) inset;
 }
-.SecondLayerWrapper {
-  height: 100%;
-  width: 100%;
-  overflow-x: scroll;
-  border-radius: 30px;
-  background-color: #00163025;
-  box-shadow: 0 0 20px 25px rgb(0, 0, 0) inset;
-}
+
 .Collection {
   height: 100%;
-  width: max-content;
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 10px;
   padding: 0 10px;
-  border-radius: 30px;
   transition: transform 0.5s;
 }
 .collection-item {
@@ -57,7 +60,7 @@
   border: 0.1px #1c1b2977 solid;
   border-radius: 20px;
   height: 90%;
-  width: 200px;
+  width: 220px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,13 +70,35 @@
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.616);
   transition: box-shadow 0.3s;
 }
+.collection-item:hover {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.616),
+    0px 0px 5px 1px rgba(210, 235, 255, 0.45);
+}
 .collection-item img {
   width: 100%;
-  height: 70%;
+  height: 100%;
   object-fit: cover;
 }
-.collection-item h5 {
-  margin: auto;
+.collected-item-title {
+  position: absolute;
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  display: none;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to top, black, transparent);
+  cursor: pointer;
+  overflow: hidden;
+  transition: height 0.5s;
+}
+.collection-item:hover .collected-item-title {
+  height: 100%;
+}
+.collected-item-title h5 {
+  text-shadow: 0 0 5px black;
   width: 70%;
   text-align: center;
 }
@@ -82,8 +107,50 @@
 }
 .deleteCollectionItem {
   position: absolute;
-  bottom: 15%;
-  right: 5px;
-  filter: drop-shadow(0 0 10px rgb(0, 0, 0));
+  top: 5%;
+  right: 5%;
+  filter: drop-shadow(0 0 15px rgb(0, 0, 0));
+  text-shadow: 0 0 15px black;
+}
+.collectionBody button {
+  all: unset;
+}
+.collectionBody button,
+.collectionBody svg {
   cursor: pointer;
+}
+
+.titleEditorForm {
+  width: 40%;
+  margin: 0.83em 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px white solid;
+}
+#titleEditor {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: white;
+  width: 80%;
+  font-size: 1.5em;
+  box-sizing: border-box;
+}
+.titleEditorForm:focus-within {
+  box-shadow: 0 -20px 10px -20px rgba(255, 255, 255, 0.342) inset;
+}
+
+.CollectionHeader h2 {
+  display: flex;
+  width: fit-content;
+  justify-content: space-between;
+  align-items: center;
+}
+.editBtn {
+  display: none;
+  color: rgba(255, 255, 255, 0.788);
+}
+.CollectionHeader:hover .editBtn {
+  display: inline;
 }

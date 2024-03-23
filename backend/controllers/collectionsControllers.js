@@ -20,7 +20,7 @@ const addingNewCollection = async (req, res) => {
 //____________________________________________________________________
 const updateCollection = async (req, res) => {
   const { id } = req.params;
-  req.body;
+
   try {
     const data = await collectionModel.findByIdAndUpdate(
       id,
