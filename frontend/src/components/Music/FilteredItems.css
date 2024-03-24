@@ -42,11 +42,7 @@
   width: 100%;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.822) 90%,
-    transparent 100%
-  );
+  background-image: linear-gradient(to top, black, transparent);
 }
 .ItemCard h4 {
   margin: 0;

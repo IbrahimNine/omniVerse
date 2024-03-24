@@ -68,3 +68,10 @@
 .toShowAlbum {
   cursor: pointer;
 }
+.showOnQueue {
+  display: none;
+  position: absolute;
+}
+.toShowAlbum:hover .showOnQueue {
+  display: inline;
+}

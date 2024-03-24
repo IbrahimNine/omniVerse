@@ -17,7 +17,7 @@ function UserCollectionsList() {
   return (
     <div className="UserCollectionsListWrapper">
       <div className="UserCollectionsList">
-        <h3>Collections</h3>
+        <h3>Add to Collection</h3>
         <div className="CollectionsListFirstLayerWrapper">
           <div className="CollectionsListSecondLayerWrapper">
             {collections.length > 0

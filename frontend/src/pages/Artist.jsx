@@ -20,11 +20,11 @@ function Artist() {
   useEffect(() => {
     setId(artistId);
   }, [setId, artistId]);
-  
+
   useEffect(() => {
     const originalTitle = document.title;
     if (artistData.name !== undefined) {
-      document.title = `${document.title} | ${artistData.name}`;
+      document.title = `${artistData.name} | ${document.title}`;
     }
     return () => {
       document.title = originalTitle;
@@ -45,12 +45,14 @@ function Artist() {
   return (
     <div className="Artist">
       <aside className="ArtistData">
-        {artistData.images && (
+        {artistData.images ? (
           <img
             src={artistData.images[0].uri}
             alt="Artist"
             onClick={() => setShowFullSize(!showFullSize)}
           />
+        ) : (
+          <img src="/default2.png" alt="Artist" style={{ cursor: "unset" }} />
         )}
         <h3>{artistData.name}</h3>
         <p>

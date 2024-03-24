@@ -40,7 +40,11 @@ function Album() {
               <>
                 <img
                   id="albumCover"
-                  src={releaseData.images && releaseData.images[0]?.uri}
+                  src={
+                    releaseData.images && releaseData.images[0]?.uri
+                      ? releaseData.images && releaseData.images[0]?.uri
+                      : "/default3.png"
+                  }
                   alt="Album cover"
                 />
                 <div className="albumGenerals">
@@ -90,8 +94,9 @@ function Album() {
                             {
                               elementID: `${releaseData.id}`,
                               elementPic:
-                                releaseData.images &&
-                                releaseData.images[0]?.uri,
+                                releaseData.images && releaseData.images[0]?.uri
+                                  ? releaseData.images[0]?.uri
+                                  : "/default3.png",
                               elementTitle: releaseData.title,
                               isArtist: false,
                             },
@@ -122,7 +127,9 @@ function Album() {
                           {
                             elementID: `${releaseData.id}`,
                             elementPic:
-                              releaseData.images && releaseData.images[0]?.uri,
+                              releaseData.images && releaseData.images[0]?.uri
+                                ? releaseData.images[0]?.uri
+                                : "/default3.png",
                             elementTitle: releaseData.title,
                             isArtist: false,
                           },

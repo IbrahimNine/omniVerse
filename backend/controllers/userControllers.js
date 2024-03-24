@@ -45,7 +45,7 @@ const updateUser = async (req, res) => {
         userName: updatedUser.name,
         userEmail: updatedUser.email,
       },
-      message: "Changes have been saved"
+      message: "Changes have been saved",
     });
   } catch (error) {
     console.error(error);
@@ -113,4 +113,73 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, updateUser, deleteUser, updatePassword };
+//______________________________________________________________
+const getUserPlayedTracks = async (req, res) => {
+  try {
+    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const searchedUser = await userModel.findById(user._id);
+
+    if (!searchedUser.playedTracks) {
+      res.json({ status: "fail", data: [] });
+    }
+    const pipeline = [
+      { $match: { _id: searchedUser._id } },
+      { $unwind: "$playedTracks" },
+      {
+        $group: {
+          _id: "$playedTracks.trackTitle",
+          count: { $sum: 1 },
+          playedTrack: { $first: "$playedTracks" },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 1 },
+    ];
+
+    const result = await userModel.aggregate(pipeline);
+    if (result.length > 0) {
+      res.json({ status: "success", data: result[0].playedTrack });
+    } else {
+      res.json({ status: "fail", data: [] });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+//______________________________________________________________
+const updateUserPlayedTracks = async (req, res) => {
+  try {
+    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const { trackTitle, trackAlbum, trackAlbumID, trackArtist, trackArtistID } =
+      req.body;
+
+    const searchedUser = await userModel.findById(user._id);
+    if (!searchedUser) {
+      return res.json({ status: "fail", message: "User not found" });
+    }
+
+    searchedUser.playedTracks.push({
+      trackTitle,
+      trackAlbum,
+      trackAlbumID,
+      trackArtist,
+      trackArtistID,
+    });
+
+    await searchedUser.save();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+module.exports = {
+  getUser,
+  updateUser,
+  deleteUser,
+  updatePassword,
+  getUserPlayedTracks,
+  updateUserPlayedTracks,
+};

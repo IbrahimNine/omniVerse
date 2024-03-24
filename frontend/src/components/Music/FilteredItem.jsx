@@ -63,7 +63,16 @@ function FilteredItem({ item, showTracksAlone }) {
             </g>
           </svg>
         )}
-        <img src={item.cover_image} alt="pic" className="FilteredItemPic" />
+        <img
+          src={
+            item.cover_image ===
+            "https://st.discogs.com/a7caae07d4eb55c327f17b8d3818fe4c13aac52f/images/spacer.gif"
+              ? "/default.png"
+              : item.cover_image
+          }
+          alt="pic"
+          className="FilteredItemPic"
+        />
         <abbr title={item.title} className="itemTitle">
           <h4>
             {item.title.slice(0, 45)}

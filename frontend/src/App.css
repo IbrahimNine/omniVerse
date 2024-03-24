@@ -101,7 +101,8 @@ body {
   margin: 0 40%;
 }
 .Login,
-.Register {
+.Register,
+.UserWrapper {
   margin: 20vh auto;
 }
 .Login h2,
@@ -109,8 +110,8 @@ body {
   margin: 3%;
 }
 .Login form,
-.Register form {
-  width: 35vw;
+.Register form,
+.User {
   height: 60vh;
   border-radius: 30px;
   margin: auto;
@@ -124,7 +125,13 @@ body {
     0px 20px 50px -20px rgba(0, 0, 0, 0.3),
     inset 0px -2px 10px 0px rgba(10, 37, 64, 0.35);
 }
-
+.Login form,
+.Register form {
+  width: 35vw;
+}
+.User {
+  max-width: 70%;
+}
 .Login input,
 .Register input {
   width: 80%;

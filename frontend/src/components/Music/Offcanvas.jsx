@@ -102,7 +102,7 @@ const Offcanvas = () => {
               });
             }}
           >
-            <option value="">Select genre..</option>
+            <option value="">Genre...</option>
             {genres.sort().map((item, index) => (
               <option key={index} value={item}>
                 {item}
@@ -117,7 +117,7 @@ const Offcanvas = () => {
               });
             }}
           >
-            <option value="">Country..</option>
+            <option value="">Country...</option>
             {countries.sort().map((item, index) => (
               <option key={index} value={item}>
                 {item}
@@ -133,7 +133,7 @@ const Offcanvas = () => {
               });
             }}
           >
-            <option value="">Year..</option>
+            <option value="">Year...</option>
             {years.map((item, index) => (
               <option key={index} value={item}>
                 {item}

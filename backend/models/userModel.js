@@ -10,8 +10,21 @@ const userSchema = new Schema(
       default:
         "https://img.freepik.com/premium-vector/dj-wireless-music-headphones-silhouette-earphones-flat-icon-headset-silhouette-musician-equipment-vector-isolated-white-icon-emblem-clothing-print-design-element_981050-186.jpg",
     },
+    playedTracks: [
+      {
+        trackTitle: String,
+        trackAlbum: String,
+        trackAlbumPic: String,
+        trackAlbumID: String,
+        TrackArtist: String,
+        trackArtistPic: String,
+        TrackArtistID: String,
+      },
+    ],
   },
   { timestamps: true }
 );
+
+userSchema.path("playedTracks").default([]);
 
 module.exports = model("User", userSchema);

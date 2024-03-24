@@ -19,11 +19,15 @@ function Releases({ index, release }) {
     <div
       className="Releases"
       style={{
-        backgroundColor: index % 2 !== 0 ? "rgba(233, 241, 255, 0.038)" : "none",
+        backgroundColor:
+          index % 2 !== 0 ? "rgba(233, 241, 255, 0.038)" : "none",
       }}
     >
       <div className="release" onClick={handleNewCollection}>
-        <img src={release.thumb} alt="Album cover" />
+        <img
+          src={release.thumb ? release.thumb : "/default3.png"}
+          alt="Album cover"
+        />
         <h5 className="albumTitle">{release.title}</h5>
         <h5 className="ReleasedDate">{release.year}</h5>
 

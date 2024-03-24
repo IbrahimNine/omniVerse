@@ -40,7 +40,7 @@ function App() {
         <Route path="/artist/:id" element={<Artist />} />
         <Route element={<PrivateRoute />}>
           <Route path="/collections" element={<Collections />} />
-          <Route path="/user/:id" element={<User />} />
+          <Route path="/user" element={<User />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/login" element={<Login />} />
