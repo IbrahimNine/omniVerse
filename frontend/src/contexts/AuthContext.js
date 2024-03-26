@@ -143,6 +143,7 @@ export function AuthContextProvider({ children }) {
         if (res.data.status === "success") {
           setNoticMsg(res.data.message);
           setShowSettings(false);
+          getUserData();
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
         }

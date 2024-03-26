@@ -66,7 +66,7 @@ function FilteredItem({ item, showTracksAlone }) {
         <img
           src={
             item.cover_image ===
-            "https://st.discogs.com/a7caae07d4eb55c327f17b8d3818fe4c13aac52f/images/spacer.gif"
+            "https://st.discogs.com/821bd5543847c00ace3487958c9cfae97ea2e74a/images/spacer.gif"
               ? "/default.png"
               : item.cover_image
           }

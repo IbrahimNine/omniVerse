@@ -101,9 +101,11 @@ body {
   margin: 0 40%;
 }
 .Login,
-.Register,
-.UserWrapper {
+.Register {
   margin: 20vh auto;
+}
+.UserWrapper {
+  margin: 15vh auto;
 }
 .Login h2,
 .Register h2 {
@@ -112,14 +114,12 @@ body {
 .Login form,
 .Register form,
 .User {
-  height: 60vh;
   border-radius: 30px;
   margin: auto;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 3%;
+
   background-color: rgba(184, 211, 255, 0.061);
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
     0px 20px 50px -20px rgba(0, 0, 0, 0.3),
@@ -127,10 +127,14 @@ body {
 }
 .Login form,
 .Register form {
+  height: 60vh;
   width: 35vw;
+  flex-direction: column;
+  gap: 3%;
 }
 .User {
-  max-width: 70%;
+  height: 70vh;
+  max-width: 960px;
 }
 .Login input,
 .Register input {
@@ -217,4 +221,98 @@ body {
   border-radius: 30px 30px 0 0;
   background-color: rgba(184, 211, 255, 0.041);
   color: rgba(248, 250, 255, 0.774);
+}
+.mostPlayedWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+  width: 65%;
+  height: 90%;
+}
+.mostPlayedCardWrapper {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+.mostPlayedCardWrapper p {
+  margin: 0;
+}
+.mostPlayed {
+  width: 100%;
+  height: 90%;
+  border: 1px white solid;
+  position: relative;
+}
+.mostPlayed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mostPlayedDetails {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 5%;
+  width: 100%;
+  height: 40%;
+  background-image: linear-gradient(to top, black, transparent);
+  box-shadow: 0 -20px 30px -10px black inset;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.mostPlayedDetails a {
+  all: unset;
+}
+.mostPlayedDetails h4,
+.mostPlayedDetails h5 {
+  margin: 5px 0;
+  text-shadow: 0 0 10 black;
+}
+.mostPlayedDetails h5 {
+  cursor: pointer;
+}
+.UserDetailedDash {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 35%;
+  height: 90%;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+.UserDetailedDash img {
+  width: 60%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+.UserDetailedDash h4,
+.UserDetailedDash h3 {
+  margin: 12px 0;
+}
+.UserDetailedDash p {
+  margin: 0;
+}
+.periodIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  background-color: #edeaf7da;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 0 0 50% 0;
+  background-color: #edeaf7ee;
+}
+.periodIcon svg {
+  filter: drop-shadow(0 0 5px white);
 }

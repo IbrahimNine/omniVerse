@@ -1,28 +1,16 @@
 const { check, validationResult } = require("express-validator");
 
 const userPlayedTracksValidator = [
-  check("playedTracks").isArray().withMessage("playedTracks must be an array"),
-  check("playedTracks.*.trackTitle")
-    .isString()
-    .withMessage("trackTitle must be a string"),
-  check("playedTracks.*.trackAlbum")
-    .isString()
-    .withMessage("trackAlbum must be a string"),
-  check("playedTracks.*.trackAlbumPic")
+  check("trackTitle").isString().withMessage("trackTitle must be a string"),
+  check("trackAlbum").isString().withMessage("trackAlbum must be a string"),
+  check("trackAlbumPic")
     .isString()
     .withMessage("trackAlbumPic must be a string"),
-  check("playedTracks.*.trackAlbumID")
+  check("trackAlbumID").isString().withMessage("trackAlbumID must be a string"),
+  check("trackArtist").isString().withMessage("trackArtist must be a string"),
+  check("trackArtistID")
     .isString()
-    .withMessage("trackAlbumID must be a string"),
-  check("playedTracks.*.TrackArtist")
-    .isString()
-    .withMessage("TrackArtist must be a string"),
-  check("playedTracks.*.trackArtistPic")
-    .isString()
-    .withMessage("trackArtistPic must be a string"),
-  check("playedTracks.*.TrackArtistID")
-    .isString()
-    .withMessage("TrackArtistID must be a string"),
+    .withMessage("trackArtistID must be a string"),
 
   (req, res, next) => {
     const errors = validationResult(req);

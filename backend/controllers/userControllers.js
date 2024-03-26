@@ -120,11 +120,33 @@ const getUserPlayedTracks = async (req, res) => {
     const searchedUser = await userModel.findById(user._id);
 
     if (!searchedUser.playedTracks) {
-      res.json({ status: "fail", data: [] });
+      res.json({ status: "fail", data: { weekly: [], monthly: [], total: 0 } });
     }
-    const pipeline = [
-      { $match: { _id: searchedUser._id } },
+
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    const lastWeekStart = new Date();
+    lastWeekStart.setDate(lastWeekStart.getDate() - 14);
+    const lastWeekEnd = new Date();
+    lastWeekEnd.setDate(lastWeekEnd.getDate() - 7);
+    const lastMonthStart = new Date();
+    lastMonthStart.setMonth(lastMonthStart.getMonth() - 2);
+    const lastMonthEnd = new Date();
+    lastMonthEnd.setMonth(lastMonthEnd.getMonth() - 1);
+
+    const weeklyPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": { $gte: oneWeekAgo },
+        },
+      },
       { $unwind: "$playedTracks" },
+      { $match: { "playedTracks.createdAt": { $gte: oneWeekAgo } } },
       {
         $group: {
           _id: "$playedTracks.trackTitle",
@@ -136,12 +158,116 @@ const getUserPlayedTracks = async (req, res) => {
       { $limit: 1 },
     ];
 
-    const result = await userModel.aggregate(pipeline);
-    if (result.length > 0) {
-      res.json({ status: "success", data: result[0].playedTrack });
-    } else {
-      res.json({ status: "fail", data: [] });
-    }
+    const monthlyPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": { $gte: oneMonthAgo },
+        },
+      },
+      { $unwind: "$playedTracks" },
+      { $match: { "playedTracks.createdAt": { $gte: oneMonthAgo } } },
+      {
+        $group: {
+          _id: "$playedTracks.trackTitle",
+          count: { $sum: 1 },
+          playedTrack: { $first: "$playedTracks" },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 1 },
+    ];
+
+    const currentWeekPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": { $gte: oneWeekAgo },
+        },
+      },
+      { $unwind: "$playedTracks" },
+      { $match: { "playedTracks.createdAt": { $gte: oneWeekAgo } } },
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ];
+    const currentMonthPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": { $gte: oneMonthAgo },
+        },
+      },
+      { $unwind: "$playedTracks" },
+      { $match: { "playedTracks.createdAt": { $gte: oneMonthAgo } } },
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ];
+    const lastWeekPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": { $gte: lastWeekStart, $lt: lastWeekEnd },
+        },
+      },
+      { $unwind: "$playedTracks" },
+      {
+        $match: {
+          "playedTracks.createdAt": { $gte: lastWeekStart, $lt: lastWeekEnd },
+        },
+      },
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ];
+    const lastMonthPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": {
+            $gte: lastMonthStart,
+            $lt: lastMonthEnd,
+          },
+        },
+      },
+      { $unwind: "$playedTracks" },
+      {
+        $match: {
+          "playedTracks.createdAt": {
+            $gte: lastMonthStart,
+            $lt: lastMonthEnd,
+          },
+        },
+      },
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ];
+
+    const [
+      weeklyResult,
+      monthlyResult,
+      currentWeekTotal,
+      currentMonthTotal,
+      lastWeekTotal,
+      lastMonthTotal,
+    ] = await Promise.all([
+      userModel.aggregate(weeklyPipeline),
+      userModel.aggregate(monthlyPipeline),
+      userModel.aggregate(currentWeekPipeline),
+      userModel.aggregate(currentMonthPipeline),
+      userModel.aggregate(lastWeekPipeline),
+      userModel.aggregate(lastMonthPipeline),
+    ]);
+
+    const totalPlayedTracks = searchedUser.playedTracks.length;
+    res.json({
+      status: "success",
+      data: {
+        weekly: weeklyResult.length > 0 ? weeklyResult[0].playedTrack : [],
+        monthly: monthlyResult.length > 0 ? monthlyResult[0].playedTrack : [],
+        total: totalPlayedTracks,
+        totalCurrentWeek:
+          currentWeekTotal.length > 0 ? currentWeekTotal[0].count : 0,
+        totalCurrentMonth:
+          currentMonthTotal.length > 0 ? currentMonthTotal[0].count : 0,
+        totalLastWeek: lastWeekTotal.length > 0 ? lastWeekTotal[0].count : 0,
+        totalLastMonth: lastMonthTotal.length > 0 ? lastMonthTotal[0].count : 0,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: "error", message: "Internal server error" });
@@ -152,8 +278,14 @@ const getUserPlayedTracks = async (req, res) => {
 const updateUserPlayedTracks = async (req, res) => {
   try {
     const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
-    const { trackTitle, trackAlbum, trackAlbumID, trackArtist, trackArtistID } =
-      req.body;
+    const {
+      trackTitle,
+      trackAlbum,
+      trackAlbumPic,
+      trackAlbumID,
+      trackArtist,
+      trackArtistID,
+    } = req.body;
 
     const searchedUser = await userModel.findById(user._id);
     if (!searchedUser) {
@@ -163,12 +295,14 @@ const updateUserPlayedTracks = async (req, res) => {
     searchedUser.playedTracks.push({
       trackTitle,
       trackAlbum,
+      trackAlbumPic,
       trackAlbumID,
       trackArtist,
       trackArtistID,
     });
 
     await searchedUser.save();
+    res.json({ status: "success" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: "error", message: "Internal server error" });

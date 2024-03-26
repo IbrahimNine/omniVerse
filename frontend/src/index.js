@@ -8,6 +8,7 @@ import { ArtistContextProvider } from "./contexts/ArtistContext";
 import { ReleaseProvider } from "./contexts/ReleaseContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { CollectionsContextProvider } from "./contexts/CollectionsContext";
+import { PlayedTracksProvider } from "./contexts/PlayedTracksContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,7 +19,9 @@ root.render(
           <FiltersProvider>
             <ArtistContextProvider>
               <ReleaseProvider>
-                <App />
+                <PlayedTracksProvider>
+                  <App />
+                </PlayedTracksProvider>
               </ReleaseProvider>
             </ArtistContextProvider>
           </FiltersProvider>

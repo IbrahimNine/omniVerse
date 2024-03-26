@@ -98,6 +98,7 @@ export function ReleaseProvider({ children }) {
           id: res.data[0].id,
           title: res.data[0].title,
           releaseData: releaseData,
+          ofTitle: item.title.trim(),
         });
         setPlay(true);
         setOnQueue({
@@ -137,6 +138,10 @@ export function ReleaseProvider({ children }) {
             ...trackData,
             id: res.data[0].id,
             title: res.data[0].title,
+            ofTitle:
+              onQueue.releaseData.tracklist[
+                onQueue.trackIndex + 1
+              ].title.trim(),
           });
           setPlay(true);
           setPlayerLoading(false);
@@ -169,6 +174,10 @@ export function ReleaseProvider({ children }) {
             ...trackData,
             id: res.data[0].id,
             title: res.data[0].title,
+            ofTitle:
+              onQueue.releaseData.tracklist[
+                onQueue.trackIndex - 1
+              ].title.trim(),
           });
           setPlay(true);
           setPlayerLoading(false);
