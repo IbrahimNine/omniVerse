@@ -50,7 +50,7 @@ function DataBar({ mostPlayedData }) {
     totalLastMonth
   );
 
-  let steps = maxBarValue <= 1 ? 1 : undefined;
+  let steps = maxBarValue <= 5 ? 1 : undefined;
 
   const chartOptions = {
     height: 300,

@@ -179,6 +179,7 @@
   width: 100%;
   height: auto;
   object-fit: cover;
+  filter: drop-shadow(0 0 15px white);
 }
 
 .userOptions {

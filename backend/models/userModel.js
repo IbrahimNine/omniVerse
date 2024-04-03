@@ -19,8 +19,7 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     photo: {
       type: String,
-      default:
-        "https://img.freepik.com/premium-vector/dj-wireless-music-headphones-silhouette-earphones-flat-icon-headset-silhouette-musician-equipment-vector-isolated-white-icon-emblem-clothing-print-design-element_981050-186.jpg",
+      default: "/default5.png",
     },
     playedTracks: [playedTrackSchema],
   },

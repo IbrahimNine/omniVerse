@@ -37,6 +37,17 @@
   color: white;
   box-sizing: border-box;
 }
+.inputPicLayer {
+  width: 50%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inputPicLayer input {
+  height: 100%;
+  padding: 10px 15px;
+}
 .SettingsBtns {
   width: 80%;
   height: 12%;

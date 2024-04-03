@@ -52,7 +52,7 @@ export function AuthContextProvider({ children }) {
       )
       .then((res) => {
         if (res.data.status === "success") {
-          setUser(res);
+          setUser(res.data.data);
 
           navigate("/music");
         } else if (res.data.status === "fail") {
@@ -131,14 +131,19 @@ export function AuthContextProvider({ children }) {
   //________________________________________________________________________________________
   const updateUser = (userCord) => {
     setUpdateLoading(true);
+
+    const formData = new FormData();
+    Object.entries(userCord).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
     axios
-      .put(
-        `${baseURL}/api/user`,
-        { ...userCord },
-        {
-          withCredentials: true,
-        }
-      )
+      .put(`${baseURL}/api/user`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      })
       .then((res) => {
         if (res.data.status === "success") {
           setNoticMsg(res.data.message);

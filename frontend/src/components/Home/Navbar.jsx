@@ -17,33 +17,28 @@ function Navbar() {
           <NavLink to="/music">Discover</NavLink>
           <NavLink to="/collections">Collections</NavLink>
         </div>
-        <NavLink to="/user" id="Profile">
+        <NavLink to={`/user/${user?.userName}`} id="Profile">
           <img
             src={
               user?.userPic ||
-              "https://img.freepik.com/premium-vector/dj-wireless-music-headphones-silhouette-earphones-flat-icon-headset-silhouette-musician-equipment-vector-isolated-white-icon-emblem-clothing-print-design-element_981050-186.jpg"
+              "/Default4.png"
             }
             alt="user"
           />
         </NavLink>
-        <ul className="userOptions">
-          <li className="arrow">{/* <Link to="/user">Profile</Link> */}</li>
-          {user && (
+        {user && (
+          <ul className="userOptions">
+            <li className="arrow">{/* <Link to="/user">Profile</Link> */}</li>
+
             <li>
               <Link onClick={() => setShowSettings(true)}>Settings</Link>
             </li>
-          )}
-          {!user && (
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          )}
-          {user && (
+
             <li>
               <Link onClick={authLogout}>Logout</Link>
             </li>
-          )}
-        </ul>
+          </ul>
+        )}
       </div>
     </div>
   );

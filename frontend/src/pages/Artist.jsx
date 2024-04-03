@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
 import { useArtistContext } from "../contexts/ArtistContext";
@@ -42,6 +42,7 @@ function Artist() {
     }
   };
 
+
   return (
     <div className="Artist">
       <aside className="ArtistData">
@@ -58,9 +59,22 @@ function Artist() {
         <p>
           {artistData.profile &&
             (artistData.profile.length > 100
-              ? artistData.profile.slice(0, 200) + "..."
+              ? artistData.profile.slice(0, 100) + "..."
               : artistData.profile)}
         </p>
+        {artistData.aliases && <h4 style={{ margin: "7% 0 0 0" }}>See also:</h4>}
+        <div className="RelatedArtists"
+          style={{
+         
+          }}
+        >
+          {artistData.aliases &&
+            artistData.aliases.map((item, index) => (
+              <Link key={index} to={`/artist/${item.id}`}>
+                {item.name}
+              </Link>
+            ))}
+        </div>
       </aside>
       <div className="ArtistReleasesWrapper">
         <section className="ArtistReleases" onScroll={handleScroll}>

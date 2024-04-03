@@ -2,6 +2,12 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const userModel = require("../models/userModel");
 require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 //______________________________________________________________
 const getUser = async (req, res) => {
@@ -28,15 +34,19 @@ const updateUser = async (req, res) => {
   const { newName, newEmail } = req.body;
   try {
     const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    let updatedUser = {
+      name: newName,
+      email: newEmail,
+    };
 
-    const updatedUser = await userModel.findByIdAndUpdate(
-      user._id,
-      {
-        name: newName,
-        email: newEmail,
-      },
-      { new: true }
-    );
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      updatedUser.photo = result.secure_url;
+    }
+
+    updatedUser = await userModel.findByIdAndUpdate(user._id, updatedUser, {
+      new: true,
+    });
     res.json({
       status: "success",
       data: {
@@ -115,11 +125,13 @@ const deleteUser = async (req, res) => {
 
 //______________________________________________________________
 const getUserPlayedTracks = async (req, res) => {
+  const { userName } = req.params;
   try {
-    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
-    const searchedUser = await userModel.findById(user._id);
+    // const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    // const searchedUser = await userModel.findById(user._id);
+    const searchedUser = await userModel.findOne({ name: userName });
 
-    if (!searchedUser.playedTracks) {
+    if (!searchedUser?.playedTracks || searchedUser === null) {
       res.json({ status: "fail", data: { weekly: [], monthly: [], total: 0 } });
     }
 
@@ -129,14 +141,27 @@ const getUserPlayedTracks = async (req, res) => {
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
     const lastWeekStart = new Date();
-    lastWeekStart.setDate(lastWeekStart.getDate() - 14);
-    const lastWeekEnd = new Date();
-    lastWeekEnd.setDate(lastWeekEnd.getDate() - 7);
+    const currentDay = lastWeekStart.getDay();
+    lastWeekStart.setDate(lastWeekStart.getDate() - currentDay - 6);
+    const lastWeekEnd = new Date(lastWeekStart);
+    lastWeekEnd.setDate(lastWeekEnd.getDate() + 6);
+
+    // const lastMonthStart = new Date();
+    // lastMonthStart.setMonth(lastMonthStart.getMonth() - 2);
+    // const lastMonthEnd = new Date();
+    // lastMonthEnd.setMonth(lastMonthEnd.getMonth() - 1);
+
     const lastMonthStart = new Date();
-    lastMonthStart.setMonth(lastMonthStart.getMonth() - 2);
+    lastMonthStart.setDate(1);
+    lastMonthStart.setMonth(lastMonthStart.getMonth() - 1);
+
     const lastMonthEnd = new Date();
-    lastMonthEnd.setMonth(lastMonthEnd.getMonth() - 1);
+    lastMonthEnd.setDate(0);
+    lastMonthEnd.setMonth(lastMonthEnd.getMonth());
 
     const weeklyPipeline = [
       {
@@ -149,13 +174,21 @@ const getUserPlayedTracks = async (req, res) => {
       { $match: { "playedTracks.createdAt": { $gte: oneWeekAgo } } },
       {
         $group: {
-          _id: "$playedTracks.trackTitle",
+          _id: "$playedTracks.trackAlbumID",
           count: { $sum: 1 },
           playedTrack: { $first: "$playedTracks" },
         },
       },
+      { $sort: { _id: 1 } },
       { $sort: { count: -1 } },
       { $limit: 1 },
+      {
+        $group: {
+          _id: null,
+          weeklyCount: { $first: "$count" },
+          weeklyResult: { $push: "$playedTrack" },
+        },
+      },
     ];
 
     const monthlyPipeline = [
@@ -169,35 +202,71 @@ const getUserPlayedTracks = async (req, res) => {
       { $match: { "playedTracks.createdAt": { $gte: oneMonthAgo } } },
       {
         $group: {
-          _id: "$playedTracks.trackTitle",
+          _id: "$playedTracks.trackAlbumID",
           count: { $sum: 1 },
           playedTrack: { $first: "$playedTracks" },
         },
       },
+      { $sort: { _id: 1 } },
       { $sort: { count: -1 } },
       { $limit: 1 },
+      {
+        $group: {
+          _id: null,
+          monthlyCount: { $first: "$count" },
+          monthlyResult: { $push: "$playedTrack" },
+        },
+      },
+    ];
+
+    const yearlyPipeline = [
+      {
+        $match: {
+          _id: searchedUser._id,
+          "playedTracks.createdAt": { $gte: oneYearAgo },
+        },
+      },
+      { $unwind: "$playedTracks" },
+      { $match: { "playedTracks.createdAt": { $gte: oneYearAgo } } },
+      {
+        $group: {
+          _id: "$playedTracks.trackAlbumID",
+          count: { $sum: 1 },
+          playedTrack: { $first: "$playedTracks" },
+        },
+      },
+      { $sort: { _id: 1 } },
+      { $sort: { count: -1 } },
+      { $limit: 1 },
+      {
+        $group: {
+          _id: null,
+          yearlyCount: { $first: "$count" },
+          yearlyResult: { $push: "$playedTrack" },
+        },
+      },
     ];
 
     const currentWeekPipeline = [
       {
         $match: {
           _id: searchedUser._id,
-          "playedTracks.createdAt": { $gte: oneWeekAgo },
+          "playedTracks.createdAt": { $gte: lastWeekEnd },
         },
       },
       { $unwind: "$playedTracks" },
-      { $match: { "playedTracks.createdAt": { $gte: oneWeekAgo } } },
+      { $match: { "playedTracks.createdAt": { $gte: lastWeekEnd } } },
       { $group: { _id: null, count: { $sum: 1 } } },
     ];
     const currentMonthPipeline = [
       {
         $match: {
           _id: searchedUser._id,
-          "playedTracks.createdAt": { $gte: oneMonthAgo },
+          "playedTracks.createdAt": { $gte: lastMonthEnd },
         },
       },
       { $unwind: "$playedTracks" },
-      { $match: { "playedTracks.createdAt": { $gte: oneMonthAgo } } },
+      { $match: { "playedTracks.createdAt": { $gte: lastMonthEnd } } },
       { $group: { _id: null, count: { $sum: 1 } } },
     ];
     const lastWeekPipeline = [
@@ -236,36 +305,89 @@ const getUserPlayedTracks = async (req, res) => {
       },
       { $group: { _id: null, count: { $sum: 1 } } },
     ];
+    const artistPipeline = [
+      { $match: { _id: searchedUser._id } },
+      { $unwind: "$playedTracks" },
+      {
+        $group: {
+          _id: "$playedTracks.trackArtist",
+          trackArtistID: { $first: "$playedTracks.trackArtistID" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          artistCounts: {
+            $push: {
+              artist: "$_id",
+              artistID: "$trackArtistID",
+              count: "$count",
+            },
+          },
+        },
+      },
+    ];
 
-    const [
-      weeklyResult,
-      monthlyResult,
-      currentWeekTotal,
-      currentMonthTotal,
-      lastWeekTotal,
-      lastMonthTotal,
-    ] = await Promise.all([
-      userModel.aggregate(weeklyPipeline),
-      userModel.aggregate(monthlyPipeline),
-      userModel.aggregate(currentWeekPipeline),
-      userModel.aggregate(currentMonthPipeline),
-      userModel.aggregate(lastWeekPipeline),
-      userModel.aggregate(lastMonthPipeline),
-    ]);
+    const aggregation = [
+      {
+        $facet: {
+          weekly: weeklyPipeline,
+          monthly: monthlyPipeline,
+          yearly: yearlyPipeline,
+          currentWeekTotal: currentWeekPipeline,
+          currentMonthTotal: currentMonthPipeline,
+          lastWeekTotal: lastWeekPipeline,
+          lastMonthTotal: lastMonthPipeline,
+          artistData: artistPipeline,
+        },
+      },
+    ];
 
+    const [result] = await Promise.all([userModel.aggregate(aggregation)]);
+
+    const weeklyResult =
+      (result[0].weekly[0] && result[0].weekly[0].weeklyResult[0]) || [];
+    const weeklyCount =
+      (result[0].weekly[0] && result[0].weekly[0].weeklyCount) || 0;
+    const monthlyResult =
+      (result[0].monthly[0] && result[0].monthly[0].monthlyResult[0]) || [];
+    const monthlyCount =
+      (result[0].monthly[0] && result[0].monthly[0].monthlyCount) || 0;
+    const yearlyResult =
+      (result[0].yearly[0] && result[0].yearly[0].yearlyResult[0]) || [];
+    const yearlyCount =
+      (result[0].yearly[0] && result[0].yearly[0].yearlyCount) || 0;
     const totalPlayedTracks = searchedUser.playedTracks.length;
+    const totalCurrentWeek =
+      (result[0].currentWeekTotal[0] && result[0].currentWeekTotal[0].count) ||
+      0;
+    const totalCurrentMonth =
+      (result[0].currentMonthTotal[0] &&
+        result[0].currentMonthTotal[0].count) ||
+      0;
+    const totalLastWeek =
+      (result[0].lastWeekTotal[0] && result[0].lastWeekTotal[0].count) || 0;
+    const totalLastMonth =
+      (result[0].lastMonthTotal[0] && result[0].lastMonthTotal[0].count) || 0;
+    const allArtistsPlayed =
+      (result[0].artistData[0] && result[0].artistData[0].artistCounts) || [];
+
     res.json({
       status: "success",
       data: {
-        weekly: weeklyResult.length > 0 ? weeklyResult[0].playedTrack : [],
-        monthly: monthlyResult.length > 0 ? monthlyResult[0].playedTrack : [],
+        weekly: weeklyResult,
+        monthly: monthlyResult,
+        yearly: yearlyResult,
+        weeklyCount,
+        monthlyCount,
+        yearlyCount,
         total: totalPlayedTracks,
-        totalCurrentWeek:
-          currentWeekTotal.length > 0 ? currentWeekTotal[0].count : 0,
-        totalCurrentMonth:
-          currentMonthTotal.length > 0 ? currentMonthTotal[0].count : 0,
-        totalLastWeek: lastWeekTotal.length > 0 ? lastWeekTotal[0].count : 0,
-        totalLastMonth: lastMonthTotal.length > 0 ? lastMonthTotal[0].count : 0,
+        totalCurrentWeek,
+        totalCurrentMonth,
+        totalLastWeek,
+        totalLastMonth,
+        allArtistsPlayed,
       },
     });
   } catch (error) {

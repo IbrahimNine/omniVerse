@@ -26,25 +26,41 @@ export const PlayedTracksProvider = ({ children }) => {
           withCredentials: true,
         }
       )
-      .catch((err) => console.log(err));
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+      .finally(() => {
+        console.log({
+          trackTitle: trackData.ofTitle,
+          trackAlbum: trackData.releaseData.title,
+          trackAlbumPic: trackData.releaseData.images
+            ? trackData.releaseData.images[0].uri
+            : "/default3.png",
+          trackAlbumID: `${trackData.releaseData.id}`,
+          trackArtist: trackData.releaseData.artists_sort,
+          trackArtistID: `${trackData.releaseData.artists[0].id}`,
+        });
+      });
   };
 
   //__________________________________________________________________
-  const getUserPlayedTracks = useCallback(() => {
-    axios
-      .get(`${baseURL}/api/user/playedTracks`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.status === "fail") {
-          setMostPlayedData("");
-        }
-        if (res.data.status === "success") {
-          setMostPlayedData(res.data.data);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, [baseURL]);
+  const getUserPlayedTracks = useCallback(
+    (userName) => {
+      axios
+        .get(`${baseURL}/api/user/playedTracks/${userName}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.data.status === "fail") {
+            setMostPlayedData("");
+          }
+          if (res.data.status === "success") {
+            setMostPlayedData(res.data.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    [baseURL]
+  );
 
   return (
     <PlayedTracksContext.Provider

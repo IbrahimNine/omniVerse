@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 function FilteredItem({ item, showTracksAlone }) {
   const [releaseLoading, setReleaseLoading] = useState(false);
   const { filterBy } = useFiltersContext();
+
   return (
     <Link
       to={filterBy === "artist" ? `/artist/${item.id}` : ""}
@@ -65,8 +66,7 @@ function FilteredItem({ item, showTracksAlone }) {
         )}
         <img
           src={
-            item.cover_image ===
-            "https://st.discogs.com/821bd5543847c00ace3487958c9cfae97ea2e74a/images/spacer.gif"
+            item.cover_image.includes("https://st.discogs.com/")
               ? "/default.png"
               : item.cover_image
           }

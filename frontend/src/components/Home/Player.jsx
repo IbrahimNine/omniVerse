@@ -3,6 +3,7 @@ import ReactPlayer from "react-player/lazy";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { useRef, useState } from "react";
 import { usePlayedTracksContext } from "../../contexts/PlayedTracksContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 function Player() {
   const {
@@ -17,6 +18,7 @@ function Player() {
     setPlayTrack,
     playerLoading,
   } = useReleaseContext();
+  const { user } = useAuthContext();
   const { updatePlayedTrack } = usePlayedTracksContext();
   const [volume, setVolume] = useState(90);
   const [played, setPlayed] = useState(0);
@@ -53,7 +55,7 @@ function Player() {
   const trackEnding = () => {
     handlePlaying();
     nextOnQueue();
-    if (trackData.ofTitle && trackData.releaseData) {
+    if (trackData.ofTitle && trackData.releaseData && user) {
       updatePlayedTrack(trackData);
     }
   };

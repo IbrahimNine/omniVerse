@@ -22,6 +22,12 @@ function Settings() {
     setUpdatePw({ ...updatePw, [e.target.name]: e.target.value });
   };
 
+  function isValidImageFile(fileName) {
+    const validExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+    return validExtensions.includes(fileExtension);
+  }
+
   useEffect(() => {
     getUserData();
   }, [getUserData]);
@@ -34,6 +40,8 @@ function Settings() {
             className="Settings"
             onSubmit={(e) => {
               e.preventDefault();
+              const picFile = document.querySelector("#userPic");
+
               const nameInput = document.querySelector("#newName");
               if (nameInput.value === "") {
                 nameInput.value = nameInput.defaultValue;
@@ -42,13 +50,31 @@ function Settings() {
               if (emailInput.name === "") {
                 emailInput.value = emailInput.defaultValue;
               }
-              updateUser({
-                [nameInput.name]: nameInput.value,
-                [emailInput.name]: emailInput.value,
-              });
+              console.log(picFile.files);
+              const updatedUser = {};
+              if (
+                picFile.value !== null && picFile.files[0]
+                  ? isValidImageFile(picFile.files[0].name)
+                  : false
+              ) {
+                updatedUser[picFile.name] = picFile.files[0];
+              }
+              updatedUser[nameInput.name] = nameInput.value;
+              updatedUser[emailInput.name] = emailInput.value;
+
+              updateUser(updatedUser);
             }}
           >
             <h2>Settings - Generals</h2>
+            <div className="inputPicLayer">
+              <input
+                type="file"
+                name="userPic"
+                id="userPic"
+                accept=".jpg, .jpeg, .png"
+                multiple={false}
+              />
+            </div>
             <input
               type="text"
               name="newName"
