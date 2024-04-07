@@ -12,6 +12,7 @@ function Settings() {
     updateUser,
     updateLoading,
     updatePassword,
+    updateUserPic,
   } = useAuthContext();
   const [showPwSettings, setShowPwSettings] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -28,6 +29,42 @@ function Settings() {
     return validExtensions.includes(fileExtension);
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const picFile = document.querySelector("#userPic");
+
+    const nameInput = document.querySelector("#newName");
+    if (nameInput.value === "") {
+      nameInput.value = nameInput.defaultValue;
+    }
+    const emailInput = document.querySelector("#newEmail");
+    if (emailInput.name === "") {
+      emailInput.value = emailInput.defaultValue;
+    }
+    const updatedUser = {};
+    if (
+      picFile.value !== null && picFile.files[0]
+        ? isValidImageFile(picFile.files[0].name)
+        : false
+    ) {
+      updatedUser[picFile.name] = picFile.files[0];
+    }
+    updatedUser[nameInput.name] = nameInput.value;
+    updatedUser[emailInput.name] = emailInput.value;
+
+    updateUser(updatedUser);
+  };
+
+  const handleResetProfilePic = () => {
+    if (!updateLoading) {
+      const picFile = document.getElementById("userPic");
+      if (picFile.files[0]) {
+        picFile.value = null;
+      }
+    }
+    updateUserPic();
+  };
+
   useEffect(() => {
     getUserData();
   }, [getUserData]);
@@ -36,37 +73,10 @@ function Settings() {
     <div className="SettingsWrapper">
       {!showPwSettings ? (
         !showDelete ? (
-          <form
-            className="Settings"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const picFile = document.querySelector("#userPic");
-
-              const nameInput = document.querySelector("#newName");
-              if (nameInput.value === "") {
-                nameInput.value = nameInput.defaultValue;
-              }
-              const emailInput = document.querySelector("#newEmail");
-              if (emailInput.name === "") {
-                emailInput.value = emailInput.defaultValue;
-              }
-              console.log(picFile.files);
-              const updatedUser = {};
-              if (
-                picFile.value !== null && picFile.files[0]
-                  ? isValidImageFile(picFile.files[0].name)
-                  : false
-              ) {
-                updatedUser[picFile.name] = picFile.files[0];
-              }
-              updatedUser[nameInput.name] = nameInput.value;
-              updatedUser[emailInput.name] = emailInput.value;
-
-              updateUser(updatedUser);
-            }}
-          >
-            <h2>Settings - Generals</h2>
+          <form className="Settings" onSubmit={(e) => handleSubmit(e)}>
+            <h2 id="GeneralSettings">Settings - Generals</h2>
             <div className="inputPicLayer">
+              <p>New profile picture: </p>
               <input
                 type="file"
                 name="userPic"
@@ -74,6 +84,20 @@ function Settings() {
                 accept=".jpg, .jpeg, .png"
                 multiple={false}
               />
+              <abbr title="Reset profile picture">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="2em"
+                  height="2em"
+                  viewBox="0 0 24 24"
+                  onClick={handleResetProfilePic}
+                >
+                  <path
+                    fill="currentColor"
+                    d="M4 9.77V5h1v3.235q1-1.897 2.851-3.066Q9.701 4 12 4q2.738 0 4.85 1.627q2.11 1.627 2.823 4.142h-1.06q-.696-2.107-2.486-3.438Q14.337 5 12 5Q9.979 5 8.36 6.044Q6.743 7.088 5.909 8.77H8.77v1zm3.5 7.73h9.154l-2.827-3.77l-2.615 3.308l-1.75-2.115zM5.615 21q-.67 0-1.143-.472Q4 20.056 4 19.385v-6.77h1v6.77q0 .269.173.442t.442.173h12.77q.269 0 .442-.173t.173-.442v-6.77h1v6.77q0 .67-.472 1.143q-.472.472-1.143.472z"
+                  ></path>
+                </svg>
+              </abbr>
             </div>
             <input
               type="text"
@@ -144,7 +168,7 @@ function Settings() {
                   "Save Changes"
                 )}
               </button>
-              <button type="button" onClick={() => setShowSettings(false)}>
+              <button type="button" onClick={() => {!updateLoading && setShowSettings(false)}}>
                 Cancel
               </button>
             </div>

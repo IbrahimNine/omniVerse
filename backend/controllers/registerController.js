@@ -13,14 +13,27 @@ const registerController = async (req, res) => {
     const token = jwt.sign(
       { _id: createdUser._id },
       process.env.TOKEN_SECRET_KEY,
-      { expiresIn: "1d" }
+      { expiresIn: "1h" }
     );
-    res.cookie("token", token, {
-      maxAge: 86400000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+    const refreshToken = jwt.sign(
+      { _id: createdUser._id },
+      process.env.REFRESH_TOKEN_SECRET_KEY,
+      { expiresIn: "7d" }
+    );
+    res
+      .cookie("token", token, {
+        maxAge: 3600000, // 1 hour
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+      .cookie("refreshToken", refreshToken, {
+        maxAge: 604800000, // 7 days
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      });
+
     res.json({
       status: "success",
       data: {

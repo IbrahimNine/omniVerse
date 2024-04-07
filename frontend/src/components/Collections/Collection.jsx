@@ -241,14 +241,14 @@ function Collection({ collection, index }) {
           </div>
           <button
             type="button"
-            onClick={() => handleNext(setSliderPosition, sliderPosition)}
+            onClick={() => handleNext(setSliderPosition, sliderPosition, index)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="2em"
               height="2em"
               viewBox="0 0 20 20"
-              onClick={() => handleNext(setSliderPosition, sliderPosition)}
+              // onClick={() => handleNext(setSliderPosition, sliderPosition)}
             >
               <path
                 fill="currentColor"

@@ -1,3 +1,4 @@
+import React from "react";
 import "./Album.css";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { Link } from "react-router-dom";
@@ -6,8 +7,13 @@ import { useCollectionsContext } from "../../contexts/CollectionsContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 function Album() {
-  const { releaseCord, releaseData, showDetails, setShowDetails } =
-    useReleaseContext();
+  const {
+    releaseCord,
+    releaseData,
+    showDetails,
+    setShowDetails,
+    loadingAlbum,
+  } = useReleaseContext();
   const { user } = useAuthContext();
   const {
     setShowNewCollectionName,
@@ -24,19 +30,33 @@ function Album() {
 
   const bgStyling = {
     backgroundImage: `url(${
-      releaseData?.images && releaseData.images[0]?.uri
+      releaseData?.images && !loadingAlbum && releaseData.images[0]?.uri
     })`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
 
+  function generateArtistLinks(artists) {
+    return artists.map((artist, index) => (
+      <React.Fragment key={index}>
+        <Link
+          to={`/artist/${artist?.id}`}
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          <h2>{artist.name.trim()}</h2>
+        </Link>
+        {index !== artists.length - 1 && " / "}
+      </React.Fragment>
+    ));
+  }
+
   return (
     <div className="contentsWrapper Album" onClick={handleShowDetails}>
       <div className="releaseTrackListWrapper " style={bgStyling}>
         <div className="fakeLayer">
           <div className="releaseDetails">
-            {releaseData ? (
+            {releaseData && !loadingAlbum ? (
               <>
                 <img
                   id="albumCover"
@@ -50,17 +70,26 @@ function Album() {
                 <div className="albumGenerals">
                   <div className="albumTitleAndArtist">
                     <h3>{releaseData.title}</h3>
-                    <Link
-                      className="ArtistName"
-                      to={`/artist/${releaseData?.artists[0]?.id}`}
-                      onClick={() => setShowDetails(!showDetails)}
-                    >
-                      <h2>
-                        {releaseCord && releaseCord.artist
-                          ? releaseCord.artist
-                          : releaseData && releaseData.artists_sort}
-                      </h2>
-                    </Link>
+                    {releaseCord &&
+                      releaseData &&
+                      (releaseCord?.artist?.includes("/") ||
+                      releaseData?.artists_sort?.includes("/") ? (
+                        <div className="ArtistName">
+                          {generateArtistLinks(releaseData?.artists)}
+                        </div>
+                      ) : (
+                        <Link
+                          className="ArtistName"
+                          to={`/artist/${releaseData?.artists[0]?.id}`}
+                          onClick={() => setShowDetails(!showDetails)}
+                        >
+                          <h2>
+                            {releaseCord.artist
+                              ? releaseCord.artist
+                              : releaseData.artists_sort}
+                          </h2>
+                        </Link>
+                      ))}
                   </div>
                   <div className="AlbumDetails">
                     <div className="genres">
@@ -154,7 +183,7 @@ function Album() {
             </div>
           </div>
           <div className="releaseTrackList">
-            {releaseData ? (
+            {releaseData && !loadingAlbum ? (
               releaseData.tracklist.map((item, index) => (
                 <Track
                   key={index}

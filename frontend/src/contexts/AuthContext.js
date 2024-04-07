@@ -151,6 +151,7 @@ export function AuthContextProvider({ children }) {
           getUserData();
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
+          console.log(res);
         }
       })
       .catch((err) => {
@@ -161,6 +162,24 @@ export function AuthContextProvider({ children }) {
       });
   };
 
+  //________________________________________________________________________________________
+  const updateUserPic = () => {
+    axios
+      .delete(`${baseURL}/api/user/profilePic`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.status === "success") {
+          setNoticMsg(res.data.message);
+          getUserData();
+        } else if (res.data.status === "fail") {
+          setNoticMsg(res.data.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   //________________________________________________________________________________________
   const updatePassword = (password) => {
     setUpdateLoading(true);
@@ -206,6 +225,7 @@ export function AuthContextProvider({ children }) {
         updateUser,
         updateLoading,
         updatePassword,
+        updateUserPic,
       }}
     >
       {children}

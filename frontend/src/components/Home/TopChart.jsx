@@ -4,7 +4,7 @@ import SliderCard from "./SliderCard";
 import axios from "axios";
 import { handleNext, handlePrevious } from "../../utils/sliderHandlers";
 
-function TopChart({ filterBy }) {
+function TopChart({ filterBy,index }) {
   const [sliderPosition, setSliderPosition] = useState(0);
   const [result, setResult] = useState(null);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
@@ -32,7 +32,7 @@ function TopChart({ filterBy }) {
       <h2>Top {filterBy === "artist" ? "artists" : "Albums"}:</h2>
       <button
         type="Button"
-        onClick={() => handlePrevious(setSliderPosition, sliderPosition)}
+        onClick={() => handlePrevious(setSliderPosition, sliderPosition, index)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@ function TopChart({ filterBy }) {
       </div>
       <button
         type="Button"
-        onClick={() => handleNext(setSliderPosition, sliderPosition)}
+        onClick={() => handleNext(setSliderPosition, sliderPosition, index)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

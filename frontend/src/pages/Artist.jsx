@@ -42,7 +42,6 @@ function Artist() {
     }
   };
 
-
   return (
     <div className="Artist">
       <aside className="ArtistData">
@@ -62,12 +61,10 @@ function Artist() {
               ? artistData.profile.slice(0, 100) + "..."
               : artistData.profile)}
         </p>
-        {artistData.aliases && <h4 style={{ margin: "7% 0 0 0" }}>See also:</h4>}
-        <div className="RelatedArtists"
-          style={{
-         
-          }}
-        >
+        {artistData.aliases && (
+          <h4 style={{ margin: "7% 0 0 0" }}>See also:</h4>
+        )}
+        <div className="RelatedArtists">
           {artistData.aliases &&
             artistData.aliases.map((item, index) => (
               <Link key={index} to={`/artist/${item.id}`}>

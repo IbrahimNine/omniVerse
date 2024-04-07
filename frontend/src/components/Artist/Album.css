@@ -42,7 +42,6 @@
   box-sizing: border-box;
 }
 
-
 .releaseTrackList {
   width: 60%;
   height: 100%;
@@ -105,7 +104,9 @@
   margin: 3px;
   display: inline-block;
 }
-
+.ArtistName h2 {
+  display: inline;
+}
 .albumTitleAndArtist {
   display: flex;
   flex-direction: column;

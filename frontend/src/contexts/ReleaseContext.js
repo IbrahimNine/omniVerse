@@ -16,6 +16,7 @@ export function ReleaseProvider({ children }) {
   });
   const [play, setPlay] = useState(false);
   const [playerLoading, setPlayerLoading] = useState(false);
+  const [loadingAlbum, setLoadingAlbum] = useState(false);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
   const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
@@ -24,6 +25,7 @@ export function ReleaseProvider({ children }) {
   //___________________________________________________________________________________
   const showTracks = (release) => {
     if (!showDetails) {
+      setLoadingAlbum(true);
       axios
         .get(
           `https://api.discogs.com/releases/${
@@ -39,7 +41,8 @@ export function ReleaseProvider({ children }) {
           setReleaseData(res.data);
           setReleaseCord(release);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setLoadingAlbum(false));
     } else {
       setReleaseData();
       setReleaseCord();
@@ -52,6 +55,7 @@ export function ReleaseProvider({ children }) {
     if (release) {
       let releaseId = "";
       setReleaseLoading(true);
+      setLoadingAlbum(true);
       axios
         .get(`https://api.discogs.com/masters/${release.id}`, {
           headers: {
@@ -73,7 +77,10 @@ export function ReleaseProvider({ children }) {
               setShowDetails(!showDetails);
             })
             .catch((err) => console.log(err))
-            .finally(() => setReleaseLoading(false));
+            .finally(() => {
+              setReleaseLoading(false);
+              setLoadingAlbum(false);
+            });
         })
         .catch((err) => console.log(err));
     }
@@ -252,6 +259,7 @@ export function ReleaseProvider({ children }) {
         playTrack,
         setPlayTrack,
         playerLoading,
+        loadingAlbum,
       }}
     >
       {children}

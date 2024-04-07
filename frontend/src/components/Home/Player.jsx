@@ -69,7 +69,9 @@ function Player() {
   return (
     <div className="omniVersePlayer">
       <a
-        href={`https://www.youtube.com/watch?v=${trackData.id}`}
+        href={`https://www.youtube.com/watch?v=${
+          trackData.id
+        }&start=${Math.floor(played * duration)}`}
         target="_blank"
         rel="noreferrer"
         onClick={() => {
@@ -217,7 +219,7 @@ function Player() {
 
       <ReactPlayer
         className="omniVersePlayer"
-        url={`https://www.youtube.com/watch?v=${trackData.id}`}
+        url={`https://www.youtube.com/watch?v=${trackData.id}&volume=100`}
         width={0}
         height={0}
         playing={play}

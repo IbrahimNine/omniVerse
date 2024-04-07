@@ -5,6 +5,7 @@ const {
   updatePassword,
   getUserPlayedTracks,
   updateUserPlayedTracks,
+  updateUserPic,
 } = require("../controllers/userControllers");
 const userUpdateValidator = require("../middlewares/userUpdateValidator");
 const userDeleteValidator = require("../middlewares/userDeleteValidator");
@@ -13,11 +14,13 @@ const userPlayedTracksValidator = require("../middlewares/userPlayedTracksValida
 const multer = require("multer");
 
 const userRouter = require("express").Router();
-const upload = multer({ dest: "uploads/" });
+const upload = multer();
 
 userRouter.get("/", getUser);
- 
+
 userRouter.put("/", upload.single("userPic"), userUpdateValidator, updateUser);
+
+userRouter.delete("/profilePic", updateUserPic);
 
 userRouter.put("/password", updatePasswordValidator, updatePassword);
 

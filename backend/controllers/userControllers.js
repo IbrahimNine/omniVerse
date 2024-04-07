@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { Readable } = require("stream");
 const userModel = require("../models/userModel");
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
@@ -12,7 +12,7 @@ cloudinary.config({
 //______________________________________________________________
 const getUser = async (req, res) => {
   try {
-    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const { user } = req;
     const searchedUser = await userModel.findById(user._id);
     res.json({
       status: "success",
@@ -33,20 +33,95 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { newName, newEmail } = req.body;
   try {
-    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const { user } = req;
     let updatedUser = {
       name: newName,
       email: newEmail,
     };
 
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
-      updatedUser.photo = result.secure_url;
-    }
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { resource_type: "image" },
+        (error, result) => {
+          if (error) {
+            console.error(error);
+            return res.status(500).json({
+              status: "error",
+              message: "Error uploading image to Cloudinary",
+            });
+          }
+          updatedUser.photo = result.secure_url;
 
-    updatedUser = await userModel.findByIdAndUpdate(user._id, updatedUser, {
-      new: true,
-    });
+         
+          userModel
+            .findByIdAndUpdate(user._id, updatedUser, { new: true })
+            .then((updatedUser) => {
+              res.json({
+                status: "success",
+                data: {
+                  userID: updatedUser._id,
+                  userPic: updatedUser.photo,
+                  userName: updatedUser.name,
+                  userEmail: updatedUser.email,
+                },
+                message: "Changes have been saved",
+              });
+            })
+            .catch((error) => {
+              console.error(error);
+              res
+                .status(500)
+                .json({ status: "error", message: "Internal server error" });
+            });
+        }
+      );
+
+      
+      const bufferStream = new Readable();
+      bufferStream.push(req.file.buffer);
+      bufferStream.push(null); 
+      bufferStream.pipe(uploadStream);
+    } else {
+    
+      userModel
+        .findByIdAndUpdate(user._id, updatedUser, { new: true })
+        .then((updatedUser) => {
+          res.json({
+            status: "success",
+            data: {
+              userID: updatedUser._id,
+              userPic: updatedUser.photo,
+              userName: updatedUser.name,
+              userEmail: updatedUser.email,
+            },
+            message: "Changes have been saved",
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+          res
+            .status(500)
+            .json({ status: "error", message: "Internal server error" });
+        });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+//______________________________________________________________
+const updateUserPic = async (req, res) => {
+  try {
+    const { user } = req;
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      user._id,
+      { photo: "/default5.png" },
+      {
+        new: true,
+      }
+    );
     res.json({
       status: "success",
       data: {
@@ -67,7 +142,7 @@ const updateUser = async (req, res) => {
 const updatePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   try {
-    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const { user } = req;
     const searchedUser = await userModel.findById(user._id);
     const passwordMatch = await bcrypt.compare(
       oldPassword,
@@ -101,7 +176,7 @@ const updatePassword = async (req, res) => {
 const deleteUser = async (req, res) => {
   const { password } = req.body;
   try {
-    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const { user } = req;
     const searchedUser = await userModel.findById(user._id);
     const passwordMatch = await bcrypt.compare(password, searchedUser.password);
     if (passwordMatch) {
@@ -127,8 +202,6 @@ const deleteUser = async (req, res) => {
 const getUserPlayedTracks = async (req, res) => {
   const { userName } = req.params;
   try {
-    // const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
-    // const searchedUser = await userModel.findById(user._id);
     const searchedUser = await userModel.findOne({ name: userName });
 
     if (!searchedUser?.playedTracks || searchedUser === null) {
@@ -147,21 +220,19 @@ const getUserPlayedTracks = async (req, res) => {
     const lastWeekStart = new Date();
     const currentDay = lastWeekStart.getDay();
     lastWeekStart.setDate(lastWeekStart.getDate() - currentDay - 6);
+    lastWeekStart.setHours(0, 0, 0, 0);
     const lastWeekEnd = new Date(lastWeekStart);
     lastWeekEnd.setDate(lastWeekEnd.getDate() + 6);
-
-    // const lastMonthStart = new Date();
-    // lastMonthStart.setMonth(lastMonthStart.getMonth() - 2);
-    // const lastMonthEnd = new Date();
-    // lastMonthEnd.setMonth(lastMonthEnd.getMonth() - 1);
+    lastWeekEnd.setHours(0, 0, 0, 0);
 
     const lastMonthStart = new Date();
     lastMonthStart.setDate(1);
     lastMonthStart.setMonth(lastMonthStart.getMonth() - 1);
-
+    lastMonthStart.setHours(0, 0, 0, 0);
     const lastMonthEnd = new Date();
     lastMonthEnd.setDate(0);
     lastMonthEnd.setMonth(lastMonthEnd.getMonth());
+    lastMonthEnd.setHours(0, 0, 0, 0);
 
     const weeklyPipeline = [
       {
@@ -179,8 +250,7 @@ const getUserPlayedTracks = async (req, res) => {
           playedTrack: { $first: "$playedTracks" },
         },
       },
-      { $sort: { _id: 1 } },
-      { $sort: { count: -1 } },
+      { $sort: { count: -1, _id: 1 } },
       { $limit: 1 },
       {
         $group: {
@@ -207,8 +277,7 @@ const getUserPlayedTracks = async (req, res) => {
           playedTrack: { $first: "$playedTracks" },
         },
       },
-      { $sort: { _id: 1 } },
-      { $sort: { count: -1 } },
+      { $sort: { count: -1, _id: 1 } },
       { $limit: 1 },
       {
         $group: {
@@ -235,8 +304,7 @@ const getUserPlayedTracks = async (req, res) => {
           playedTrack: { $first: "$playedTracks" },
         },
       },
-      { $sort: { _id: 1 } },
-      { $sort: { count: -1 } },
+      { $sort: { count: -1, _id: 1 } },
       { $limit: 1 },
       {
         $group: {
@@ -305,23 +373,27 @@ const getUserPlayedTracks = async (req, res) => {
       },
       { $group: { _id: null, count: { $sum: 1 } } },
     ];
-    const artistPipeline = [
+    const albumPipeline = [
       { $match: { _id: searchedUser._id } },
       { $unwind: "$playedTracks" },
       {
         $group: {
-          _id: "$playedTracks.trackArtist",
-          trackArtistID: { $first: "$playedTracks.trackArtistID" },
+          _id: "$playedTracks.trackAlbum",
+          trackAlbumID: { $first: "$playedTracks.trackAlbumID" },
+          trackAlbumPic: { $first: "$playedTracks.trackAlbumPic" },
+          trackArtist: { $first: "$playedTracks.trackArtist" },
           count: { $sum: 1 },
         },
       },
       {
         $group: {
           _id: null,
-          artistCounts: {
+          albumCounts: {
             $push: {
-              artist: "$_id",
-              artistID: "$trackArtistID",
+              album: "$_id",
+              albumID: "$trackAlbumID",
+              albumPic: "$trackAlbumPic",
+              albumArtist: "$trackArtist",
               count: "$count",
             },
           },
@@ -339,39 +411,35 @@ const getUserPlayedTracks = async (req, res) => {
           currentMonthTotal: currentMonthPipeline,
           lastWeekTotal: lastWeekPipeline,
           lastMonthTotal: lastMonthPipeline,
-          artistData: artistPipeline,
+          albumData: albumPipeline,
         },
       },
     ];
 
     const [result] = await Promise.all([userModel.aggregate(aggregation)]);
 
-    const weeklyResult =
-      (result[0].weekly[0] && result[0].weekly[0].weeklyResult[0]) || [];
-    const weeklyCount =
-      (result[0].weekly[0] && result[0].weekly[0].weeklyCount) || 0;
-    const monthlyResult =
-      (result[0].monthly[0] && result[0].monthly[0].monthlyResult[0]) || [];
-    const monthlyCount =
-      (result[0].monthly[0] && result[0].monthly[0].monthlyCount) || 0;
-    const yearlyResult =
-      (result[0].yearly[0] && result[0].yearly[0].yearlyResult[0]) || [];
-    const yearlyCount =
-      (result[0].yearly[0] && result[0].yearly[0].yearlyCount) || 0;
+    const {
+      weekly,
+      monthly,
+      yearly,
+      currentWeekTotal,
+      currentMonthTotal,
+      lastWeekTotal,
+      lastMonthTotal,
+      albumData,
+    } = result[0] || {};
+    const weeklyResult = weekly?.[0]?.weeklyResult?.[0] || [];
+    const weeklyCount = weekly?.[0]?.weeklyCount || 0;
+    const monthlyResult = monthly?.[0]?.monthlyResult?.[0] || [];
+    const monthlyCount = monthly?.[0]?.monthlyCount || 0;
+    const yearlyResult = yearly?.[0]?.yearlyResult?.[0] || [];
+    const yearlyCount = yearly?.[0]?.yearlyCount || 0;
     const totalPlayedTracks = searchedUser.playedTracks.length;
-    const totalCurrentWeek =
-      (result[0].currentWeekTotal[0] && result[0].currentWeekTotal[0].count) ||
-      0;
-    const totalCurrentMonth =
-      (result[0].currentMonthTotal[0] &&
-        result[0].currentMonthTotal[0].count) ||
-      0;
-    const totalLastWeek =
-      (result[0].lastWeekTotal[0] && result[0].lastWeekTotal[0].count) || 0;
-    const totalLastMonth =
-      (result[0].lastMonthTotal[0] && result[0].lastMonthTotal[0].count) || 0;
-    const allArtistsPlayed =
-      (result[0].artistData[0] && result[0].artistData[0].artistCounts) || [];
+    const totalCurrentWeek = currentWeekTotal?.[0]?.count || 0;
+    const totalCurrentMonth = currentMonthTotal?.[0]?.count || 0;
+    const totalLastWeek = lastWeekTotal?.[0]?.count || 0;
+    const totalLastMonth = lastMonthTotal?.[0]?.count || 0;
+    const allAlbumsPlayed = albumData?.[0]?.albumCounts || [];
 
     res.json({
       status: "success",
@@ -387,7 +455,7 @@ const getUserPlayedTracks = async (req, res) => {
         totalCurrentMonth,
         totalLastWeek,
         totalLastMonth,
-        allArtistsPlayed,
+        allAlbumsPlayed,
       },
     });
   } catch (error) {
@@ -399,7 +467,7 @@ const getUserPlayedTracks = async (req, res) => {
 //______________________________________________________________
 const updateUserPlayedTracks = async (req, res) => {
   try {
-    const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+    const { user } = req;
     const {
       trackTitle,
       trackAlbum,
@@ -438,4 +506,5 @@ module.exports = {
   updatePassword,
   getUserPlayedTracks,
   updateUserPlayedTracks,
+  updateUserPic,
 };

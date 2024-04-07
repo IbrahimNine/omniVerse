@@ -179,7 +179,7 @@
   width: 100%;
   height: auto;
   object-fit: cover;
-  filter: drop-shadow(0 0 15px white);
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
 }
 
 .userOptions {

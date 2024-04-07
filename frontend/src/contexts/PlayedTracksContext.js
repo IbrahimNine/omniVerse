@@ -27,19 +27,7 @@ export const PlayedTracksProvider = ({ children }) => {
         }
       )
       .then((res) => console.log(res))
-      .catch((err) => console.log(err))
-      .finally(() => {
-        console.log({
-          trackTitle: trackData.ofTitle,
-          trackAlbum: trackData.releaseData.title,
-          trackAlbumPic: trackData.releaseData.images
-            ? trackData.releaseData.images[0].uri
-            : "/default3.png",
-          trackAlbumID: `${trackData.releaseData.id}`,
-          trackArtist: trackData.releaseData.artists_sort,
-          trackArtistID: `${trackData.releaseData.artists[0].id}`,
-        });
-      });
+      .catch((err) => console.log(err));
   };
 
   //__________________________________________________________________

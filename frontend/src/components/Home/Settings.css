@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5%;
+  gap: 4%;
   background-color: #11111afa;
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
     0px 20px 50px -20px rgba(0, 0, 0, 0.3),
@@ -37,16 +37,29 @@
   color: white;
   box-sizing: border-box;
 }
+#GeneralSettings {
+  margin-bottom: 0.2em;
+}
 .inputPicLayer {
-  width: 50%;
+  width: 80%;
   height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
+  text-align: center;
+  gap: 5%;
+}
+.inputPicLayer p {
+  width: 20%;
 }
 .inputPicLayer input {
+  width: 50%;
   height: 100%;
   padding: 10px 15px;
+}
+.inputPicLayer abbr svg {
+  cursor: pointer;
 }
 .SettingsBtns {
   width: 80%;

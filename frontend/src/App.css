@@ -100,14 +100,18 @@ body {
 .ArtistData a {
   color: inherit;
 }
+.ArtistData p {
+  margin: 0;
+}
 .RelatedArtists {
-  width: "90%";
+  width: 90%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 4%;
   overflow-y: scroll;
+  text-align: center;
 }
 .releasesLoading {
   margin: 0 40%;
@@ -332,22 +336,7 @@ body {
 .UserDetailedDash p {
   margin: 0;
 }
-.periodIcon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 70px;
-  height: 70px;
-  background-color: #edeaf7da;
-  padding: 12px;
-  box-sizing: border-box;
-  border-radius: 0 0 50% 0;
-  background-color: #edeaf7ee;
-  z-index: 1;
-}
-.periodIcon svg {
-  filter: drop-shadow(0 0 5px white);
-}
+
 .PlayedData {
   width: 95%;
   display: flex;
@@ -356,15 +345,25 @@ body {
   padding: 0 15px;
   margin: 5px 0;
   box-sizing: border-box;
-  text-decoration: none;
   color: inherit;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.616);
   transition: box-shadow 0.3s;
+  cursor: pointer;
+}
+.PlayedData img {
+  height: 80%;
+  width: 44px;
+  object-fit: cover;
+  border-radius: 30px;
 }
 .PlayedData:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.616), inset 0 0 10px rgba(0, 0, 0, 0.616),
     0px 10px 5px -10px rgba(210, 235, 255, 0.45),
     0px -10px 5px -10px rgba(210, 235, 255, 0.45);
+}
+.recordDetails {
+  margin-right: auto;
+  margin-left: 2%;
 }
 #listenedArtists {
   width: 100%;

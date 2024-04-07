@@ -17,8 +17,8 @@ function Home() {
   return (
     <div className="Home">
       <Hero />
-      <TopChart filterBy="artist" />
-      <TopChart filterBy="master" />
+      <TopChart filterBy="artist" index={0} />
+      <TopChart filterBy="master" index={1} />
       <Footer />
     </div>
   );
