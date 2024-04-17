@@ -4,7 +4,7 @@ import SliderCard from "./SliderCard";
 import axios from "axios";
 import { handleNext, handlePrevious } from "../../utils/sliderHandlers";
 
-function TopChart({ filterBy,index }) {
+function TopChart({ filterBy, index }) {
   const [sliderPosition, setSliderPosition] = useState(0);
   const [result, setResult] = useState(null);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
@@ -92,7 +92,9 @@ function TopChart({ filterBy,index }) {
           style={{ transform: `translateX(${sliderPosition}px)` }}
         >
           {result &&
-            result.map((item) => <SliderCard key={item.id} item={item} />)}
+            result.map((item) => (
+              <SliderCard key={item.id} item={item} filterBy={filterBy} />
+            ))}
         </div>
       </div>
       <button

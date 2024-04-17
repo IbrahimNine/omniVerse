@@ -2,7 +2,7 @@
   width: 99%;
   min-height: 345px;
   border-radius: 20px;
-  padding: 0.3% 1.5%;
+  padding: 0.3% 0.5%;
   border: 1px rgba(255, 255, 255, 0) solid;
   box-sizing: border-box;
   transition: box-shadow 0.5s;
@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 7%;
+  padding: 0 5%;
   box-sizing: border-box;
   transition: all 0.5s;
 }
@@ -29,16 +29,16 @@
 .collectionBody {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 }
 
 .FirstLayerWrapper {
-  height: 250px;
-  width: 90%;
+  height: 260px;
+  width: 100%;
   overflow: hidden;
-  margin-bottom: 10px;
-  border-radius: 20px;
+  margin: 0 -25px 5px -25px;
+  border-radius: 5px;
   box-shadow: 20px 0px 15px -20px rgba(0, 0, 0, 0.75) inset,
     -20px 0px 15px -20px rgba(0, 0, 0, 0.75) inset;
 }
@@ -53,23 +53,27 @@
   gap: 10px;
   padding: 0 10px;
   transition: transform 0.5s;
+  /* background-color: rgba(0, 0, 0, 0.158); */
 }
 .collection-item {
   position: relative;
   border: 0.1px #1c1b2977 solid;
-  border-radius: 20px;
-  height: 90%;
-  width: 220px;
+  /* border-radius: 20px; */
+  height: 100%;
+  width: 250px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   overflow-x: hidden;
-  transition: box-shadow 0.3s;
+  filter: grayscale(0) contrast(100%);
+
+  transition: box-shadow 0.3s, filter 0.9s;
 }
 .collection-item:hover {
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.616),
-    0px 0px 5px 1px rgba(210, 235, 255, 0.45);
+    0px 0px 15px -1px rgba(210, 235, 255, 0.45);
+  filter: grayscale(90%) contrast(130%);
 }
 .collection-item img {
   width: 100%;
@@ -79,22 +83,22 @@
 .collected-item-title {
   position: absolute;
   width: 100%;
-  height: 0;
+  height: 0%;
   bottom: 0;
-  display: none;
   left: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   background-image: linear-gradient(to top, black, transparent);
   cursor: pointer;
   overflow: hidden;
   transition: height 0.5s;
 }
+
 .collection-item:hover .collected-item-title {
   height: 100%;
 }
-.collected-item-title h5 {
+.collected-item-title h4 {
   text-shadow: 0 0 5px black;
   width: 70%;
   text-align: center;
@@ -111,11 +115,27 @@
 }
 .collectionBody button {
   all: unset;
+  z-index: 1;
+  background-color: #12121dd7;
+  border-radius: 35px;
+  filter: drop-shadow(0 0 10px black);
+  min-width: 60px;
+  min-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.726) 0px 7px 29px 0px;
 }
 .collectionBody button,
 .collectionBody svg {
   cursor: pointer;
 }
+/* .collectionBody .previousBtn {
+  padding: 5px 7px 5px 5px;
+}
+.collectionBody .nextBtn {
+  padding: 5px 5px 5px 7px;
+} */
 
 .titleEditorForm {
   width: 40%;

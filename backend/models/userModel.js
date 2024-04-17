@@ -8,6 +8,7 @@ const playedTrackSchema = new Schema(
     trackAlbumID: String,
     trackArtist: String,
     trackArtistID: String,
+    trackGenres: String,
   },
   { timestamps: true }
 );

@@ -68,6 +68,10 @@
 .toShowAlbum {
   cursor: pointer;
 }
+.toShowAlbum,
+.volumeSet span {
+  height: 17px;
+}
 .showOnQueue {
   display: none;
   position: absolute;

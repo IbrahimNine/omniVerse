@@ -5,7 +5,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 function PrivateRoute() {
   const { user } = useAuthContext();
 
-  return user === undefined || user === null ? (
+  return user === undefined ? null : user === null ? (
     <Navigate to={"/login"} />
   ) : (
     <Outlet />

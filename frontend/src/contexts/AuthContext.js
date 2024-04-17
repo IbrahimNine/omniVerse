@@ -29,7 +29,6 @@ export function AuthContextProvider({ children }) {
       .then((res) => {
         if (res.data.status === "success") {
           setUser(res.data.data);
-
           navigate("/music");
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
@@ -96,7 +95,11 @@ export function AuthContextProvider({ children }) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response && err.response.status === 401) {
+          setUser(null);
+        } else {
+          console.log(err);
+        }
       });
   }, [baseURL]);
 

@@ -26,7 +26,7 @@ userRouter.put("/password", updatePasswordValidator, updatePassword);
 
 userRouter.post("/delete", userDeleteValidator, deleteUser);
 
-userRouter.get("/playedTracks/:userName", getUserPlayedTracks);
+userRouter.get("/playedTracks/:userName/:recordsFilter", getUserPlayedTracks);
 
 userRouter.put(
   "/playedTracks",

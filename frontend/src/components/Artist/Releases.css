@@ -1,6 +1,6 @@
 .Releases {
   width: 95%;
-  height: 60px;
+  height: 90px;
   margin: 5px auto;
   padding: 0 15px;
   /* border-radius: 10px; */
@@ -30,9 +30,9 @@
 }
 .release img {
   height: 80%;
-  width: 48px;
+  width: 75px;
   object-fit: cover;
-  border-radius: 30px;
+  border-radius: 5px;
 }
 .release .btns {
   width: 15%;

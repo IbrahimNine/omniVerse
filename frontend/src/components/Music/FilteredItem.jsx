@@ -8,7 +8,7 @@ function FilteredItem({ item, showTracksAlone }) {
 
   return (
     <Link
-      to={filterBy === "artist" ? `/artist/${item.id}` : ""}
+      to={filterBy === "artist" ? `/artist/${item.id}` : null}
       onClick={
         filterBy === "master" &&
         (() => showTracksAlone(item, setReleaseLoading))
@@ -67,11 +67,12 @@ function FilteredItem({ item, showTracksAlone }) {
         <img
           src={
             item.cover_image.includes("https://st.discogs.com/")
-              ? "/default.png"
+              ? "/default3.png"
               : item.cover_image
           }
           alt="pic"
           className="FilteredItemPic"
+          style={{ borderRadius: filterBy === "master" ? "5px" : "100px" }}
         />
         <abbr title={item.title} className="itemTitle">
           <h4>

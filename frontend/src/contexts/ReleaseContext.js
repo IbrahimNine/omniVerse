@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const ReleaseContext = createContext();
 export const useReleaseContext = () => useContext(ReleaseContext);
@@ -15,6 +15,8 @@ export function ReleaseProvider({ children }) {
     title: "Gabriel Saban - Omniverse",
   });
   const [play, setPlay] = useState(false);
+  const [played, setPlayed] = useState(0);
+  const playerRef = useRef(null);
   const [playerLoading, setPlayerLoading] = useState(false);
   const [loadingAlbum, setLoadingAlbum] = useState(false);
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
@@ -260,6 +262,9 @@ export function ReleaseProvider({ children }) {
         setPlayTrack,
         playerLoading,
         loadingAlbum,
+        played,
+        setPlayed,
+        playerRef,
       }}
     >
       {children}

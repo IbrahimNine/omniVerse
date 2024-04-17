@@ -10,7 +10,7 @@ function Home() {
   useEffect(() => {
     setGlobalSearch("");
     setFilterSet({});
-    setFilterBy("artist");
+    setFilterBy("master");
   }, [setGlobalSearch, setFilterSet, setFilterBy]);
 
 

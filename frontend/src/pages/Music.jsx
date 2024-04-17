@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Offcanvas from "../components/Music/Offcanvas";
 import FilteredItems from "../components/Music/FilteredItems";
 import { useFiltersContext } from "../contexts/FiltersContext";
+import './Music.css'
 
 function Music() {
   const { filterBy, setFilterBy } = useFiltersContext();
@@ -18,6 +19,14 @@ function Music() {
       }
     });
   }, [filterBy]);
+
+  useEffect(() => {
+    const originalTitle = document.title;
+    document.title = `Music | ${document.title}`;
+    return () => {
+      document.title = originalTitle;
+    };
+  }, []);
 
   return (
     <div className="Music">

@@ -21,22 +21,27 @@ export const PlayedTracksProvider = ({ children }) => {
           trackAlbumID: `${trackData.releaseData.id}`,
           trackArtist: trackData.releaseData.artists_sort,
           trackArtistID: `${trackData.releaseData.artists[0].id}`,
+          trackGenres: trackData.releaseData.styles
+            ? trackData.releaseData?.styles[0]
+            : null,
         },
         {
           withCredentials: true,
         }
       )
-      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
 
   //__________________________________________________________________
   const getUserPlayedTracks = useCallback(
-    (userName) => {
+    (userName,allRecordsFilter) => {
       axios
-        .get(`${baseURL}/api/user/playedTracks/${userName}`, {
-          withCredentials: true,
-        })
+        .get(
+          `${baseURL}/api/user/playedTracks/${userName}/${allRecordsFilter}`,
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           if (res.data.status === "fail") {
             setMostPlayedData("");

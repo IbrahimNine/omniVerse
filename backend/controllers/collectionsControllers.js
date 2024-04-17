@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 //____________________________________________________________________
 const addingNewCollection = async (req, res) => {
-  const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+  const { user } = req;
   try {
     const data = await collectionModel.create({
       ...req.body,
@@ -53,7 +53,7 @@ const deleteCollection = async (req, res) => {
 
 //____________________________________________________________________
 const getUserCollections = async (req, res) => {
-  const user = jwt.verify(req.cookies.token, process.env.TOKEN_SECRET_KEY);
+  const { user } = req;
   try {
     const data = await collectionModel
       .find({ owner: user._id })

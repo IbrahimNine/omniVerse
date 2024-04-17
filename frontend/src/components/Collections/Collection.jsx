@@ -14,6 +14,7 @@ function Collection({ collection, index }) {
   const [showTitleEditor, setShowTitleEditor] = useState(false);
   const [newTitle, setNewTitle] = useState(collection.title);
 
+
   return (
     <>
       <div
@@ -177,12 +178,13 @@ function Collection({ collection, index }) {
         <div className="collectionBody">
           <button
             type="button"
+            className="previousBtn"
             onClick={() => handlePrevious(setSliderPosition, sliderPosition)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="2em"
-              height="2em"
+              width="3em"
+              height="3em"
               viewBox="0 0 20 20"
             >
               <path
@@ -205,13 +207,13 @@ function Collection({ collection, index }) {
                       onClick={(e) => {
                         if (
                           e.target.className === "collected-item-title" ||
-                          e.target.tagName === "H5"
+                          e.target.tagName === "H4"
                         ) {
                           showTracks({ id: item.elementID });
                         }
                       }}
                     >
-                      <h5>{item.elementTitle}</h5>
+                      <h4>{item.elementTitle}</h4>
                       <abbr title="Delete from Collection">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -241,12 +243,13 @@ function Collection({ collection, index }) {
           </div>
           <button
             type="button"
+            className="nextBtn"
             onClick={() => handleNext(setSliderPosition, sliderPosition, index)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="2em"
-              height="2em"
+              width="3em"
+              height="3em"
               viewBox="0 0 20 20"
               // onClick={() => handleNext(setSliderPosition, sliderPosition)}
             >

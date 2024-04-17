@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const { topGenresPipeline } = require("../utils/DataPipelines");
 require("dotenv").config();
 
 const loginController = async (req, res) => {
@@ -25,6 +26,9 @@ const loginController = async (req, res) => {
           { expiresIn: "7d" }
         );
 
+            const pipeline = topGenresPipeline(searchedUser);
+            const topGenres = await userModel.aggregate(pipeline);
+
         res
           .cookie("token", token, {
             maxAge: 3600000, // 1 hour
@@ -45,6 +49,7 @@ const loginController = async (req, res) => {
               userPic: searchedUser.photo,
               userName: searchedUser.name,
               userEmail: searchedUser.email,
+              topGenres,
             },
           });
       } else {

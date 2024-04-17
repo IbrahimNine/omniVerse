@@ -21,6 +21,7 @@ import Album from "./components/Artist/Album";
 import NewCollectionName from "./components/Collections/NewCollectionName";
 import { useCollectionsContext } from "./contexts/CollectionsContext";
 import UserCollectionsList from "./components/Collections/UserCollectionsList";
+import MediaPlayer from "./components/Home/MediaPlayer";
 
 function App() {
   const { showSettings, noticMsg, getUserData, user } = useAuthContext();
@@ -54,6 +55,7 @@ function App() {
       {showSettings && user && <Settings />}
       {noticMsg && <Notifications />}
       <Player />
+      <MediaPlayer />
     </div>
   );
 }

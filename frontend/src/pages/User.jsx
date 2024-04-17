@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import "./User.css";
 import { usePlayedTracksContext } from "../contexts/PlayedTracksContext";
 import { useAuthContext } from "../contexts/AuthContext";
 import { Link, useParams } from "react-router-dom";
@@ -10,9 +11,21 @@ function User() {
   const { showTracks } = useReleaseContext();
   const { user } = useAuthContext();
   const { userName } = useParams();
+  const [recordsFilter, setRecordsFilter] = useState("");
+
   useEffect(() => {
-    getUserPlayedTracks(userName);
+    getUserPlayedTracks(userName, "All TIME");
   }, [getUserPlayedTracks, userName]);
+
+  useEffect(() => {
+    const originalTitle = document.title;
+    if (user.userName !== undefined) {
+      document.title = `${user.userName}'s profile | ${document.title}`;
+    }
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [user]);
 
   return (
     <div className="UserWrapper">
@@ -20,8 +33,8 @@ function User() {
         <div className="UserDetailedDash">
           <img src={user.userPic} alt="" />
           {mostPlayedData && <DataBar mostPlayedData={mostPlayedData} />}
-          <p>
-            Total plays:&nbsp;
+          <p style={{ color: "gray" }}>
+            Total listens:&nbsp;
             {mostPlayedData ? mostPlayedData.total : 0}
           </p>
         </div>
@@ -30,17 +43,18 @@ function User() {
             {mostPlayedData && (
               <>
                 <div className="mostPlayedCardWrapper">
-                  <h3>Last 7 days top record</h3>
+                  <h3 className="styledTitle">Last 7 days top record</h3>
                   <div className="mostPlayed">
                     <img
                       src={
                         mostPlayedData?.weekly.trackAlbumPic || "/default3.png"
                       }
                       alt=""
+                      className="mostPlayedImg"
                     />
 
                     <div className="mostPlayedDetails">
-                      <h5
+                      <h3
                         onClick={() =>
                           showTracks({
                             id: mostPlayedData?.weekly.trackAlbumID,
@@ -48,13 +62,13 @@ function User() {
                         }
                       >
                         {mostPlayedData?.weekly.trackAlbum}
-                      </h5>
+                      </h3>
                       <Link
                         to={`/artist/${mostPlayedData?.weekly.trackArtistID}`}
                       >
                         <h5>{mostPlayedData?.weekly.trackArtist}</h5>
                       </Link>
-                      <h4>{mostPlayedData?.weeklyCount} Plays</h4>
+                      <h4>{mostPlayedData?.weeklyCount} Listens</h4>
                     </div>
                   </div>
                 </div>
@@ -64,17 +78,18 @@ function User() {
                     backgroundColor: "rgba(233, 241, 255, 0.038)",
                   }}
                 >
-                  <h3>Last 30 days top record</h3>
+                  <h3 className="styledTitle">Last 30 days top record</h3>
                   <div className="mostPlayed">
                     <img
                       src={
                         mostPlayedData?.monthly.trackAlbumPic || "/default3.png"
                       }
                       alt=""
+                      className="mostPlayedImg"
                     />
 
                     <div className="mostPlayedDetails">
-                      <h5
+                      <h3
                         onClick={() =>
                           showTracks({
                             id: mostPlayedData?.monthly.trackAlbumID,
@@ -82,28 +97,29 @@ function User() {
                         }
                       >
                         {mostPlayedData?.monthly.trackAlbum}
-                      </h5>
+                      </h3>
                       <Link
                         to={`/artist/${mostPlayedData?.monthly.trackArtistID}`}
                       >
                         <h5>{mostPlayedData?.monthly.trackArtist}</h5>
                       </Link>
-                      <h4>{mostPlayedData?.monthlyCount} Plays</h4>
+                      <h4>{mostPlayedData?.monthlyCount} Listens</h4>
                     </div>
                   </div>
                 </div>
                 <div className="mostPlayedCardWrapper">
-                  <h3>Last 365 days top record</h3>
+                  <h3 className="styledTitle">Last 365 days top record</h3>
                   <div className="mostPlayed">
                     <img
                       src={
                         mostPlayedData?.yearly.trackAlbumPic || "/default3.png"
                       }
                       alt=""
+                      className="mostPlayedImg"
                     />
 
                     <div className="mostPlayedDetails">
-                      <h5
+                      <h3
                         onClick={() =>
                           showTracks({
                             id: mostPlayedData?.yearly.trackAlbumID,
@@ -111,13 +127,13 @@ function User() {
                         }
                       >
                         {mostPlayedData?.yearly.trackAlbum}
-                      </h5>
+                      </h3>
                       <Link
                         to={`/artist/${mostPlayedData?.yearly.trackArtistID}`}
                       >
                         <h5>{mostPlayedData?.yearly.trackArtist}</h5>
                       </Link>
-                      <h4>{mostPlayedData?.yearlyCount} Plays</h4>
+                      <h4>{mostPlayedData?.yearlyCount} Listens</h4>
                     </div>
                   </div>
                 </div>
@@ -131,11 +147,40 @@ function User() {
               backgroundColor: "rgba(105, 105, 105, 0.527)",
             }}
           />
-          {mostPlayedData?.allAlbumsPlayed.length > 0 && (
-            <h2 id="listenedArtists">Records you've heard</h2>
-          )}
+
+          <div id="listenedArtists" className="styledTitle">
+            <h2>Records you've heard</h2>
+            <div className="listenedArtistsTools">
+              <input
+                type="text"
+                placeholder="Search..."
+                onChange={(e) => {
+                  setRecordsFilter(e.target.value);
+                }}
+              />
+              <select
+                onChange={(e) => {
+                  getUserPlayedTracks(userName, e.target.value);
+                }}
+              >
+                <option value="ALL TIME">All time</option>
+                <option value="LAST YEAR">Last 365 days</option>
+                <option value="LAST MONTH">Last 30 days</option>
+                <option value="LAST WEEK">Last 7 days</option>
+              </select>
+            </div>
+          </div>
+
           {mostPlayedData &&
             mostPlayedData.allAlbumsPlayed
+              .filter((item) => {
+                return (
+                  item.albumArtist
+                    .toLowerCase()
+                    .includes(recordsFilter.toLowerCase()) ||
+                  item.album.toLowerCase().includes(recordsFilter.toLowerCase())
+                );
+              })
               .sort((a, b) => {
                 if (a.count === b.count) {
                   if (a.albumArtist < b.albumArtist) {
@@ -152,20 +197,22 @@ function User() {
               .map((item, index) => {
                 return (
                   <div
-                    key={item.index}
+                    key={index}
                     onClick={() => {
                       showTracks({ id: item.albumID });
                     }}
                     className="PlayedData"
                     style={{
-                      backgroundColor:
-                        index % 2 !== 0 ? "rgba(233, 241, 255, 0.038)" : "none",
+                      backgroundImage: ` radial-gradient(circle, transparent 0.5%, black 100%) ,url(${item.albumPic})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
                     }}
                   >
-                    <img src={item.albumPic} alt="cover" />
+                    {/* <img src={item.albumPic} alt="cover" /> */}
 
                     <p className="recordDetails">
-                      {item.albumArtist} - {item.album}
+                      {item.albumArtist} - <strong>{item.album}</strong>
                     </p>
                     <p>{item.count}</p>
                   </div>

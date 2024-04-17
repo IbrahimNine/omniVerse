@@ -1,0 +1,43 @@
+.MediaPlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 110;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  transition: background-color 0.9s;
+}
+.MediaPlayer input {
+  min-width: 100%;
+  appearance: none;
+  /* border-radius: 10px; */
+  height: 7px;
+  background-color: #000013b2;
+  margin: 0;
+}
+.MediaPlayer input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+.MediaPlayer input::-moz-range-progress {
+  background: #ffffff;
+}
+.albumImageWrapper {
+  width: 500px;
+  max-height: 80vh;
+  border-radius: 5px;
+  background-color: #000013;
+}
+.albumImageWrapper img {
+  width: 100%;
+  height: 100%;
+}

@@ -72,7 +72,7 @@ function Album() {
                     <h3>{releaseData.title}</h3>
                     {releaseCord &&
                       releaseData &&
-                      (releaseCord?.artist?.includes("/") ||
+                      (releaseData?.artists?.length > 1 ||
                       releaseData?.artists_sort?.includes("/") ? (
                         <div className="ArtistName">
                           {generateArtistLinks(releaseData?.artists)}

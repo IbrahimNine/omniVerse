@@ -1,7 +1,7 @@
 import "./Player.css";
 import ReactPlayer from "react-player/lazy";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { usePlayedTracksContext } from "../../contexts/PlayedTracksContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 
@@ -17,13 +17,14 @@ function Player() {
     setPlay,
     setPlayTrack,
     playerLoading,
+    played,
+    setPlayed,
+    playerRef,
   } = useReleaseContext();
   const { user } = useAuthContext();
   const { updatePlayedTrack } = usePlayedTracksContext();
   const [volume, setVolume] = useState(90);
-  const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(null);
-  const playerRef = useRef(null);
 
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
@@ -237,7 +238,9 @@ function Player() {
           }}
           className="toShowAlbum"
         >
-          {trackData.title}
+          {trackData.title.length > 50
+            ? trackData.title.slice(0, 50) + "..."
+            : trackData.title}
           <abbr title="Show played album">
             <svg
               xmlns="http://www.w3.org/2000/svg"

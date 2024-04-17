@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import './Artist.css'
 import { Link, useParams } from "react-router-dom";
 import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
@@ -54,7 +55,8 @@ function Artist() {
         ) : (
           <img src="/default2.png" alt="Artist" style={{ cursor: "unset" }} />
         )}
-        <h3>{artistData.name}</h3>
+
+        <h3 id="ArtistName">{artistData.name}</h3>
         <p>
           {artistData.profile &&
             (artistData.profile.length > 100
@@ -62,7 +64,7 @@ function Artist() {
               : artistData.profile)}
         </p>
         {artistData.aliases && (
-          <h4 style={{ margin: "7% 0 0 0" }}>See also:</h4>
+          <h4 style={{ margin: "7% 0 0 0", marginTop: "auto" }}>See also:</h4>
         )}
         <div className="RelatedArtists">
           {artistData.aliases &&

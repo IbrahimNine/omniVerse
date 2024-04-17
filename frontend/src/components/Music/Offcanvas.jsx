@@ -59,9 +59,6 @@ const Offcanvas = () => {
     (_, index) => start + index
   );
 
-  // const decades = Array.from(
-  //   new Set(years.map((year) => Math.floor(year / 10) * 10))
-  // );
 
   return (
     <div className="Offcanvas">

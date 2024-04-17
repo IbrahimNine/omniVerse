@@ -20,40 +20,38 @@ function FilteredItems() {
     }
   }, [isPagedArtists, fetchMoreData]);
 
-  useEffect(() => { 
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [handleScroll]);
 
-const backToTopButton = document.querySelector("#backToTop");
-window.addEventListener("scroll", () => {
-  if (backToTopButton !== null) {
-    if (window.scrollY > 200) {
-      backToTopButton.style.display = "block";
-    } else {
-      backToTopButton.style.display = "none";
+  const backToTopButton = document.querySelector("#backToTop");
+  window.addEventListener("scroll", () => {
+    if (backToTopButton !== null) {
+      if (window.scrollY > 200) {
+        backToTopButton.style.display = "block";
+      } else {
+        backToTopButton.style.display = "none";
+      }
     }
-  }
-});
-
-const HandleScrollUp = () =>{
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-    
   });
-}
 
+  const HandleScrollUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="FilteredItems" onScroll={handleScroll}>
       {filteredData &&
-        filteredData.map((item) => {
+        filteredData.map((item, index) => {
           return (
             <FilteredItem
-              key={item.id}
+              key={index}
               item={item}
               showTracksAlone={showTracksAlone}
             />
