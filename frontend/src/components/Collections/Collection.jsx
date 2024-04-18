@@ -183,8 +183,8 @@ function Collection({ collection, index }) {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="3em"
-              height="3em"
+              width="2.5em"
+              height="2.5em"
               viewBox="0 0 20 20"
             >
               <path
@@ -248,8 +248,8 @@ function Collection({ collection, index }) {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="3em"
-              height="3em"
+              width="2.5em"
+              height="2.5em"
               viewBox="0 0 20 20"
               // onClick={() => handleNext(setSliderPosition, sliderPosition)}
             >

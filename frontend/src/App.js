@@ -13,7 +13,7 @@ import Player from "./components/Home/Player";
 import Settings from "./components/Home/Settings";
 import { useAuthContext } from "./contexts/AuthContext";
 import Notifications from "./components/Home/Notifications";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { useReleaseContext } from "./contexts/ReleaseContext";
@@ -25,19 +25,54 @@ import MediaPlayer from "./components/Home/MediaPlayer";
 
 function App() {
   const { showSettings, noticMsg, getUserData, user } = useAuthContext();
-  const { showDetails } = useReleaseContext();
+  const { showDetails, showModia, play } = useReleaseContext();
   const { showNewCollectionName, showUserCollectionsList } =
     useCollectionsContext();
+  const [inactiveTime, setInactiveTime] = useState(0);
+  const INACTIVITY_THRESHOLD = 60000;
+
   useEffect(() => {
     getUserData();
   }, [getUserData]);
+
+  useEffect(() => {
+    const handleActive = () => {
+      setInactiveTime(0);
+    };
+    if (inactiveTime < INACTIVITY_THRESHOLD) {
+      window.addEventListener("mousemove", handleActive);
+    }
+    window.addEventListener("click", handleActive);
+    window.addEventListener("keydown", handleActive);
+    window.addEventListener("scroll", handleActive);
+    const timer = setInterval(() => {
+      if (play) {
+        setInactiveTime((prevTime) => prevTime + 1000);
+      }
+    }, 1000);
+    return () => {
+      if (inactiveTime < INACTIVITY_THRESHOLD) {
+        window.removeEventListener("mousemove", handleActive);
+      }
+      window.removeEventListener("click", handleActive);
+      window.removeEventListener("keydown", handleActive);
+      window.removeEventListener("scroll", handleActive);
+      clearInterval(timer);
+    };
+  }, [inactiveTime, play]);
 
   return (
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/music" element={<Music />} />
+        <Route
+          path="/"
+          element={inactiveTime < INACTIVITY_THRESHOLD ? <Home /> : null}
+        />
+        <Route
+          path="/music"
+          element={inactiveTime < INACTIVITY_THRESHOLD ? <Music /> : null}
+        />
         <Route path="/artist/:id" element={<Artist />} />
         <Route element={<PrivateRoute />}>
           <Route path="/collections" element={<Collections />} />
@@ -55,7 +90,7 @@ function App() {
       {showSettings && user && <Settings />}
       {noticMsg && <Notifications />}
       <Player />
-      <MediaPlayer />
+      {inactiveTime > INACTIVITY_THRESHOLD && showModia && <MediaPlayer />}
     </div>
   );
 }

@@ -22,6 +22,7 @@ function Notifications() {
       clearTimeout(delay1, delay2, delay3);
     };
   }, [setNoticMsg]);
+  
   return (
     <div className="Notifications">
       <div className="notifWrapper">{noticMsg}</div>

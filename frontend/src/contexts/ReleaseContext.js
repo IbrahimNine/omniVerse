@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const ReleaseContext = createContext();
 export const useReleaseContext = () => useContext(ReleaseContext);
@@ -13,8 +19,10 @@ export function ReleaseProvider({ children }) {
   const [trackData, setTrackData] = useState({
     id: "LS31VZCeD7c",
     title: "Gabriel Saban - Omniverse",
+    originalTitle: "Gabriel Saban - Omniverse",
   });
   const [play, setPlay] = useState(false);
+  const [showModia, setShowMedia] = useState(false);
   const [played, setPlayed] = useState(0);
   const playerRef = useRef(null);
   const [playerLoading, setPlayerLoading] = useState(false);
@@ -108,8 +116,12 @@ export function ReleaseProvider({ children }) {
           title: res.data[0].title,
           releaseData: releaseData,
           ofTitle: item.title.trim(),
+          originalTitle: `${artists_sort.split(/[()]/)[0].trim()} - ${
+            item.title
+          }`,
         });
         setPlay(true);
+        setShowMedia(true);
         setOnQueue({
           trackIndex: index,
           releaseData: releaseData,
@@ -151,6 +163,11 @@ export function ReleaseProvider({ children }) {
               onQueue.releaseData.tracklist[
                 onQueue.trackIndex + 1
               ].title.trim(),
+            originalTitle: `${onQueue.releaseData.artists_sort
+              .split(/[()]/)[0]
+              .trim()} - ${
+              onQueue.releaseData.tracklist[onQueue.trackIndex + 1].title
+            }`,
           });
           setPlay(true);
           setPlayerLoading(false);
@@ -187,6 +204,11 @@ export function ReleaseProvider({ children }) {
               onQueue.releaseData.tracklist[
                 onQueue.trackIndex - 1
               ].title.trim(),
+            originalTitle: `${onQueue.releaseData.artists_sort
+              .split(/[()]/)[0]
+              .trim()} - ${
+              onQueue.releaseData.tracklist[onQueue.trackIndex - 1].title
+            }`,
           });
           setPlay(true);
           setPlayerLoading(false);
@@ -265,6 +287,7 @@ export function ReleaseProvider({ children }) {
         played,
         setPlayed,
         playerRef,
+        showModia,
       }}
     >
       {children}

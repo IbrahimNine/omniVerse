@@ -116,7 +116,7 @@
 .collectionBody button {
   all: unset;
   z-index: 1;
-  background-color: #12121dd7;
+  background-color: #12121dee;
   border-radius: 35px;
   filter: drop-shadow(0 0 10px black);
   min-width: 60px;
@@ -124,18 +124,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.726) 0px 7px 29px 0px;
+  box-shadow: rgba(0, 0, 0, 0.726) 0px 0px 25px -5px;
+  transition: background-color 0.3s;
 }
 .collectionBody button,
 .collectionBody svg {
   cursor: pointer;
 }
-/* .collectionBody .previousBtn {
-  padding: 5px 7px 5px 5px;
+.collectionBody button:hover {
+  background-color: #171725;
 }
-.collectionBody .nextBtn {
-  padding: 5px 5px 5px 7px;
-} */
 
 .titleEditorForm {
   width: 40%;

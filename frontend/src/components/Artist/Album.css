@@ -81,6 +81,9 @@
   align-items: center;
   text-align: center;
 }
+.track-details-title {
+  max-width: 80%;
+}
 #albumCover {
   width: 70%;
   max-height: 60%;
@@ -164,4 +167,8 @@
   gap: 10%;
   max-width: 4vw;
   height: 90%;
+}
+#loeading-AlbumDetails {
+  margin-top: auto;
+  margin-bottom: auto;
 }

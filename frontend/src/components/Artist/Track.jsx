@@ -34,7 +34,7 @@ function Track({ item, artists_sort, index }) {
     <div className="track">
       <div className="track-details">
         <p>{item.position}</p>
-        <p>{item.title}</p>
+        <p className="track-details-title">{item.title}</p>
         <p>{item.duration}</p>
       </div>
       <div className="controlsWrapper">

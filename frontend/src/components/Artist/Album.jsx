@@ -105,8 +105,9 @@ function Album() {
             ) : (
               <img
                 src="https://cdn.pixabay.com/animation/2023/03/20/02/45/02-45-27-186_512.gif"
-                alt="loading"
+                alt=""
                 width={50}
+                id="loeading-AlbumDetails"
               />
             )}
             <div className="btns">
