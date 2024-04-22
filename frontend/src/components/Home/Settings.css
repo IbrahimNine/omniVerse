@@ -21,10 +21,11 @@
   justify-content: center;
   align-items: center;
   gap: 4%;
-  background-color: #11111afa;
+  /* background-color: #11111afa; */
+  background-color: rgb(17, 19, 27);
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
     0px 20px 50px -20px rgba(0, 0, 0, 0.3),
-    inset 0px -2px 10px 0px rgba(10, 37, 64, 0.35);
+    inset 0px -2px 15px 0px rgba(3, 4, 7, 0.507);
 }
 .Settings input {
   width: 80%;
@@ -78,10 +79,15 @@
   text-align: center;
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 10px rgba(128, 128, 128, 0.226);
   cursor: pointer;
   transition: background-color 0.3s;
 }
-#unableSubmit{
-cursor: unset;
-color: rgb(61, 61, 61);
+.Settings button:hover {
+  background-color: rgba(0, 4, 24, 0.5);
+}
+#unableSubmit {
+  cursor: unset;
+  color: rgb(61, 61, 61);
+  background-color: rgba(0, 0, 0, 0.5);
 }

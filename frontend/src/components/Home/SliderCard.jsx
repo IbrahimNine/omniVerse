@@ -10,7 +10,9 @@ function SliderCard({ item, filterBy }) {
     <Link
       to={filterBy === "artist" && `/artist/${item.id}`}
       className="SliderCard"
-      onClick={() => {filterBy === "master" && showTracksAlone(item, setReleaseLoading);}}
+      onClick={() => {
+        filterBy === "master" && showTracksAlone(item, setReleaseLoading);
+      }}
     >
       {releaseLoading && (
         <svg
@@ -62,7 +64,11 @@ function SliderCard({ item, filterBy }) {
         </svg>
       )}
       <img
-        src={item.cover_image}
+        src={
+          item.cover_image.includes("https://st.discogs.com/")
+            ? "/default3.png"
+            : item.cover_image
+        }
         alt="pic"
         style={{ borderRadius: filterBy === "artist" ? "100px" : "5px" }}
       />

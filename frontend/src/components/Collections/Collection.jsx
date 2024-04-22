@@ -32,6 +32,7 @@ function Collection({ collection, index }) {
               <input
                 type="text"
                 id="titleEditor"
+                className="titleEditor"
                 defaultValue={collection.title}
                 required
                 placeholder="New collection name.."

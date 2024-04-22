@@ -79,3 +79,6 @@
 .toShowAlbum:hover .showOnQueue {
   display: inline;
 }
+.progressBar input::-webkit-progress-value {
+  background: #ffffff;
+}

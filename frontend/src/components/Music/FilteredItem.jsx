@@ -6,6 +6,7 @@ function FilteredItem({ item, showTracksAlone }) {
   const [releaseLoading, setReleaseLoading] = useState(false);
   const { filterBy } = useFiltersContext();
 
+
   return (
     <Link
       to={filterBy === "artist" ? `/artist/${item.id}` : null}

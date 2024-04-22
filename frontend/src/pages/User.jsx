@@ -5,6 +5,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { Link, useParams } from "react-router-dom";
 import { useReleaseContext } from "../contexts/ReleaseContext";
 import DataBar from "../components/User/DataBar";
+import { motion } from "framer-motion";
 
 function User() {
   const { getUserPlayedTracks, mostPlayedData } = usePlayedTracksContext();
@@ -31,7 +32,12 @@ function User() {
     <div className="UserWrapper">
       <div className="User">
         <div className="UserDetailedDash">
-          <img src={user.userPic} alt="" />
+          <div
+            id="userProfilePic"
+            style={{
+              backgroundImage: `linear-gradient(to top,rgba(14,14,19,255) 20%,transparent 100%) ,url(${user.userPic}) `,
+            }}
+          />
           {mostPlayedData && <DataBar mostPlayedData={mostPlayedData} />}
           <p style={{ color: "gray" }}>
             Total listens:&nbsp;
@@ -42,7 +48,17 @@ function User() {
           <div className="mostPlayedWrapper">
             {mostPlayedData && (
               <>
-                <div className="mostPlayedCardWrapper">
+                <motion.div
+                  initial={{ y: "100%" }}
+                  animate={{
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeOut",
+                  }}
+                  className="mostPlayedCardWrapper"
+                >
                   <h3 className="styledTitle">Last 7 days top record</h3>
                   <div className="mostPlayed">
                     <img
@@ -71,8 +87,16 @@ function User() {
                       <h4>{mostPlayedData?.weeklyCount} Listens</h4>
                     </div>
                   </div>
-                </div>
-                <div
+                </motion.div>
+                <motion.div
+                  initial={{ y: "100%" }}
+                  animate={{
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.7,
+                    ease: "easeOut",
+                  }}
                   className="mostPlayedCardWrapper"
                   style={{
                     backgroundColor: "rgba(233, 241, 255, 0.038)",
@@ -106,8 +130,18 @@ function User() {
                       <h4>{mostPlayedData?.monthlyCount} Listens</h4>
                     </div>
                   </div>
-                </div>
-                <div className="mostPlayedCardWrapper">
+                </motion.div>
+                <motion.div
+                  initial={{ y: "100%" }}
+                  animate={{
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 1,
+                    ease: "easeOut",
+                  }}
+                  className="mostPlayedCardWrapper"
+                >
                   <h3 className="styledTitle">Last 365 days top record</h3>
                   <div className="mostPlayed">
                     <img
@@ -136,7 +170,7 @@ function User() {
                       <h4>{mostPlayedData?.yearlyCount} Listens</h4>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </>
             )}
           </div>
@@ -203,18 +237,20 @@ function User() {
                     }}
                     className="PlayedData"
                     style={{
-                      backgroundImage: ` radial-gradient(circle, transparent 0.5%, black 100%) ,url(${item.albumPic})`,
+                      backgroundImage: ` radial-gradient(circle, transparent 0.1%, black 100%) ,url(${item.albumPic})`,
                       backgroundRepeat: "no-repeat",
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
                   >
-                    {/* <img src={item.albumPic} alt="cover" /> */}
+                    <div className="PlayedDataWrapper">
+                      <img src={item.albumPic} alt="cover" />
 
-                    <p className="recordDetails">
-                      {item.albumArtist} - <strong>{item.album}</strong>
-                    </p>
-                    <p>{item.count}</p>
+                      <p className="recordDetails">
+                        {item.albumArtist} - <strong>{item.album}</strong>
+                      </p>
+                      <p>{item.count} Listens</p>
+                    </div>
                   </div>
                 );
               })}

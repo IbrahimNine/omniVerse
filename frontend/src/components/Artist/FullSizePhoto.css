@@ -10,8 +10,11 @@
   background-color: rgba(0, 0, 0, 0.596);
   z-index: 109;
 }
-.FullSizePhoto img {
-  max-height: 90%;
-  width: auto;
+.FullSizePhotoImg {
+  max-height: 90vh;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.301);
+}
+.FullSizePhotoImg img {
+  max-height: inherit;
+  width: auto;
 }

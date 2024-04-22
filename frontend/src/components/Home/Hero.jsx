@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import "./Hero.css";
 
 function Hero() {
+  
   useEffect(() => {
     const container = document.querySelector(".Hero");
     container.style.padding = "0 30%";
@@ -10,6 +11,7 @@ function Hero() {
     }, 10);
     return () => clearTimeout(delayEffect);
   }, []);
+
   return (
     <div className="HeroWrapper">
       <div className="Hero">

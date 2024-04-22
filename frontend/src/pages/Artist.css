@@ -1,3 +1,17 @@
+.ArtistWrapper {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-sizing: border-box;
+  min-height: 40%;
+  min-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  filter: blur(10px);
+}
+
 .Artist {
   max-width: 1330px;
   min-height: 70vh;
@@ -12,6 +26,9 @@
   padding: 2%;
   border-radius: 10px;
   box-sizing: border-box;
+  position: relative;
+  backdrop-filter: blur(100px);
+  z-index: 1;
 }
 .Artist Section,
 .Artist aside {
@@ -29,7 +46,6 @@
   justify-content: flex-start;
   align-items: center;
   /* gap: 0.5%; */
-  padding: 0px 25px;
 }
 .ArtistReleasesWrapper {
   width: 70%;
@@ -59,6 +75,7 @@
 .ArtistData p {
   margin: 0;
   width: 90%;
+  text-align: center;
 }
 #ArtistName {
   text-align: center;

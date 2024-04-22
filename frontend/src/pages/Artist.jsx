@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import './Artist.css'
+import "./Artist.css";
 import { Link, useParams } from "react-router-dom";
 import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
@@ -44,54 +44,64 @@ function Artist() {
   };
 
   return (
-    <div className="Artist">
-      <aside className="ArtistData">
-        {artistData.images ? (
-          <img
-            src={artistData.images[0].uri}
-            alt="Artist"
-            onClick={() => setShowFullSize(!showFullSize)}
-          />
-        ) : (
-          <img src="/default2.png" alt="Artist" style={{ cursor: "unset" }} />
-        )}
-
-        <h3 id="ArtistName">{artistData.name}</h3>
-        <p>
-          {artistData.profile &&
-            (artistData.profile.length > 100
-              ? artistData.profile.slice(0, 100) + "..."
-              : artistData.profile)}
-        </p>
-        {artistData.aliases && (
-          <h4 style={{ margin: "7% 0 0 0", marginTop: "auto" }}>See also:</h4>
-        )}
-        <div className="RelatedArtists">
-          {artistData.aliases &&
-            artistData.aliases.map((item, index) => (
-              <Link key={index} to={`/artist/${item.id}`}>
-                {item.name}
-              </Link>
-            ))}
-        </div>
-      </aside>
-      <div className="ArtistReleasesWrapper">
-        <section className="ArtistReleases" onScroll={handleScroll}>
-          {artistReleases?.map((release, index) => (
-            <Releases key={index} release={release} index={index} />
-          ))}
-          {releasesLoading && (
+    <>
+      <div className="Artist">
+        <aside className="ArtistData" style={{}}>
+          {artistData.images ? (
             <img
-              src="https://cdn.pixabay.com/animation/2023/03/20/02/45/02-45-27-186_512.gif"
-              alt="loading"
-              width={50}
-              className="releasesLoading"
+              src={artistData.images[0].uri}
+              alt="Artist"
+              onClick={() => setShowFullSize(!showFullSize)}
             />
+          ) : (
+            <img src="/default2.png" alt="Artist" style={{ cursor: "unset" }} />
           )}
-        </section>
+
+          <h3 id="ArtistName">{artistData.name}</h3>
+          <p>
+            {artistData.profile &&
+              (artistData.profile.length > 100
+                ? artistData.profile.slice(0, 100) + "..."
+                : artistData.profile)}
+          </p>
+          {artistData.aliases && (
+            <h4 style={{ margin: "7% 0 0 0", marginTop: "auto" }}>See also:</h4>
+          )}
+          <div className="RelatedArtists">
+            {artistData.aliases &&
+              artistData.aliases.map((item, index) => (
+                <Link key={index} to={`/artist/${item.id}`}>
+                  {item.name}
+                </Link>
+              ))}
+          </div>
+        </aside>
+        <div className="ArtistReleasesWrapper">
+          <section className="ArtistReleases" onScroll={handleScroll}>
+            {artistReleases?.map((release, index) => (
+              <Releases key={index} release={release} index={index} />
+            ))}
+            {releasesLoading && (
+              <img
+                src="https://cdn.pixabay.com/animation/2023/03/20/02/45/02-45-27-186_512.gif"
+                alt="loading"
+                width={50}
+                className="releasesLoading"
+              />
+            )}
+          </section>
+        </div>
       </div>
       {showFullSize && <FullSizePhoto />}
-    </div>
+      <div
+        className="ArtistWrapper"
+        style={{
+          backgroundImage: `linear-gradient(to top,#020202 30%,transparent  100%) ,url(${
+            artistData?.images ? artistData.images[0].uri : null
+          }) `,
+        }}
+      ></div>
+    </>
   );
 }
 

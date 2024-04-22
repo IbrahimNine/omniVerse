@@ -92,7 +92,7 @@ function Player() {
           width="1.5em"
           height="1.5em"
           viewBox="0 0 1024 1024"
-          className="refreshYoutube"
+          className="refreshYoutube toGray"
           onClick={nextYoutubeResult}
         >
           <path
@@ -271,7 +271,7 @@ function Player() {
         </span>
       </div>
       <div className="volumeSet">
-        <span>Volume</span>
+        <span className="styledTitle">Volume</span>
         <input
           type="range"
           min={0}
@@ -280,7 +280,7 @@ function Player() {
           value={volume}
           onChange={handleVolumeChange}
         />
-        <span>{volume}%</span>
+        <span className="styledTitle">{volume}%</span>
       </div>
     </div>
   );

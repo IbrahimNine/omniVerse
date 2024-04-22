@@ -4,6 +4,7 @@ import "./Settings.css";
 import GeneralSettings from "./GeneralSettings";
 import DeletionSettings from "./DeletionSettings";
 import PwSettings from "./PwSettings";
+import { motion } from "framer-motion";
 
 function Settings() {
   const { getUserData } = useAuthContext();
@@ -62,26 +63,48 @@ function Settings() {
   }, [getUserData]);
 
   return (
-    <div className="SettingsWrapper">
-      {!showPwSettings ? (
-        !showDelete ? (
-          <GeneralSettings
-            setShowPwSettings={setShowPwSettings}
-            setShowDelete={setShowDelete}
-          />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+        ease: "easeOut",
+      }}
+      className="SettingsWrapper"
+    >
+      <motion.div
+        initial={{ y: "-100%" }}
+        animate={{
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+        }}
+       
+      >
+        {!showPwSettings ? (
+          !showDelete ? (
+            <GeneralSettings
+              setShowPwSettings={setShowPwSettings}
+              setShowDelete={setShowDelete}
+            />
+          ) : (
+            //____________________delete account_________________________________
+            <DeletionSettings
+              deletePW={deletePW}
+              setDeletePW={setDeletePW}
+              setShowDelete={setShowDelete}
+            />
+          )
         ) : (
-          //____________________delete account_________________________________
-          <DeletionSettings
-            deletePW={deletePW}
-            setDeletePW={setDeletePW}
-            setShowDelete={setShowDelete}
-          />
-        )
-      ) : (
-        //_____________________change password_________________________________
-        <PwSettings setShowPwSettings={setShowPwSettings} />
-      )}
-    </div>
+          //_____________________change password_________________________________
+          <PwSettings setShowPwSettings={setShowPwSettings} />
+        )}
+      </motion.div>
+    </motion.div>
   );
 }
 

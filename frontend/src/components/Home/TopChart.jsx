@@ -29,7 +29,7 @@ function TopChart({ filterBy, index }) {
 
   return (
     <div className="TopChart Slider">
-      <h2>Top {filterBy === "artist" ? "artists" : "Albums"}:</h2>
+      <h2>Top {filterBy === "artist" ? "artists" : "albums"}:</h2>
       <button
         type="Button"
         onClick={() => handlePrevious(setSliderPosition, sliderPosition, index)}

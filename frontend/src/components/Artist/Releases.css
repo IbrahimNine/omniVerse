@@ -27,6 +27,7 @@
 .release .albumTitle {
   width: 80%;
   overflow: hidden;
+  margin-left: 2%;
 }
 .release img {
   height: 80%;

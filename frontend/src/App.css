@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -13,7 +15,7 @@ body::-webkit-scrollbar-track {
 }
 
 :root {
-  --main-color: rgba(0, 0, 0, 0.7);
+  --main-color: rgba(0, 0, 0, 0.8);
 }
 
 body {
@@ -24,6 +26,10 @@ body {
   min-height: 100vh;
   color: white;
   position: relative;
+  font-family: "Roboto Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  scroll-behavior: smooth;
 }
 .Home {
   position: relative;
@@ -35,9 +41,7 @@ body {
 .Register {
   margin: 20vh auto;
 }
-.UserWrapper {
-  margin: 15vh auto;
-}
+
 .Login h2,
 .Register h2 {
   margin: 3%;
@@ -106,4 +110,8 @@ body {
   align-items: center;
   justify-content: center;
   color: gray;
+}
+.styledTitle,
+.toGray {
+  color: rgba(255, 255, 255, 0.651);
 }

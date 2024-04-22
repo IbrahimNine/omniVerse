@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./MediaPlayer.css";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
+import { motion } from "framer-motion";
 
 function MediaPlayer() {
   const { trackData, played, setPlayed, playerRef } = useReleaseContext();
@@ -42,8 +43,16 @@ function MediaPlayer() {
   }, [startBackgroundChanger]);
 
   return (
-    <div
+    <motion.div
       className="MediaPlayerWrapper"
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+        ease: "easeOut",
+      }}
       // style={{
       //   backgroundImage: `linear-gradient(to top, transparent 0.1%, black 100%), url(${
       //     trackData?.releaseData?.images[0].uri || null
@@ -63,7 +72,11 @@ function MediaPlayer() {
       <div className="MediaPlayer">
         <div id="albumImageWrapper">
           <img
-            src={trackData?.releaseData?.images[0].uri || "/default3.png"}
+            src={
+              trackData?.releaseData?.images
+                ? trackData?.releaseData?.images[0]?.uri
+                : "/default3.png"
+            }
             alt=""
           />
         </div>
@@ -78,7 +91,7 @@ function MediaPlayer() {
           disabled
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
