@@ -1,8 +1,9 @@
 const errorHandler = () => {
   const delay = setTimeout(() => {
-    const imgElement = document.querySelector(".FilteredItemPic");
-    imgElement.src = imgElement.src + "?timestamp=" + new Date().getTime();
-  }, 30000);
+    const imgElement = document.querySelector(".FilteredItemPicOf");
+    imgElement.src = imgElement.getAttribute("data-src") + "?timestamp=" + new Date().getTime();
+    console.log(imgElement.src);
+  }, 70000);
   return () => clearTimeout(delay);
 };
 export default errorHandler;

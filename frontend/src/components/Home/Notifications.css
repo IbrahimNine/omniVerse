@@ -3,6 +3,7 @@
   right: 0;
   bottom: 10vh;
   height: 70px;
+  width: 30vw;
   /* background-color: #11111afa; */
   background-image: linear-gradient(
     to bottom,
@@ -23,7 +24,6 @@
   border-top: 1px #28283d8f solid;
   border-left: 1px #28283d8f solid;
   border-bottom: 1px #28283d8f solid;
-  transition: width 1s;
   z-index: 999;
 }
 .notifWrapper {

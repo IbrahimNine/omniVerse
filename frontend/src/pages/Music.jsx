@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import Offcanvas from "../components/Music/Offcanvas";
 import FilteredItems from "../components/Music/FilteredItems";
 import { useFiltersContext } from "../contexts/FiltersContext";
-import './Music.css'
+import "./Music.css";
 
-function Music() {
+function Music({ isVisible }) {
   const { filterBy, setFilterBy } = useFiltersContext();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function Music() {
   }, []);
 
   return (
-    <div className="Music">
+    <div className="Music" style={isVisible ? null : { height: "100vh", overflow:"hidden" }}>
       <Offcanvas />
       <div className="contents">
         <div className="FilteringBtns">

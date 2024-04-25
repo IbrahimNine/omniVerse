@@ -29,7 +29,7 @@
   transition: box-shadow 0.3s, background-color 0.3s;
   position: relative;
 }
-.ItemCard img {
+.FilteredItemPic {
   width: 85%;
   height: 70%;
   object-fit: cover;

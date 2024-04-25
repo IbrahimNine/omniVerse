@@ -35,6 +35,10 @@
 }
 .volumeSet,
 .progressBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 .progressBar {
@@ -55,7 +59,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #ffffff;
+  background: white;
   cursor: pointer;
 }
 .TrackCover {
@@ -68,9 +72,12 @@
 .toShowAlbum {
   cursor: pointer;
 }
-.toShowAlbum,
+.progressBar span,
 .volumeSet span {
-  height: 17px;
+  display: block;
+  max-height: 17px;
+  min-height: 17px;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 }
 .showOnQueue {
   display: none;
@@ -81,4 +88,18 @@
 }
 .progressBar input::-webkit-progress-value {
   background: #ffffff;
+}
+.range-container {
+  position: relative;
+  width: 100%;
+}
+.progress-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 5px;
+  background: #ffffff;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.308);
+  border-radius: 5px;
+  pointer-events: none;
 }

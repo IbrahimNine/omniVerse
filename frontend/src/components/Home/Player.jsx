@@ -92,7 +92,7 @@ function Player() {
           width="1.5em"
           height="1.5em"
           viewBox="0 0 1024 1024"
-          className="refreshYoutube toGray"
+          className="refreshYoutube"
           onClick={nextYoutubeResult}
         >
           <path
@@ -256,14 +256,22 @@ function Player() {
             </svg>
           </abbr>
         </span>
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step="any"
-          value={played}
-          onChange={handleSeekChange}
-        />
+        <div className="range-container">
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="any"
+            value={played}
+            onChange={handleSeekChange}
+          />
+          <div
+            className="progress-bar"
+            style={{
+              width: played > 0 ? `${played * 100 + 0.3}%` : `${played * 100}%`,
+            }}
+          ></div>
+        </div>
         <span>
           <span>{`${formatTime(Math.floor(played * duration))}/${formatTime(
             duration
@@ -271,16 +279,38 @@ function Player() {
         </span>
       </div>
       <div className="volumeSet">
-        <span className="styledTitle">Volume</span>
-        <input
-          type="range"
-          min={0}
-          max={100}
-          step={1}
-          value={volume}
-          onChange={handleVolumeChange}
-        />
-        <span className="styledTitle">{volume}%</span>
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={17}
+            height={17}
+            viewBox="0 0 32 32"
+          >
+            <path
+              fill="currentColor"
+              d="m27.16 8.08l-1.53 1.29a10 10 0 0 1-.29 13.23l1.47 1.4a12 12 0 0 0 .35-15.88Z"
+            ></path>
+            <path
+              fill="currentColor"
+              d="M21.58 12a6 6 0 0 1-.18 7.94l1.47 1.36a8 8 0 0 0 .23-10.59zM18 30a1 1 0 0 1-.71-.3L9.67 22H3a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h6.67l7.62-7.7a1 1 0 0 1 1.41 0a1 1 0 0 1 .3.7v26a1 1 0 0 1-1 1"
+            ></path>
+          </svg>
+        </span>
+        <div className="range-container">
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={volume}
+            onChange={handleVolumeChange}
+          />
+          <div
+            className="progress-bar"
+            style={{ width: volume > 0 ? `${volume + 1}%` : `${volume}%` }}
+          ></div>
+        </div>
+        <span>{volume}%</span>
       </div>
     </div>
   );

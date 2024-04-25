@@ -30,7 +30,7 @@ export function ReleaseProvider({ children }) {
   const discogsKey = process.env.REACT_APP_DISCOGS_KEY;
   const discogsSecretKey = process.env.REACT_APP_DISCOGS_SECRET_KEY;
   const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
-  let nextResults = 0;
+  const [nextResults, setNextResults] = useState(1);
 
   //___________________________________________________________________________________
   const showTracks = (release) => {
@@ -131,7 +131,7 @@ export function ReleaseProvider({ children }) {
       .catch((err) => console.log(err))
       .finally(() => {
         setIsLoading(false);
-        nextResults = 0;
+        setNextResults(1);
       });
   };
 
@@ -175,7 +175,7 @@ export function ReleaseProvider({ children }) {
         .catch((err) => console.log(err))
         .finally(() => {
           setOnQueue({ ...onQueue, trackIndex: onQueue.trackIndex + 1 });
-          nextResults = 0;
+          setNextResults(1);
         });
     }
   };
@@ -216,7 +216,7 @@ export function ReleaseProvider({ children }) {
         .catch((err) => console.log(err))
         .finally(() => {
           setOnQueue({ ...onQueue, trackIndex: onQueue.trackIndex - 1 });
-          nextResults = 0;
+          setNextResults(1);
         });
     }
   };
@@ -224,7 +224,7 @@ export function ReleaseProvider({ children }) {
   //___________________________________________________________________________________
   const nextYoutubeResult = () => {
     setPlay(false);
-    nextResults += 1;
+
     if (releaseData && nextResults < 10) {
       setPlayerLoading(true);
       axios
@@ -241,6 +241,7 @@ export function ReleaseProvider({ children }) {
           });
           setPlay(true);
           setPlayerLoading(false);
+          setNextResults(nextResults + 1);
         })
         .catch((err) => console.log(err));
     }

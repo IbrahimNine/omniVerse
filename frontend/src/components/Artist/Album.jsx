@@ -6,6 +6,7 @@ import Track from "./Track";
 import { useCollectionsContext } from "../../contexts/CollectionsContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { motion } from "framer-motion";
+import ImageWithFallback from "react-image-fallback";
 
 function Album() {
   const {
@@ -53,15 +54,32 @@ function Album() {
   }
 
   return (
-    <div className="contentsWrapper Album" onClick={handleShowDetails}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 0.5,
+        ease: "easeInOut",
+      }}
+      className="contentsWrapper Album"
+      onClick={handleShowDetails}
+    >
       <motion.div
-        initial={{ scale: 0.1, opacity: 0 }}
+        initial={{ y: "100%", opacity: 0 }}
         animate={{
-          scale: 1,
+          y: 0,
           opacity: 1,
         }}
+        exit={{
+          y: "100%",
+        }}
         transition={{
-          duration: 0.2,
+          duration: 0.5,
           ease: "easeInOut",
         }}
         className="releaseTrackListWrapper "
@@ -71,6 +89,26 @@ function Album() {
           {releaseData && !loadingAlbum ? (
             <>
               <div className="releaseDetails">
+                <ImageWithFallback
+                  src={
+                    releaseData.images && releaseData.images[0]?.uri
+                      ? releaseData.images && releaseData.images[0]?.uri
+                      : "/default3.png"
+                  }
+                  initialImage="/default3.png"
+                  fallback={releaseData.images && releaseData.images[0]?.uri}
+                  fallbackDelay={70000}
+                  alt="pic"
+                  id="albumCover"
+                />
+                {/* <img
+                  id="albumCover"
+                  src="/default3.png"
+                  alt="Album cover"
+                  style={{
+                    display: isLoading ? "block" : "none",
+                  }}
+                />
                 <img
                   id="albumCover"
                   src={
@@ -79,7 +117,11 @@ function Album() {
                       : "/default3.png"
                   }
                   alt="Album cover"
-                />
+                  style={{
+                    display: isLoading ? "none" : "block",
+                  }}
+                  onLoad={() => setIsLoading(false)}
+                /> */}
                 <div className="albumGenerals">
                   <div className="albumTitleAndArtist">
                     <h3>{releaseData.title}</h3>
@@ -211,7 +253,7 @@ function Album() {
           )}
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 

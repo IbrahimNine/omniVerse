@@ -4,6 +4,8 @@ import { useReleaseContext } from "../../contexts/ReleaseContext";
 import "./Collection.css";
 import { handleNext, handlePrevious } from "../../utils/sliderHandlers";
 import Confirmation from "./Confirmation";
+import { motion } from "framer-motion";
+import ImageWithFallback from "react-image-fallback";
 
 function Collection({ collection, index }) {
   const { showTracks } = useReleaseContext();
@@ -14,10 +16,16 @@ function Collection({ collection, index }) {
   const [showTitleEditor, setShowTitleEditor] = useState(false);
   const [newTitle, setNewTitle] = useState(collection.title);
 
-
   return (
     <>
-      <div
+      <motion.div
+        initial={{ y: "40%", opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+        }}
         className="CollectionWrapper"
         style={{
           backgroundColor:
@@ -202,7 +210,14 @@ function Collection({ collection, index }) {
               {collection.elements.map((item, index) => {
                 return (
                   <div key={index} className="collection-item">
-                    <img src={item.elementPic} alt="Album cover" />
+                    <ImageWithFallback
+                      src={item.elementPic}
+                      initialImage="/default3.png"
+                      fallback={item.elementPic}
+                      fallbackDelay={70000}
+                      alt="pic"
+                    />
+                    {/* <img src={item.elementPic} alt="Album cover" /> */}
                     <div
                       className="collected-item-title"
                       onClick={(e) => {
@@ -261,7 +276,7 @@ function Collection({ collection, index }) {
             </svg>
           </button>
         </div>
-      </div>
+      </motion.div>
       {showConfirmation && (
         <Confirmation
           setShowConfirmation={setShowConfirmation}

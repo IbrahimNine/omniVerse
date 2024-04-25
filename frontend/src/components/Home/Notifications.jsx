@@ -1,32 +1,34 @@
 import { useEffect } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import "./Notifications.css";
+import { motion } from "framer-motion";
 
 function Notifications() {
   const { noticMsg, setNoticMsg } = useAuthContext();
-  useEffect(() => {}, []);
 
   useEffect(() => {
-    const content = document.querySelector(".Notifications");
-    content.style.width = "0";
     const delay1 = setTimeout(() => {
-      content.style.width = "30vw";
-    }, 100);
-    const delay2 = setTimeout(() => {
-      content.style.width = "0";
-    }, 7000);
-    const delay3 = setTimeout(() => {
       setNoticMsg("");
-    }, 8000);
+    }, 9000);
     return () => {
-      clearTimeout(delay1, delay2, delay3);
+      clearTimeout(delay1);
     };
   }, [setNoticMsg]);
-  
+
+
   return (
-    <div className="Notifications">
+    <motion.div
+      initial={{x: "100%" }}
+      animate={{x: 0 }}
+      exit={{x: "100%" }}
+      transition={{
+        duration: 0.5,
+        ease: "easeInOut",
+      }}
+      className="Notifications"
+    >
       <div className="notifWrapper">{noticMsg}</div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -3,6 +3,7 @@ import "./TopChart.css";
 import SliderCard from "./SliderCard";
 import axios from "axios";
 import { handleNext, handlePrevious } from "../../utils/sliderHandlers";
+import { motion } from "framer-motion";
 
 function TopChart({ filterBy, index }) {
   const [sliderPosition, setSliderPosition] = useState(0);
@@ -28,7 +29,16 @@ function TopChart({ filterBy, index }) {
   }, [filterBy, discogsKey, discogsSecretKey]);
 
   return (
-    <div className="TopChart Slider">
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.5,
+        ease: "easeOut",
+      }}
+      className="TopChart Slider"
+    >
       <h2>Top {filterBy === "artist" ? "artists" : "albums"}:</h2>
       <button
         type="Button"
@@ -155,7 +165,7 @@ function TopChart({ filterBy, index }) {
           </g>
         </svg>
       </button>
-    </div>
+    </motion.div>
   );
 }
 

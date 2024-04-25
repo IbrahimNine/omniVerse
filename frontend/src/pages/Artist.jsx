@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
 import { useArtistContext } from "../contexts/ArtistContext";
+import ImageWithFallback from "react-image-fallback";
 
 function Artist() {
   const artistId = useParams().id;
@@ -48,22 +49,46 @@ function Artist() {
       <div className="Artist">
         <aside className="ArtistData" style={{}}>
           {artistData.images ? (
-            <img
+            <ImageWithFallback
               src={artistData.images[0].uri}
-              alt="Artist"
+              initialImage="/default2.png"
+              fallback={artistData.images[0].uri}
+              fallbackDelay={70000}
+              alt="pic"
               onClick={() => setShowFullSize(!showFullSize)}
             />
           ) : (
+            // <>
+            //   <img
+            //     src="/default2.png"
+            //     alt="Artist"
+            //     style={{
+            //       display: isLoading ? "block" : "none",
+            //     }}
+            //   />
+            //   <img
+            //     src={artistData.images[0].uri}
+            //     alt="Artist"
+            //     onClick={() => setShowFullSize(!showFullSize)}
+            //     style={{
+            //       display: isLoading ? "none" : "block",
+            //     }}
+            //     onLoad={() => setIsLoading(false)}
+            //   />
+            // </>
             <img src="/default2.png" alt="Artist" style={{ cursor: "unset" }} />
           )}
 
           <h3 id="ArtistName">{artistData.name}</h3>
-          <p>
-            {artistData.profile &&
-              (artistData.profile.length > 100
-                ? artistData.profile.slice(0, 100) + "..."
-                : artistData.profile)}
-          </p>
+          {artistData.profile && (
+            <abbr title={artistData?.profile}>
+              <p>
+                {artistData.profile.length > 100
+                  ? artistData.profile.slice(0, 100) + "..."
+                  : artistData.profile}
+              </p>
+            </abbr>
+          )}
           {artistData.aliases && (
             <h4 style={{ margin: "7% 0 0 0", marginTop: "auto" }}>See also:</h4>
           )}

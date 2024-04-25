@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useReleaseContext } from "../contexts/ReleaseContext";
 import DataBar from "../components/User/DataBar";
 import { motion } from "framer-motion";
+import ImageWithFallback from "react-image-fallback";
 
 function User() {
   const { getUserPlayedTracks, mostPlayedData } = usePlayedTracksContext();
@@ -61,13 +62,25 @@ function User() {
                 >
                   <h3 className="styledTitle">Last 7 days top record</h3>
                   <div className="mostPlayed">
-                    <img
+                    <ImageWithFallback
+                      src={
+                        mostPlayedData?.weekly.trackAlbumPic || "/default3.png"
+                      }
+                      initialImage="/default3.png"
+                      fallback={
+                        mostPlayedData?.weekly.trackAlbumPic || "/default3.png"
+                      }
+                      fallbackDelay={90000}
+                      alt="pic"
+                      className="mostPlayedImg"
+                    />
+                    {/* <img
                       src={
                         mostPlayedData?.weekly.trackAlbumPic || "/default3.png"
                       }
                       alt=""
                       className="mostPlayedImg"
-                    />
+                    /> */}
 
                     <div className="mostPlayedDetails">
                       <h3
@@ -104,13 +117,25 @@ function User() {
                 >
                   <h3 className="styledTitle">Last 30 days top record</h3>
                   <div className="mostPlayed">
-                    <img
+                    <ImageWithFallback
+                      src={
+                        mostPlayedData?.monthly.trackAlbumPic || "/default3.png"
+                      }
+                      initialImage="/default3.png"
+                      fallback={
+                        mostPlayedData?.monthly.trackAlbumPic || "/default3.png"
+                      }
+                      fallbackDelay={90000}
+                      alt="pic"
+                      className="mostPlayedImg"
+                    />
+                    {/* <img
                       src={
                         mostPlayedData?.monthly.trackAlbumPic || "/default3.png"
                       }
                       alt=""
                       className="mostPlayedImg"
-                    />
+                    /> */}
 
                     <div className="mostPlayedDetails">
                       <h3
@@ -144,13 +169,25 @@ function User() {
                 >
                   <h3 className="styledTitle">Last 365 days top record</h3>
                   <div className="mostPlayed">
-                    <img
+                    <ImageWithFallback
+                      src={
+                        mostPlayedData?.yearly.trackAlbumPic || "/default3.png"
+                      }
+                      initialImage="/default3.png"
+                      fallback={
+                        mostPlayedData?.yearly.trackAlbumPic || "/default3.png"
+                      }
+                      fallbackDelay={90000}
+                      alt="pic"
+                      className="mostPlayedImg"
+                    />
+                    {/* <img
                       src={
                         mostPlayedData?.yearly.trackAlbumPic || "/default3.png"
                       }
                       alt=""
                       className="mostPlayedImg"
-                    />
+                    /> */}
 
                     <div className="mostPlayedDetails">
                       <h3
@@ -244,7 +281,13 @@ function User() {
                     }}
                   >
                     <div className="PlayedDataWrapper">
-                      <img src={item.albumPic} alt="cover" />
+                      <ImageWithFallback
+                        src={item.albumPic}
+                        fallback={item.albumPic}
+                        fallbackDelay={90000}
+                        alt="cover"
+                      />
+                      {/* <img src={item.albumPic} alt="cover" /> */}
 
                       <p className="recordDetails">
                         {item.albumArtist} - <strong>{item.album}</strong>

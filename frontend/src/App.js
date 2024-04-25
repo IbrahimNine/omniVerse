@@ -22,6 +22,7 @@ import NewCollectionName from "./components/Collections/NewCollectionName";
 import { useCollectionsContext } from "./contexts/CollectionsContext";
 import UserCollectionsList from "./components/Collections/UserCollectionsList";
 import MediaPlayer from "./components/Home/MediaPlayer";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const { showSettings, noticMsg, getUserData, user } = useAuthContext();
@@ -30,6 +31,7 @@ function App() {
     useCollectionsContext();
   const [inactiveTime, setInactiveTime] = useState(0);
   const INACTIVITY_THRESHOLD = 60000;
+  const isVisible = inactiveTime < INACTIVITY_THRESHOLD;
 
   useEffect(() => {
     getUserData();
@@ -65,18 +67,24 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route
-          path="/"
-          element={inactiveTime < INACTIVITY_THRESHOLD ? <Home /> : null}
-        />
+        <Route path="/" element={<Home isVisible={isVisible} />} key="/" />
         <Route
           path="/music"
-          element={inactiveTime < INACTIVITY_THRESHOLD ? <Music /> : null}
+          element={<Music isVisible={isVisible} />}
+          key="/music"
         />
-        <Route path="/artist/:id" element={<Artist />} />
+        <Route path="/artist/:id" element={<Artist />} key="/artist/:id" />
         <Route element={<PrivateRoute />}>
-          <Route path="/collections" element={<Collections />} />
-          <Route path="/user/:userName" element={<User />} />
+          <Route
+            path="/collections"
+            element={<Collections />}
+            key="/collections"
+          />
+          <Route
+            path="/user/:userName"
+            element={<User />}
+            key="/user/:userName"
+          />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/login" element={<Login />} />
@@ -86,9 +94,16 @@ function App() {
       </Routes>
       {showUserCollectionsList && <UserCollectionsList />}
       {showNewCollectionName && <NewCollectionName />}
-      {showDetails && <Album />}
-      {showSettings && user && <Settings />}
-      {noticMsg && <Notifications />}
+      <AnimatePresence exit={{ duration: 0.3 }}>
+        {showDetails && <Album />}
+      </AnimatePresence>
+      <AnimatePresence exit={{ duration: 0.3 }}>
+        {noticMsg && <Notifications />}
+      </AnimatePresence>
+      <AnimatePresence exit={{ duration: 0.3 }}>
+        {showSettings && user && <Settings />}
+      </AnimatePresence>
+
       <Player />
       {inactiveTime > INACTIVITY_THRESHOLD && showModia && <MediaPlayer />}
     </div>

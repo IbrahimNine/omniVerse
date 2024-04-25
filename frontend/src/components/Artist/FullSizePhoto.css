@@ -11,10 +11,9 @@
   z-index: 109;
 }
 .FullSizePhotoImg {
-  max-height: 90vh;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.301);
 }
 .FullSizePhotoImg img {
-  max-height: inherit;
+  max-height: 90vh;
   width: auto;
 }

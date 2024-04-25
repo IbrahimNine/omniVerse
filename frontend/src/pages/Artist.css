@@ -47,6 +47,15 @@
   align-items: center;
   /* gap: 0.5%; */
 }
+.Artist aside abbr {
+  text-decoration: none;
+}
+.Artist aside::-webkit-scrollbar {
+  width: 3px;
+}
+.Artist aside::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 .ArtistReleasesWrapper {
   width: 70%;
   height: 65vh;
@@ -62,6 +71,7 @@
   box-shadow: 0 20px 10px -20px rgba(0, 0, 0, 0.75) inset,
     0 -20px 10px -20px rgba(0, 0, 0, 0.75) inset;
 }
+
 .ArtistData img {
   border-radius: 100px;
   width: 177px;
@@ -85,6 +95,7 @@
 }
 .RelatedArtists {
   width: 90%;
+  height: 15%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -92,6 +103,12 @@
   gap: 4%;
   overflow-y: scroll;
   text-align: center;
+}
+.RelatedArtists::-webkit-scrollbar {
+  width: 3px;
+}
+.RelatedArtists::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 .releasesLoading {
   margin: 0 40%;

@@ -27,7 +27,7 @@ body {
   color: white;
   position: relative;
   font-family: "Roboto Condensed", sans-serif;
-  font-optical-sizing: auto;
+  /* font-optical-sizing: auto; */
   font-style: normal;
   scroll-behavior: smooth;
 }
@@ -114,4 +114,14 @@ body {
 .styledTitle,
 .toGray {
   color: rgba(255, 255, 255, 0.651);
+}
+.privacy-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  background-color: darkblue;
+  z-index: 11;
 }
