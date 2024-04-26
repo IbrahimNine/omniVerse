@@ -63,7 +63,7 @@ function GeneralSettings({ setShowPwSettings, setShowDelete }) {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, transition: 0.3 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <form className="Settings" onSubmit={(e) => handleSubmit(e)}>

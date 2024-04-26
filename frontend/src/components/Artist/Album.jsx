@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Album.css";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import Track from "./Track";
 import { useCollectionsContext } from "../../contexts/CollectionsContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { motion } from "framer-motion";
-import ImageWithFallback from "react-image-fallback";
+import imgErrorHandler from "../../utils/imgErrorHandler";
 
 function Album() {
   const {
@@ -23,6 +23,7 @@ function Album() {
     setShowUserCollectionsList,
     setItemToCollect,
   } = useCollectionsContext();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleShowDetails = (e) => {
     if (e.target.className === "contentsWrapper Album") {
@@ -89,7 +90,7 @@ function Album() {
           {releaseData && !loadingAlbum ? (
             <>
               <div className="releaseDetails">
-                <ImageWithFallback
+                {/* <ImageWithFallback
                   src={
                     releaseData.images && releaseData.images[0]?.uri
                       ? releaseData.images && releaseData.images[0]?.uri
@@ -100,8 +101,8 @@ function Album() {
                   fallbackDelay={70000}
                   alt="pic"
                   id="albumCover"
-                />
-                {/* <img
+                /> */}
+                <img
                   id="albumCover"
                   src="/default3.png"
                   alt="Album cover"
@@ -121,7 +122,8 @@ function Album() {
                     display: isLoading ? "none" : "block",
                   }}
                   onLoad={() => setIsLoading(false)}
-                /> */}
+                  onError={(e) => imgErrorHandler(e)}
+                />
                 <div className="albumGenerals">
                   <div className="albumTitleAndArtist">
                     <h3>{releaseData.title}</h3>

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useFiltersContext } from "../../contexts/FiltersContext";
 import { Link } from "react-router-dom";
-import ImageWithFallback from "react-image-fallback";
+import imgErrorHandler from "../../utils/imgErrorHandler"
+// import ImageWithFallback from "react-image-fallback";
 
 function FilteredItem({ item, showTracksAlone }) {
+  const [isLoading, setIsLoading] = useState(true);
   const [releaseLoading, setReleaseLoading] = useState(false);
   const { filterBy } = useFiltersContext();
 
@@ -65,22 +67,22 @@ function FilteredItem({ item, showTracksAlone }) {
             </g>
           </svg>
         )}
-        <ImageWithFallback
+        {/* <ImageWithFallback
           src={
             item.cover_image.includes("https://st.discogs.com/")
               ? "/default3.png"
               : item.cover_image
           }
           initialImage="/default3.png"
-          fallback={item.cover_image}
-          fallbackDelay={90000} 
+          fallbackImage={"/default3.png"}
+          fallbackDelay={90000}
           alt="pic"
           className="FilteredItemPic"
           style={{
             borderRadius: filterBy === "master" ? "5px" : "100px",
           }}
-        />
-        {/* <img
+        /> */}
+        <img
           src="/default3.png"
           alt="pic"
           className="FilteredItemPic"
@@ -97,14 +99,14 @@ function FilteredItem({ item, showTracksAlone }) {
               : item.cover_image
           }
           alt="pic"
-          className="FilteredItemPic"
+          className="FilteredItemPic FilteredItemPicOf"
           style={{
             borderRadius: filterBy === "master" ? "5px" : "100px",
             display: isLoading ? "none" : "block",
           }}
           onLoad={() => setIsLoading(false)}
-          
-        /> */}
+          onError={(e) => imgErrorHandler(e)}
+        />
         <abbr title={item.title} className="itemTitle">
           <h4>
             {item.title.slice(0, 45)}

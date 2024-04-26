@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Artist.css";
 import { Link, useParams } from "react-router-dom";
 import Releases from "../components/Artist/Releases";
 import FullSizePhoto from "../components/Artist/FullSizePhoto";
 import { useArtistContext } from "../contexts/ArtistContext";
-import ImageWithFallback from "react-image-fallback";
+import imgErrorHandler from "../utils/imgErrorHandler";
+
 
 function Artist() {
+  const [isLoading, setIsLoading] = useState(true);
   const artistId = useParams().id;
   const {
     fetchMoreReleases,
@@ -49,33 +51,26 @@ function Artist() {
       <div className="Artist">
         <aside className="ArtistData" style={{}}>
           {artistData.images ? (
-            <ImageWithFallback
-              src={artistData.images[0].uri}
-              initialImage="/default2.png"
-              fallback={artistData.images[0].uri}
-              fallbackDelay={70000}
-              alt="pic"
-              onClick={() => setShowFullSize(!showFullSize)}
-            />
+            <>
+              <img
+                src="/default2.png"
+                alt="Artist"
+                style={{
+                  display: isLoading ? "block" : "none",
+                }}
+              />
+              <img
+                src={artistData.images[0].uri}
+                alt="Artist"
+                onClick={() => setShowFullSize(!showFullSize)}
+                style={{
+                  display: isLoading ? "none" : "block",
+                }}
+                onLoad={() => setIsLoading(false)}
+                onError={(e) => imgErrorHandler(e)}
+              />
+            </>
           ) : (
-            // <>
-            //   <img
-            //     src="/default2.png"
-            //     alt="Artist"
-            //     style={{
-            //       display: isLoading ? "block" : "none",
-            //     }}
-            //   />
-            //   <img
-            //     src={artistData.images[0].uri}
-            //     alt="Artist"
-            //     onClick={() => setShowFullSize(!showFullSize)}
-            //     style={{
-            //       display: isLoading ? "none" : "block",
-            //     }}
-            //     onLoad={() => setIsLoading(false)}
-            //   />
-            // </>
             <img src="/default2.png" alt="Artist" style={{ cursor: "unset" }} />
           )}
 

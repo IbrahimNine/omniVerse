@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transition: padding-left 0.5s ease;
+  /* transition: padding-left 1.5s; */
 }
 
 .FilteringBtns button {

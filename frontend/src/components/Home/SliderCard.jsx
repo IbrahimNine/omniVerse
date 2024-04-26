@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
+import imgErrorHandler from "../../utils/imgErrorHandler";
 
 function SliderCard({ item, filterBy }) {
   const [releaseLoading, setReleaseLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { showTracksAlone } = useReleaseContext();
 
   return (
@@ -64,13 +66,26 @@ function SliderCard({ item, filterBy }) {
         </svg>
       )}
       <img
+        src="/default3.png"
+        alt="pic"
+        style={{
+          borderRadius: filterBy === "artist" ? "100px" : "5px",
+          display: isLoading ? "block" : "none",
+        }}
+      />
+      <img
         src={
           item.cover_image.includes("https://st.discogs.com/")
             ? "/default3.png"
             : item.cover_image
         }
         alt="pic"
-        style={{ borderRadius: filterBy === "artist" ? "100px" : "5px" }}
+        style={{
+          borderRadius: filterBy === "artist" ? "100px" : "5px",
+          display: isLoading ? "none" : "block",
+        }}
+        onLoad={() => setIsLoading(false)}
+        onError={(e) => imgErrorHandler(e)}
       />
       <h4>{item.title}</h4>
     </Link>

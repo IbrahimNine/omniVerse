@@ -4,7 +4,7 @@ import "./Settings.css";
 import GeneralSettings from "./GeneralSettings";
 import DeletionSettings from "./DeletionSettings";
 import PwSettings from "./PwSettings";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Settings() {
   const { getUserData } = useAuthContext();
@@ -83,26 +83,32 @@ function Settings() {
           duration: 0.5,
           ease: "easeOut",
         }}
-       
       >
-        {!showPwSettings ? (
-          !showDelete ? (
-            <GeneralSettings
-              setShowPwSettings={setShowPwSettings}
-              setShowDelete={setShowDelete}
-            />
+        <AnimatePresence mode="wait">
+          {!showPwSettings ? (
+            !showDelete ? (
+              <GeneralSettings
+                key="GeneralSettings"
+                setShowPwSettings={setShowPwSettings}
+                setShowDelete={setShowDelete}
+              />
+            ) : (
+              //____________________delete account_________________________________
+              <DeletionSettings
+                key="DeletionSettings"
+                deletePW={deletePW}
+                setDeletePW={setDeletePW}
+                setShowDelete={setShowDelete}
+              />
+            )
           ) : (
-            //____________________delete account_________________________________
-            <DeletionSettings
-              deletePW={deletePW}
-              setDeletePW={setDeletePW}
-              setShowDelete={setShowDelete}
+            //_____________________change password_________________________________
+            <PwSettings
+              key="PwSettings"
+              setShowPwSettings={setShowPwSettings}
             />
-          )
-        ) : (
-          //_____________________change password_________________________________
-          <PwSettings setShowPwSettings={setShowPwSettings} />
-        )}
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );

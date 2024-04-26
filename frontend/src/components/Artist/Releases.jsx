@@ -1,9 +1,11 @@
 import "./Releases.css";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
-import ImageWithFallback from "react-image-fallback";
+import imgErrorHandler from "../../utils/imgErrorHandler";
+import { useState } from "react";
 
 function Releases({ index, release }) {
   const { showTracks } = useReleaseContext();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleNewCollection = (e) => {
     let targetElement = e.target;
@@ -25,17 +27,29 @@ function Releases({ index, release }) {
       }}
     >
       <div className="release" onClick={handleNewCollection}>
-        <ImageWithFallback
+        {/* <ImageWithFallback
           src={release.thumb ? release.thumb : "/default3.png"}
           initialImage="/default3.png"
           fallback={release.thumb ? release.thumb : "/default3.png"}
           fallbackDelay={70000}
           alt="pic"
+        /> */}
+        <img
+          src="/default3.png"
+          alt="Album cover"
+          style={{
+            display: isLoading ? "block" : "none",
+          }}
         />
-        {/* <img
+        <img
           src={release.thumb ? release.thumb : "/default3.png"}
           alt="Album cover"
-        /> */}
+          style={{
+            display: isLoading ? "none" : "block",
+          }}
+          onLoad={() => setIsLoading(false)}
+          onError={(e) => imgErrorHandler(e)}
+        />
         <h5 className="albumTitle">{release.title}</h5>
         <h5 className="ReleasedDate">{release.year}</h5>
 

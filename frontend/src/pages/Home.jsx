@@ -3,6 +3,7 @@ import Hero from "../components/Home/Hero";
 import TopChart from "../components/Home/TopChart";
 import { useFiltersContext } from "../contexts/FiltersContext";
 import Footer from "../components/Home/Footer";
+import Intro from "../components/Home/Intro";
 
 function Home({ isVisible }) {
   const { setGlobalSearch, setFilterSet, setFilterBy } = useFiltersContext();
@@ -19,6 +20,7 @@ function Home({ isVisible }) {
       style={isVisible ? null : { height: "100vh", overflow: "hidden" }}
     >
       <Hero />
+      <Intro />
       <TopChart filterBy="artist" index={0} />
       <TopChart filterBy="master" index={1} />
       <Footer />

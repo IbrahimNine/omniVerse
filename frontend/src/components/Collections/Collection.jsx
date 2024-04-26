@@ -5,7 +5,8 @@ import "./Collection.css";
 import { handleNext, handlePrevious } from "../../utils/sliderHandlers";
 import Confirmation from "./Confirmation";
 import { motion } from "framer-motion";
-import ImageWithFallback from "react-image-fallback";
+import imgErrorHandler from "../../utils/imgErrorHandler";
+
 
 function Collection({ collection, index }) {
   const { showTracks } = useReleaseContext();
@@ -15,6 +16,7 @@ function Collection({ collection, index }) {
   const [sliderPosition, setSliderPosition] = useState(0);
   const [showTitleEditor, setShowTitleEditor] = useState(false);
   const [newTitle, setNewTitle] = useState(collection.title);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
@@ -210,14 +212,29 @@ function Collection({ collection, index }) {
               {collection.elements.map((item, index) => {
                 return (
                   <div key={index} className="collection-item">
-                    <ImageWithFallback
+                    {/* <ImageWithFallback
                       src={item.elementPic}
                       initialImage="/default3.png"
                       fallback={item.elementPic}
                       fallbackDelay={70000}
                       alt="pic"
+                    /> */}
+                    <img
+                      src="/default3.png"
+                      alt="Album cover"
+                      style={{
+                        display: isLoading ? "block" : "none",
+                      }}
                     />
-                    {/* <img src={item.elementPic} alt="Album cover" /> */}
+                    <img
+                      src={item.elementPic}
+                      alt="Album cover"
+                      style={{
+                        display: isLoading ? "none" : "block",
+                      }}
+                      onLoad={() => setIsLoading(false)}
+                      onError={(e) => imgErrorHandler(e)}
+                    />
                     <div
                       className="collected-item-title"
                       onClick={(e) => {
@@ -267,7 +284,6 @@ function Collection({ collection, index }) {
               width="2.5em"
               height="2.5em"
               viewBox="0 0 20 20"
-              // onClick={() => handleNext(setSliderPosition, sliderPosition)}
             >
               <path
                 fill="currentColor"

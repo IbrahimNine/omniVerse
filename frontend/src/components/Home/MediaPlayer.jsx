@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./MediaPlayer.css";
 import { useReleaseContext } from "../../contexts/ReleaseContext";
 import { motion } from "framer-motion";
-import ImageWithFallback from "react-image-fallback";
+import imgErrorHandler from "../../utils/imgErrorHandler";
 
 function MediaPlayer() {
   const { trackData, played, setPlayed, playerRef } = useReleaseContext();
   const intervalIdRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [bgColorArray, setBgColorArray] = useState([
     "#00000080",
     "#00000080",
@@ -67,7 +68,7 @@ function MediaPlayer() {
       </div>
       <div className="MediaPlayer">
         <div id="albumImageWrapper">
-          <ImageWithFallback
+          {/* <ImageWithFallback
             src={
               trackData?.releaseData?.images
                 ? trackData?.releaseData?.images[0]?.uri
@@ -81,8 +82,15 @@ function MediaPlayer() {
             }
             fallbackDelay={70000}
             alt="pic"
+          /> */}
+          <img
+            src={"/default3.png"}
+            alt=""
+            style={{
+              display: isLoading ? "block" : "none",
+            }}
           />
-          {/* <img
+          <img
             src={
               trackData?.releaseData?.images
                 ? trackData?.releaseData?.images[0]?.uri
@@ -93,7 +101,8 @@ function MediaPlayer() {
               display: isLoading ? "none" : "block",
             }}
             onLoad={() => setIsLoading(false)}
-          /> */}
+            onError={(e) => imgErrorHandler(e)}
+          />
         </div>
         <h1 className="TrackTitle">{trackData.originalTitle}</h1>
         <input

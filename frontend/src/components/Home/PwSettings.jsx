@@ -14,7 +14,7 @@ function PwSettings({ setShowPwSettings }) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ x: "-100%", opacity: 0 }}
+      exit={{ opacity: 0, transition: 0.3 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <form
@@ -42,6 +42,7 @@ function PwSettings({ setShowPwSettings }) {
           defaultValue={""}
           placeholder="New password.."
           required
+          autoComplete="on"
           onChange={handleUpdatePw}
         />
         <div className="SettingsBtns">
