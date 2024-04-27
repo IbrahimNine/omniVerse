@@ -17,7 +17,7 @@ function Home({ isVisible }) {
   return (
     <div
       className="Home"
-      style={isVisible ? null : { height: "100vh", overflow: "hidden" }}
+      style={isVisible === false ? null : { height: "100vh", overflow: "hidden" }}
     >
       <Hero />
       <Intro />

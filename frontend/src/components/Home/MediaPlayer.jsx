@@ -68,21 +68,6 @@ function MediaPlayer() {
       </div>
       <div className="MediaPlayer">
         <div id="albumImageWrapper">
-          {/* <ImageWithFallback
-            src={
-              trackData?.releaseData?.images
-                ? trackData?.releaseData?.images[0]?.uri
-                : "/default3.png"
-            }
-            initialImage="/default3.png"
-            fallback={
-              trackData?.releaseData?.images
-                ? trackData?.releaseData?.images[0]?.uri
-                : "/default3.png"
-            }
-            fallbackDelay={70000}
-            alt="pic"
-          /> */}
           <img
             src={"/default3.png"}
             alt=""

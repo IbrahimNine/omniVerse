@@ -30,8 +30,8 @@ function App() {
   const { showNewCollectionName, showUserCollectionsList } =
     useCollectionsContext();
   const [inactiveTime, setInactiveTime] = useState(0);
-  const INACTIVITY_THRESHOLD = 50000;
-  const isVisible = inactiveTime < INACTIVITY_THRESHOLD;
+  const INACTIVITY_THRESHOLD = 40000;
+  const isVisible = inactiveTime < INACTIVITY_THRESHOLD && showModia; ;
 
   useEffect(() => {
     getUserData();

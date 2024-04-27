@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { useState } from "react";
 import "./Settings.css";
 import GeneralSettings from "./GeneralSettings";
 import DeletionSettings from "./DeletionSettings";
@@ -7,7 +6,6 @@ import PwSettings from "./PwSettings";
 import { AnimatePresence, motion } from "framer-motion";
 
 function Settings() {
-  const { getUserData } = useAuthContext();
   const [showPwSettings, setShowPwSettings] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [deletePW, setDeletePW] = useState();
@@ -57,10 +55,6 @@ function Settings() {
   //   }
   //   updateUserPic();
   // };
-
-  useEffect(() => {
-    getUserData();
-  }, [getUserData]);
 
   return (
     <motion.div

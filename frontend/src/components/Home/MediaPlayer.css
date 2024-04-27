@@ -81,7 +81,7 @@
   background-color: #00000e62;
   box-sizing: border-box;
   box-shadow: 0 0 50px -10px dimgray, 0 0 10px -5px black inset;
-  margin: 1%;
+  margin: auto 1% auto 1%;
   overflow: hidden;
 }
 #albumImageWrapper img {
@@ -118,3 +118,4 @@
 #audioSpectrum {
   z-index: 150;
 }
+

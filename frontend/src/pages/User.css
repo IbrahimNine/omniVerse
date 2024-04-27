@@ -104,7 +104,7 @@
   width: 30%;
   height: 90%;
   box-sizing: border-box;
-  padding: 0 20px;
+  padding: 0 2%;
   position: relative;
 }
 .UserDetailedDash #userProfilePic {
@@ -113,7 +113,7 @@
   border-radius: 3%;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 2%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -214,4 +214,42 @@
 .listenedArtistsTools option {
   color: white;
   background-color: #27292def;
+}
+
+@media (max-width: 1200px) {
+  .UserWrapper {
+    width: 95%;
+    margin-bottom: 9.5vh;
+    box-sizing: border-box;
+  }
+  .User {
+    flex-direction: column;
+    width: 95vw;
+    height: fit-content;
+    padding: 3% 0;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+  .UserDetailedDash {
+    width: 90%;
+  }
+  .UserDetailedDash p {
+    margin: 15px;
+  }
+  .userDetailedData {
+    width: 95%;
+    overflow: visible;
+  }
+  .mostPlayedWrapper {
+    gap: 1%;
+    min-height: 400px;
+    box-sizing: border-box;
+  }
+  .mostPlayedCardWrapper {
+    width: 31%;
+    min-height: 100%;
+  }
+  .PlayedData {
+    height: 100px;
+  }
 }

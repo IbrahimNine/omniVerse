@@ -33,7 +33,9 @@ function Music({ isVisible }) {
   return (
     <div
       className="Music"
-      style={isVisible ? null : { height: "100vh", overflow: "hidden" }}
+      style={
+        isVisible === false ? null : { height: "100vh", overflow: "hidden" }
+      }
     >
       <Offcanvas visible={visible} setVisible={setVisible} />
       <AnimatePresence mode="wait">

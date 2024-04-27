@@ -125,3 +125,8 @@ body {
   background-color: darkblue;
   z-index: 11;
 }
+@media (max-width: 1200px) {
+  .App {
+    width: 100%;
+  }
+}

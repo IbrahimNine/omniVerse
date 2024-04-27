@@ -7,6 +7,7 @@ import { useReleaseContext } from "../contexts/ReleaseContext";
 import DataBar from "../components/User/DataBar";
 import { motion } from "framer-motion";
 import imgErrorHandler from "../utils/imgErrorHandler";
+import PlayedData from "../components/User/PlayedData";
 
 function User() {
   const { getUserPlayedTracks, mostPlayedData } = usePlayedTracksContext();
@@ -15,6 +16,8 @@ function User() {
   const { userName } = useParams();
   const [recordsFilter, setRecordsFilter] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading1, setIsLoading1] = useState(true);
+  const [isLoading2, setIsLoading2] = useState(true);
 
   useEffect(() => {
     getUserPlayedTracks(userName, "All TIME");
@@ -124,7 +127,7 @@ function User() {
                       alt=""
                       className="mostPlayedImg"
                       style={{
-                        display: isLoading ? "block" : "none",
+                        display: isLoading1 ? "block" : "none",
                       }}
                     />
                     <img
@@ -134,9 +137,9 @@ function User() {
                       alt=""
                       className="mostPlayedImg"
                       style={{
-                        display: isLoading ? "none" : "block",
+                        display: isLoading1 ? "none" : "block",
                       }}
-                      onLoad={() => setIsLoading(false)}
+                      onLoad={() => setIsLoading1(false)}
                       onError={(e) => imgErrorHandler(e)}
                     />
 
@@ -177,7 +180,7 @@ function User() {
                       alt=""
                       className="mostPlayedImg"
                       style={{
-                        display: isLoading ? "block" : "none",
+                        display: isLoading2 ? "block" : "none",
                       }}
                     />
                     <img
@@ -187,9 +190,9 @@ function User() {
                       alt=""
                       className="mostPlayedImg"
                       style={{
-                        display: isLoading ? "none" : "block",
+                        display: isLoading2 ? "none" : "block",
                       }}
-                      onLoad={() => setIsLoading(false)}
+                      onLoad={() => setIsLoading2(false)}
                       onError={(e) => imgErrorHandler(e)}
                     />
 
@@ -270,29 +273,7 @@ function User() {
                 }
               })
               .map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      showTracks({ id: item.albumID });
-                    }}
-                    className="PlayedData"
-                    style={{
-                      backgroundImage: ` radial-gradient(circle, transparent 0.1%, black 100%) ,url(${item.albumPic})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    <div className="PlayedDataWrapper">
-                      <img src={item.albumPic} alt="cover" />
-                      <p className="recordDetails">
-                        {item.albumArtist} - <strong>{item.album}</strong>
-                      </p>
-                      <p>{item.count} Listens</p>
-                    </div>
-                  </div>
-                );
+                return <PlayedData key={index} itemIndex={index} item={item} />;
               })}
         </div>
       </div>

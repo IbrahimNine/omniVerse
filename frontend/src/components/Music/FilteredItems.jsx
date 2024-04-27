@@ -48,15 +48,22 @@ function FilteredItems() {
   return (
     <div className="FilteredItems" onScroll={handleScroll}>
       {filteredData &&
-        filteredData.map((item, index) => {
-          return (
-            <FilteredItem
-              key={index}
-              item={item}
-              showTracksAlone={showTracksAlone}
-            />
-          );
-        })}
+        (filteredData.length > 0 ? (
+          filteredData.map((item, index) => {
+            return (
+              <FilteredItem
+                key={index}
+                item={item}
+                showTracksAlone={showTracksAlone}
+              />
+            );
+          })
+        ) : (
+          <p>
+            No records for the moment, try to search something or apply some
+            filters 🙂
+          </p>
+        ))}
       {loading && (
         <img
           src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
