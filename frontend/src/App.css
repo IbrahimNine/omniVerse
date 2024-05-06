@@ -129,4 +129,12 @@ body {
   .App {
     width: 100%;
   }
+  .Login form,
+  .Register form {
+    width: 478px;
+  }
+  .Login button,
+  .Register button {
+    height: 55px;
+  }
 }

@@ -13,20 +13,20 @@ import { PlayedTracksProvider } from "./contexts/PlayedTracksContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-    <BrowserRouter>
-      <AuthContextProvider>
-        <CollectionsContextProvider>
-          <FiltersProvider>
-            <ArtistContextProvider>
-              <ReleaseProvider>
-                <PlayedTracksProvider>
-                  <App />
-                </PlayedTracksProvider>
-              </ReleaseProvider>
-            </ArtistContextProvider>
-          </FiltersProvider>
-        </CollectionsContextProvider>
-      </AuthContextProvider>
-    </BrowserRouter>
+  <BrowserRouter>
+    <AuthContextProvider>
+      <CollectionsContextProvider>
+        <FiltersProvider>
+          <ArtistContextProvider>
+            <ReleaseProvider>
+              <PlayedTracksProvider>
+                <App />
+              </PlayedTracksProvider>
+            </ReleaseProvider>
+          </ArtistContextProvider>
+        </FiltersProvider>
+      </CollectionsContextProvider>
+    </AuthContextProvider>
+  </BrowserRouter>
   // </React.StrictMode>
 );

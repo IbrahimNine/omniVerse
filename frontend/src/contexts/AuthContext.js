@@ -100,7 +100,7 @@ export function AuthContextProvider({ children }) {
         } else {
           console.log(err);
         }
-      });
+      }); 
   }, [baseURL]);
 
   //________________________________________________________________________________________

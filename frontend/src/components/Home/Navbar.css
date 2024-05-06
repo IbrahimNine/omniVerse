@@ -240,4 +240,13 @@
   #searchButton svg {
     color: rgba(247, 252, 255, 0.959);
   }
+  .SearchBar {
+    margin-left: 0;
+  }
+  /* .navLinks {
+    width: 300px;
+  }
+  .navLinks div a {
+    width: 45%;
+  } */
 }
