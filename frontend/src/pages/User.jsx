@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import imgErrorHandler from "../utils/imgErrorHandler";
 import PlayedData from "../components/User/PlayedData";
 
-function User() {
+function User({ isVisible }) {
   const { getUserPlayedTracks, mostPlayedData } = usePlayedTracksContext();
   const { showTracks } = useReleaseContext();
   const { user } = useAuthContext();
@@ -34,7 +34,12 @@ function User() {
   }, [user]);
 
   return (
-    <div className="UserWrapper">
+    <div
+      className="UserWrapper"
+      style={
+        isVisible === false ? null : { height: "70vh", overflow: "hidden" }
+      }
+    >
       <div className="User">
         <div className="UserDetailedDash">
           <div

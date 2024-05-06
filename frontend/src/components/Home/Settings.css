@@ -91,3 +91,13 @@
   color: rgb(61, 61, 61);
   background-color: rgba(0, 0, 0, 0.5);
 }
+@media (max-width: 1200px) {
+  .Settings {
+    width: 600px;
+    height: 425px;
+  }
+  .Settings button,
+  .Settings input {
+    height: 46px;
+  }
+}

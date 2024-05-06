@@ -111,4 +111,7 @@
   .progressBar {
     width: 50%;
   }
+  #VideoThumbnail {
+    display: none;
+  }
 }

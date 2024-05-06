@@ -104,6 +104,9 @@
   overflow-y: scroll;
   text-align: center;
 }
+.ArtistData abbr p {
+  margin: auto;
+}
 .RelatedArtists::-webkit-scrollbar {
   width: 3px;
 }
@@ -112,4 +115,23 @@
 }
 .releasesLoading {
   margin: 0 40%;
+}
+@media (max-width: 1200px) {
+  .Artist {
+    flex-direction: column;
+    /* height: fit-content; */
+  }
+  .Artist aside {
+    width: 90%;
+    height: max-content;
+    margin-bottom: 30px;
+  }
+  .ArtistReleasesWrapper {
+    width: 99%;
+
+  }
+  /* .Artist section {
+    overflow: visible;
+   
+  } */
 }

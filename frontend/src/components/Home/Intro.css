@@ -8,3 +8,8 @@
   background-repeat: no-repeat;
   background-position: right;
 }
+@media (max-width: 1200px) {
+  .intro {
+    padding-right: 40%;
+  }
+}

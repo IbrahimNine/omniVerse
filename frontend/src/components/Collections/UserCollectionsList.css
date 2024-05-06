@@ -80,3 +80,8 @@
 .UserCollectionsList button:hover {
   background-color: rgba(0, 4, 24, 0.5);
 }
+@media (max-width: 1200px) {
+  .UserCollectionsList {
+    width: 500px;
+  }
+}

@@ -47,3 +47,11 @@
   all: unset;
   cursor: pointer;
 }
+@media (max-width: 1200px) {
+  .Releases {
+    height: 170px;
+  }
+  .Releases img {
+    width: 136px;
+  }
+}

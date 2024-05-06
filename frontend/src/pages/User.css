@@ -1,6 +1,6 @@
 .UserWrapper {
   margin: 15vh auto;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
 }
 .User {
@@ -218,13 +218,13 @@
 
 @media (max-width: 1200px) {
   .UserWrapper {
-    width: 95%;
+    width: 100%;
     margin-bottom: 9.5vh;
     box-sizing: border-box;
   }
   .User {
     flex-direction: column;
-    width: 95vw;
+    width: 99vw;
     height: fit-content;
     padding: 3% 0;
     gap: 20px;
@@ -250,6 +250,10 @@
     min-height: 100%;
   }
   .PlayedData {
-    height: 100px;
+    height: 170px;
+  }
+  .PlayedData img {
+    height: 90%;
+    width: 153px;
   }
 }

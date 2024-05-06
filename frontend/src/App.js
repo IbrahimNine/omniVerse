@@ -30,8 +30,8 @@ function App() {
   const { showNewCollectionName, showUserCollectionsList } =
     useCollectionsContext();
   const [inactiveTime, setInactiveTime] = useState(0);
-  const INACTIVITY_THRESHOLD = 40000;
-  const isVisible = inactiveTime < INACTIVITY_THRESHOLD && showModia; ;
+  const INACTIVITY_THRESHOLD = 30000;
+  const isVisible = inactiveTime > INACTIVITY_THRESHOLD && showModia;
 
   useEffect(() => {
     getUserData();
@@ -82,7 +82,7 @@ function App() {
           />
           <Route
             path="/user/:userName"
-            element={<User />}
+            element={<User isVisible={isVisible} />}
             key="/user/:userName"
           />
         </Route>

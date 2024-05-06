@@ -230,3 +230,14 @@
 .userOptions li a:hover {
   background-color: #13121d;
 }
+#MobileProfileLink {
+  display: none;
+}
+@media (max-width: 1200px) {
+  #MobileProfileLink {
+    display: flex;
+  }
+  #searchButton svg {
+    color: rgba(247, 252, 255, 0.959);
+  }
+}

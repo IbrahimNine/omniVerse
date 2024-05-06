@@ -64,3 +64,8 @@
 .NewCollectionNameBtns button:hover {
   background-color: rgba(0, 4, 24, 0.5);
 }
+@media (max-width: 1200px) {
+  .NewCollectionName {
+    width: 500px;
+  }
+}

@@ -171,3 +171,29 @@
 #loeading-AlbumDetails {
   margin: auto;
 }
+#ExitAlbumBtn {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .releaseTrackListWrapper {
+    width: 101%;
+  }
+  .fakeLayer {
+    flex-direction: column;
+  }
+  .releaseDetails {
+    width: 100%;
+  }
+  .releaseTrackList {
+    width: 100%;
+  }
+  #ExitAlbumBtn {
+    display: block;
+  }
+}

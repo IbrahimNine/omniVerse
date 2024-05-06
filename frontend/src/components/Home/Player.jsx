@@ -67,6 +67,7 @@ function Player() {
     }
   };
 
+ 
   return (
     <div className="omniVersePlayer">
       <a
@@ -79,6 +80,7 @@ function Player() {
           setPlay(false);
           setPlayTrack(false);
         }}
+        id="VideoThumbnail"
       >
         <img
           className="TrackCover"

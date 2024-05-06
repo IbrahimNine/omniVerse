@@ -28,7 +28,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 5%;
+  gap: 10px;
   padding: 30px;
   box-sizing: border-box;
   position: relative;
@@ -120,3 +120,21 @@
   gap: 1%;
   width: 100%;
 } */
+@media (max-width: 1200px) {
+  .Offcanvas {
+    position: static;
+    width: 100%;
+    height: max-content;
+    margin-top: 10vh;
+  }
+  .filtersInputContainer {
+    width: 100%;
+    height: max-content;
+  }
+  .filtersInput {
+    gap: 30px;
+  }
+  #sweepoutfilter{
+    display: none;
+  }
+}

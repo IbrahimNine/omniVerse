@@ -173,3 +173,12 @@
 .CollectionHeader:hover .editBtn {
   display: inline;
 }
+
+@media (max-width: 1200px) {
+  .editBtn {
+    display: inline;
+  }
+  .collected-item-title {
+    height: 100%;
+  }
+}

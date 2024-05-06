@@ -8,6 +8,7 @@ import "./Music.css";
 function Music({ isVisible }) {
   const { filterBy, setFilterBy } = useFiltersContext();
   const [visible, setVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const buttons = document.querySelectorAll(".FilteringBtns button");
@@ -30,18 +31,30 @@ function Music({ isVisible }) {
     };
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1200);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div
       className="Music"
       style={
-        isVisible === false ? null : { height: "100vh", overflow: "hidden" }
+        isVisible === false ? null : { height: "90vh", overflow: "hidden" }
       }
     >
       <Offcanvas visible={visible} setVisible={setVisible} />
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ paddingLeft: 0 }}
-          animate={{ paddingLeft: visible ? "25%" : 0 }}
+          animate={{ paddingLeft: visible && !isMobile ? "25%" : 0 }}
           transition={{ duration: 0.5 }}
           className="contents"
           key="contents"

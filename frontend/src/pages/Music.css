@@ -16,3 +16,8 @@
   cursor: pointer;
   transition: all 0.5s;
 }
+@media (max-width: 1200px) {
+  .Music .contents {
+    padding-top: 0;
+  }
+}
