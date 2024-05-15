@@ -11,15 +11,15 @@ const userRouter = require("./routers/userRouter");
 require("dotenv").config();
 
 //________________________________________________________________
+const originURL = process.env.RENDERING_ORIGIN;
 app.use(
   cors({
-    origin: [process.env.RENDERING_ORIGIN],
+    origin: originURL,
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser());
-
 //________________________________________________________________
 mongoose
   .connect(process.env.db_URI)

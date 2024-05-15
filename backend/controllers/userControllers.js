@@ -49,6 +49,13 @@ const updateUser = async (req, res) => {
     };
 
     if (req.file) {
+      if (req.file.size > 10 * 1024 * 1024) {
+        return res.status(400).json({
+          status: "error",
+          message: "File size exceeds the maximum limit of 10MB",
+        });
+      }
+
       const uploadStream = cloudinary.uploader.upload_stream(
         { resource_type: "image" },
         (error, result) => {

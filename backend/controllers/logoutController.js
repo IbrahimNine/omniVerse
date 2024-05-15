@@ -1,3 +1,5 @@
+const { options } = require("../routers/streamingRouter");
+
 const logoutController = (req, res) => {
   try {
     if (!req.cookies.token && !req.cookies.refreshToken) {
@@ -5,8 +7,16 @@ const logoutController = (req, res) => {
         .status(400)
         .json({ status: "fail", message: "Token cookie not found" });
     }
-    res.clearCookie("token");
-    res.clearCookie("refreshToken");
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     res.status(200).json({ status: "success" });
   } catch (error) {
     console.error(error);

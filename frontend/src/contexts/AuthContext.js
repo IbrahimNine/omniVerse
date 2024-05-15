@@ -6,7 +6,7 @@ const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthContextProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -69,6 +69,7 @@ export function AuthContextProvider({ children }) {
     axios
       .delete(`${baseURL}/api/auth/logout`, {
         withCredentials: true,
+        
       })
       .then((res) => {
         if (res.data.status === "success") {
@@ -100,7 +101,7 @@ export function AuthContextProvider({ children }) {
         } else {
           console.log(err);
         }
-      }); 
+      });
   }, [baseURL]);
 
   //________________________________________________________________________________________

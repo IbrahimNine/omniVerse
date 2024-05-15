@@ -67,7 +67,6 @@ function Player() {
     }
   };
 
- 
   return (
     <div className="omniVersePlayer">
       <a
@@ -232,6 +231,8 @@ function Player() {
         onDuration={handleDuration}
         onEnded={trackEnding}
         ref={playerRef}
+        playsinline={true}
+        pip={true}
       />
       <div className="progressBar">
         <span
