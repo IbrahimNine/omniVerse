@@ -260,6 +260,7 @@
   }
   .navLinks {
     width: 70%;
+    justify-content: flex-end;
   }
   .navLinksLayer {
     width: inherit;

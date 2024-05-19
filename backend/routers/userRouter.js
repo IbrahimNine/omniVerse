@@ -6,6 +6,7 @@ const {
   getUserPlayedTracks,
   updateUserPlayedTracks,
   updateUserPic,
+  onQueueTracks,
 } = require("../controllers/userControllers");
 const userUpdateValidator = require("../middlewares/userUpdateValidator");
 const userDeleteValidator = require("../middlewares/userDeleteValidator");
@@ -27,6 +28,8 @@ userRouter.put("/password", updatePasswordValidator, updatePassword);
 userRouter.post("/delete", userDeleteValidator, deleteUser);
 
 userRouter.get("/playedTracks/:userName/:recordsFilter", getUserPlayedTracks);
+
+userRouter.get("/onqueuetracks", onQueueTracks);
 
 userRouter.put(
   "/playedTracks",

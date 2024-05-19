@@ -8,7 +8,7 @@ const tokenVerification = async (req, res, next) => {
   if (!token && !refreshToken) {
     return res
       .status(401)
-      .json({ status: "fail", message: "Token not provided" });
+      .json({ status: "fail", message: "Not Logged in, try login please" });
   }
 
   try {

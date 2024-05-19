@@ -23,9 +23,11 @@ import { useCollectionsContext } from "./contexts/CollectionsContext";
 import UserCollectionsList from "./components/Collections/UserCollectionsList";
 import MediaPlayer from "./components/Home/MediaPlayer";
 import { AnimatePresence } from "framer-motion";
+import OnQueue from "./components/Music/OnQueue";
 
 function App() {
-  const { showSettings, noticMsg, getUserData, user } = useAuthContext();
+  const { showSettings, noticMsg, getUserData, user, showOnQueue } =
+    useAuthContext();
   const { showDetails, showModia, play } = useReleaseContext();
   const { showNewCollectionName, showUserCollectionsList } =
     useCollectionsContext();
@@ -108,7 +110,9 @@ function App() {
       <AnimatePresence exit={{ duration: 0.3 }}>
         {showSettings && user && <Settings />}
       </AnimatePresence>
-
+      <AnimatePresence mode="wait">
+        {showOnQueue && <OnQueue />}
+      </AnimatePresence>
       <Player />
       {inactiveTime > INACTIVITY_THRESHOLD && showModia && <MediaPlayer />}
     </div>

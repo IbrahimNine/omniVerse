@@ -12,6 +12,7 @@ export function AuthContextProvider({ children }) {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [noticMsg, setNoticMsg] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+  const [showOnQueue,setShowOnQueue] = useState(false)
 
   const navigate = useNavigate();
 
@@ -74,6 +75,7 @@ export function AuthContextProvider({ children }) {
       .then((res) => {
         if (res.data.status === "success") {
           setUser(null);
+          setShowOnQueue(false);
           navigate("/");
         } else if (res.data.status === "fail") {
           setNoticMsg(res.data.data);
@@ -230,6 +232,8 @@ export function AuthContextProvider({ children }) {
         updateLoading,
         updatePassword,
         updateUserPic,
+        showOnQueue,
+        setShowOnQueue,
       }}
     >
       {children}

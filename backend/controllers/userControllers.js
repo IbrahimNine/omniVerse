@@ -309,6 +309,70 @@ const updateUserPlayedTracks = async (req, res) => {
   }
 };
 
+//______________________________________________________________
+const onQueueTracks = async (req, res) => {
+  try {
+    const userID = await userModel.findById(req.user._id);
+    const pipeline = [
+      {
+        $match: { _id: userID._id },
+      },
+      {
+        $unwind: "$playedTracks",
+      },
+      {
+        $project: {
+          _id: 0,
+          trackAlbum: "$playedTracks.trackAlbum",
+          trackAlbumPic: "$playedTracks.trackAlbumPic",
+          trackAlbumID: "$playedTracks.trackAlbumID",
+          trackArtist: "$playedTracks.trackArtist",
+          trackArtistID: "$playedTracks.trackArtistID",
+          trackGenres: "$playedTracks.trackGenres",
+          trackTitle: "$playedTracks.trackTitle",
+          createdAt: "$playedTracks.createdAt",
+          playedDate: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$playedTracks.createdAt",
+            },
+          },
+          playedTime: {
+            $dateToString: { format: "%H:%M", date: "$playedTracks.createdAt" },
+          },
+        },
+      },
+
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $limit: 30,
+      },
+
+      // {
+      //   $lookup: {
+      //     from: "playedTracks",
+      //     localField: "_id",
+      //     foreignField: "_id",
+      //     as: "playedTracks",
+      //   },
+      // },
+    ];
+
+    const userData = await userModel.aggregate(pipeline);
+
+    if (userData) {
+      res.json({ status: "success", data: userData });
+    } else {
+      res.json({ status: "fail", message: "Technical issue, user not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getUser,
   updateUser,
@@ -317,4 +381,5 @@ module.exports = {
   getUserPlayedTracks,
   updateUserPlayedTracks,
   updateUserPic,
+  onQueueTracks,
 };
