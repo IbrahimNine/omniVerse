@@ -49,9 +49,9 @@
 }
 @media (max-width: 1200px) {
   .Releases {
-    height: 170px;
+    height: 130px;
   }
   .Releases img {
-    width: 136px;
+    width: 104px;
   }
 }

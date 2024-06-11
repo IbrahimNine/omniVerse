@@ -144,4 +144,8 @@ body {
   .Register form {
     width: 100%;
   }
+  .Login input,
+  .Register input {
+    width: 90%;
+  }
 }

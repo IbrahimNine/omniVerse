@@ -12,9 +12,10 @@
 }
 .FullSizePhotoImg {
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.301);
-  height: min-content;
+  min-height: fit-content;
+  max-height: 90vh;
 }
 .FullSizePhotoImg img {
-  max-height: 90vh;
+  max-height: inherit;
   width: auto;
 }

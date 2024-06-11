@@ -36,7 +36,7 @@ function Navbar() {
         </NavLink>
         {user && (
           <ul className="userOptions">
-            <li className="arrow">{/* <Link to="/user">Profile</Link> */}</li>
+            <li className="arrow"></li>
 
             <li id="MobileProfileLink">
               <Link to={`/user/${user?.userName}`}>Profile</Link>

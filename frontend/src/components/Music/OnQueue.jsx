@@ -35,7 +35,7 @@ function OnQueue() {
       transition={{ duration: 0.5 }}
       className="OnQueueWrapper"
     >
-      <h3>Recent listened tracks:</h3>
+      <h3>Recent tracks listened:</h3>
       <div className="OnQueue">
         {loading ? (
           // error? <p>You're not logged in, Plaese try to login and play some music</p>:

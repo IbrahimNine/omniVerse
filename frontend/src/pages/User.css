@@ -244,10 +244,11 @@
     gap: 1%;
     min-height: 400px;
     box-sizing: border-box;
+    align-items: stretch;
   }
   .mostPlayedCardWrapper {
     width: 31%;
-    min-height: 100%;
+    height: inherit;
   }
   .PlayedData {
     height: 170px;
@@ -255,5 +256,10 @@
   .PlayedData img {
     height: 90%;
     width: 153px;
+  }
+  .mostPlayedCardWrapper .styledTitle {
+    text-align: center;
+    padding: 5px;
+    box-sizing: border-box;
   }
 }

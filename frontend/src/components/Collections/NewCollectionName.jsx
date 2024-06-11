@@ -36,6 +36,7 @@ function NewCollectionName() {
           duration: 0.5,
           ease: "easeOut",
         }}
+        className="NewCollectionNameSecondWrapper"
       >
         <form onSubmit={handleNewCollection} className="NewCollectionName">
           <h3>New Collection title</h3>

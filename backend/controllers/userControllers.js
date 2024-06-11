@@ -349,15 +349,6 @@ const onQueueTracks = async (req, res) => {
       {
         $limit: 30,
       },
-
-      // {
-      //   $lookup: {
-      //     from: "playedTracks",
-      //     localField: "_id",
-      //     foreignField: "_id",
-      //     as: "playedTracks",
-      //   },
-      // },
     ];
 
     const userData = await userModel.aggregate(pipeline);

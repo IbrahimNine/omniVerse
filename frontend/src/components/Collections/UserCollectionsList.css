@@ -25,8 +25,7 @@
     inset 0px -2px 10px 0px rgba(10, 37, 64, 0.35); */
   background-color: rgb(17, 19, 27);
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
-    0px 20px 50px -20px rgba(0, 0, 0, 0.3),
-    inset 0px -2px 15px 0px rgba(3, 4, 7, 0.507);
+    0px 20px 50px -20px rgba(0, 0, 0, 0.3);
 }
 .CollectionsListFirstLayerWrapper {
   width: 95%;
@@ -83,5 +82,10 @@
 @media (max-width: 1200px) {
   .UserCollectionsList {
     width: 500px;
+  }
+}
+@media (max-width: 750px) {
+  .UserCollectionsList {
+    width: 100%;
   }
 }

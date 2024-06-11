@@ -33,12 +33,12 @@ function Intro() {
       <p></p>
       <span>
         <b>Experience the music. </b>
-        Immerse yourself in the full fidelity of every song. Stream or download
-        your collection in glorious high-resolution audio, perfect for any
-        listening session.<p></p>
+        Immerse yourself in the full fidelity of every song, Expand your
+        perception with every note, Stream or shape your glorious collections.
+        <p></p>
       </span>
       <span>
-        <b>Discover. Collect. Experience.</b> It's the music lover's manifesto.
+        <b>Discover. Collect. Expand.</b> It's the music lover's manifesto.
         Unleash your inner audiophile.
       </span>
     </motion.div>

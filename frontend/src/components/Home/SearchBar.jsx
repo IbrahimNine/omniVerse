@@ -43,7 +43,10 @@ function SearchBar({ showSearch, setShowSearch }) {
   };
 
   return (
-    <div className="SearchBar NavItemMiddle">
+    <div
+      className="SearchBar NavItemMiddle"
+      style={{ order: !showSearch && "unset", width: !showSearch && "10%" }}
+    >
       {!showSearch && (
         <button id="searchButton" onClick={showSearchHandler}>
           <svg

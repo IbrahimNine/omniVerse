@@ -29,12 +29,12 @@ userRouter.post("/delete", userDeleteValidator, deleteUser);
 
 userRouter.get("/playedTracks/:userName/:recordsFilter", getUserPlayedTracks);
 
-userRouter.get("/onqueuetracks", onQueueTracks);
-
 userRouter.put(
   "/playedTracks",
   userPlayedTracksValidator,
   updateUserPlayedTracks
 );
+
+userRouter.get("/onqueuetracks", onQueueTracks);
 
 module.exports = userRouter;

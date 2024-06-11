@@ -77,6 +77,7 @@ function Settings() {
           duration: 0.5,
           ease: "easeOut",
         }}
+        className="SettingsSecondWrapper"
       >
         <AnimatePresence mode="wait">
           {!showPwSettings ? (

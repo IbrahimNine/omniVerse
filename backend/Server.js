@@ -11,7 +11,7 @@ const userRouter = require("./routers/userRouter");
 require("dotenv").config();
 
 //________________________________________________________________
-const originURL = process.env.RENDERING_ORIGIN;
+const originURL = process.env.FIRST_RENDERING_ORIGIN;
 app.use(
   cors({
     origin: originURL,

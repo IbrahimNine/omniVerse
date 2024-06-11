@@ -123,12 +123,16 @@
   }
   .Artist aside {
     width: 90%;
-    height: max-content;
+    height: 45%;
     margin-bottom: 30px;
   }
   .ArtistReleasesWrapper {
     width: 99%;
     height: 40%;
+  }
+  .ArtistData img {
+    height: 104px;
+    width: 104px;
   }
 }
 @media (max-width: 800px) {

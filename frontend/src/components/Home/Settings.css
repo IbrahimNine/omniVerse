@@ -24,8 +24,7 @@
   /* background-color: #11111afa; */
   background-color: rgb(17, 19, 27);
   box-shadow: 0px 25px 50px -10px rgba(50, 50, 93, 0.25),
-    0px 20px 50px -20px rgba(0, 0, 0, 0.3),
-    inset 0px -2px 15px 0px rgba(3, 4, 7, 0.507);
+    0px 20px 50px -20px rgba(0, 0, 0, 0.3);
 }
 .Settings input {
   width: 80%;
@@ -99,5 +98,13 @@
   .Settings button,
   .Settings input {
     height: 46px;
+  }
+}
+@media (max-width: 750px) {
+  .Settings {
+    width: unset;
+  }
+  .SettingsSecondWrapper {
+    width: 100%;
   }
 }
